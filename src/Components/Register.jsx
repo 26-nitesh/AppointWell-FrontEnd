@@ -50,7 +50,7 @@ export default function Register(props) {
   const signupValidation = yup.object({
     name: yup.string().required("required !!"),
     email: yup.string().email().required("required !!"),
-    password: yup.string().required("required !!").min(8, "Password must be at least 8 characters long."),
+    password: yup.string().required("required !!").min(4, "Password must be at least 4 characters long."),
     registerAs: yup.string().oneOf(['hospital', 'agency', 'org']).required("required !!")
   })
   const signupFormik = useFormik(

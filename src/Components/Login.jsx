@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Card,
@@ -10,6 +12,7 @@ import {
   Link,
   Dialog,
 } from '@material-ui/core';
+import { FormHelperText } from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,6 +46,29 @@ const useStyles = makeStyles((theme) => ({
 export default function Login(props) {
   const classes = useStyles();
 
+  const loginValidation = yup.object({
+    email: yup.string().email().required("required !!"),
+    password: yup.string().required("required !!").min(4, "Password must be at least 4 characters long."),
+    loginAs: yup.string().oneOf(['hospital', 'agency', 'org','employee']).required("required !!")
+  })
+
+  const loginFormik = useFormik(
+    {
+         initialValues:{
+           email:"",
+           password:"",
+           loginAs:""
+
+         },
+         validationSchema:loginValidation,
+         onSubmit:(values)=>{
+           console.log(values);
+           loginFormik.resetForm();
+         }
+    }
+
+)
+
 
   const handleOpenRegisterDialog = () => {
     // setRegisterDialog(true);
@@ -56,15 +82,18 @@ export default function Login(props) {
           <Typography variant="h5" component="h2" className={classes.title}>
             Log In
           </Typography>
-          <form className={classes.form}>
-            <TextField label="Email" type="email" required />
-            <TextField label="Password" type="password" required />
+          <form className={classes.form} onSubmit={loginFormik.handleSubmit}>
+            <TextField label="Email" type="email" name='email' value={loginFormik.values.email} error={loginFormik.touched.email && Boolean(!loginFormik.errors.email)} onChange={loginFormik.handleChange}  />
+            <FormHelperText error>{loginFormik.errors.email}</FormHelperText>
+            <TextField label="Password" type="password" name='password' value={loginFormik.values.password} error={loginFormik.touched.password && Boolean(!loginFormik.errors.password)} onChange={loginFormik.handleChange} />
+            <FormHelperText error>{loginFormik.errors.password}</FormHelperText>
             <TextField
               label="Login As"
               select
-              value="v"
-              variant="standard"
-              required
+              name="loginAs"
+              value ={loginFormik.values.loginAs} error={loginFormik.touched.loginAs && Boolean(!loginFormik.errors.loginAs)} onChange={loginFormik.handleChange}
+             variant="standard"
+             required
             >
             <MenuItem value="hospital">Hospital Admin</MenuItem>
               <MenuItem value="agency">Insurance Agency Admin</MenuItem>
