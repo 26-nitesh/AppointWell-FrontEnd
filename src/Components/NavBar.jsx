@@ -74,9 +74,9 @@ export default function NavBar() {
           <Typography variant="h6" className={classes.title}>
             Ford Health Checkup
           </Typography>
-          <Button className={classes.navButton} color="inherit">
+          {/* <Button className={classes.navButton} color="inherit">
             Want to know more?
-          </Button>
+          </Button> */}
           <Button className={classes.navButton} color="inherit" onClick={handleOpenDialog}>
             Login
           </Button>

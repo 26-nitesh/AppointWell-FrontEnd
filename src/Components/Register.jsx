@@ -12,7 +12,8 @@ import {
   Link,
   Dialog,
 } from '@material-ui/core';
-import { FormHelperText } from '@mui/material';
+import { Alert, AlertTitle, FormHelperText } from '@mui/material';
+import { register } from '../Service/registerService';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,13 +46,14 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Register(props) {
   const classes = useStyles();
-  const [registerAs, setRegisterAs] = useState("");
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [sucessMessage, setSucessMessage] = useState(null);
 
   const signupValidation = yup.object({
     name: yup.string().required("required !!"),
     email: yup.string().email().required("required !!"),
     password: yup.string().required("required !!").min(4, "Password must be at least 4 characters long."),
-    registerAs: yup.string().oneOf(['hospital', 'agency', 'org']).required("required !!")
+    registerAs: yup.string().oneOf(['hospital', 'agency', 'organisation']).required("required !!")
   })
   const signupFormik = useFormik(
     {
@@ -63,9 +65,28 @@ export default function Register(props) {
 
          },
          validationSchema:signupValidation,
-         onSubmit:(values)=>{
-           console.log(values);
-           signupFormik.resetForm();
+         onSubmit: async (values)=>{
+
+          try {
+            const data = await register(values);
+            if(parseInt(data.data.HttpStatus)===parseInt(201)){
+              console.log("coming");
+              setSucessMessage("registred sucessfully please login now !");
+              setErrorMessage(null)
+              console.log("jello");
+              signupFormik.resetForm();
+            }else{
+              setErrorMessage(data.data.message);
+              setSucessMessage(null)
+            }
+            // console.log(data.HttpStatus);
+            // signupFormik.resetForm();
+          } catch (error) {
+            setErrorMessage(error.data?.data?.message || "Something went wrong!");
+            console.log(error.data?.data?.message);
+            signupFormik.resetForm();
+            console.log("bye");
+          }
          }
     }
 
@@ -85,6 +106,18 @@ export default function Register(props) {
             Sign Up
           </Typography>
           <form className={classes.form} onSubmit={signupFormik.handleSubmit}>
+          {errorMessage && (
+        <Alert severity="error">
+          <AlertTitle>Error</AlertTitle>
+          {errorMessage}
+        </Alert>
+      )}
+      {sucessMessage && (
+        <Alert severity="success">
+          <AlertTitle>success</AlertTitle>
+          {sucessMessage}
+        </Alert>
+      )}
           <TextField label="Name" type="text" name='name' value={signupFormik.values.name} error={signupFormik.touched.name && Boolean(!signupFormik.errors.name)} onChange={signupFormik.handleChange}  />
           <FormHelperText error>{signupFormik.errors.name}</FormHelperText>
             <TextField label="Email" type="email" name='email' value={signupFormik.values.email} error={signupFormik.touched.email && Boolean(!signupFormik.errors.email)} onChange={signupFormik.handleChange} />
@@ -102,7 +135,7 @@ export default function Register(props) {
             >
             <MenuItem value="hospital">Hospital Admin</MenuItem>
               <MenuItem value="agency">Insurance Agency Admin</MenuItem>
-              <MenuItem value="org">Employer</MenuItem>
+              <MenuItem value="organisation">Employer</MenuItem>
             </TextField>
             <Button variant="contained" color="primary" type="submit">
               Register

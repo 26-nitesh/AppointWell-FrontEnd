@@ -49,7 +49,7 @@ export default function Login(props) {
   const loginValidation = yup.object({
     email: yup.string().email().required("required !!"),
     password: yup.string().required("required !!").min(4, "Password must be at least 4 characters long."),
-    loginAs: yup.string().oneOf(['hospital', 'agency', 'org','employee']).required("required !!")
+    loginAs: yup.string().oneOf(['hospital', 'agency', 'organisation','employee']).required("required !!")
   })
 
   const loginFormik = useFormik(
@@ -98,7 +98,7 @@ export default function Login(props) {
             <MenuItem value="hospital">Hospital Admin</MenuItem>
               <MenuItem value="agency">Insurance Agency Admin</MenuItem>
               <MenuItem value="employee">Employee</MenuItem>
-              <MenuItem value="org">Employer</MenuItem>
+              <MenuItem value="organisation">Employer</MenuItem>
             </TextField>
             <Button variant="contained" color="primary" type="submit">
               Log In
