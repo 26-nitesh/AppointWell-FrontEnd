@@ -12,7 +12,8 @@ import {
   Link,
   Dialog,
 } from '@material-ui/core';
-import { FormHelperText } from '@mui/material';
+import { Alert, AlertTitle, FormHelperText } from '@mui/material';
+import { login } from '../Service/loginService';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,6 +45,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Login(props) {
+  const [errorMessage, setErrorMessage] = useState(null);
+
   const classes = useStyles();
 
   const loginValidation = yup.object({
@@ -61,8 +64,21 @@ export default function Login(props) {
 
          },
          validationSchema:loginValidation,
-         onSubmit:(values)=>{
-           console.log(values);
+         onSubmit:async(values)=>{
+          try{
+           const data =   await login(values);
+           if(parseInt(data.data.HttpStatus)===parseInt(200)){
+             setErrorMessage(null);
+                 console.log('login sucess');
+           }else{
+             setErrorMessage(data.data.message);
+           }
+
+           console.log(data);
+          }catch(error){
+
+          }
+          //  console.log(values);
            loginFormik.resetForm();
          }
     }
@@ -83,6 +99,12 @@ export default function Login(props) {
             Log In
           </Typography>
           <form className={classes.form} onSubmit={loginFormik.handleSubmit}>
+          {errorMessage && (
+        <Alert severity="error">
+          <AlertTitle>Error</AlertTitle>
+          {errorMessage}
+        </Alert>
+      )}
             <TextField label="Email" type="email" name='email' value={loginFormik.values.email} error={loginFormik.touched.email && Boolean(!loginFormik.errors.email)} onChange={loginFormik.handleChange}  />
             <FormHelperText error>{loginFormik.errors.email}</FormHelperText>
             <TextField label="Password" type="password" name='password' value={loginFormik.values.password} error={loginFormik.touched.password && Boolean(!loginFormik.errors.password)} onChange={loginFormik.handleChange} />

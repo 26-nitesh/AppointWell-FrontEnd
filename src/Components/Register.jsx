@@ -70,10 +70,10 @@ export default function Register(props) {
           try {
             const data = await register(values);
             if(parseInt(data.data.HttpStatus)===parseInt(201)){
-              console.log("coming");
+              // console.log("coming");
               setSucessMessage("registred sucessfully please login now !");
               setErrorMessage(null)
-              console.log("jello");
+              // console.log("jello");
               signupFormik.resetForm();
             }else{
               setErrorMessage(data.data.message);
