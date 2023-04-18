@@ -14,6 +14,7 @@ import {
 } from '@material-ui/core';
 import { Alert, AlertTitle, FormHelperText } from '@mui/material';
 import { login } from '../Service/loginService';
+import { useNavigate } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Login(props) {
   const [errorMessage, setErrorMessage] = useState(null);
-
+ const navigate = useNavigate();
   const classes = useStyles();
 
   const loginValidation = yup.object({
@@ -54,7 +55,6 @@ export default function Login(props) {
     password: yup.string().required("required !!").min(4, "Password must be at least 4 characters long."),
     loginAs: yup.string().oneOf(['hospital', 'agency', 'organisation','employee']).required("required !!")
   })
-
   const loginFormik = useFormik(
     {
          initialValues:{
@@ -69,7 +69,10 @@ export default function Login(props) {
            const data =   await login(values);
            if(parseInt(data.data.HttpStatus)===parseInt(200)){
              setErrorMessage(null);
+             navigate('/employeer/dashboard');
                  console.log('login sucess');
+                 props.loginPopUpAfterLogin(false)
+                 
            }else{
              setErrorMessage(data.data.message);
            }

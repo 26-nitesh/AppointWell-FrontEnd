@@ -1,8 +1,10 @@
+import { BrowserRouter, Route, Router, Routes } from 'react-router-dom';
 import Footer from './Components/Footer';
 import Home from './Components/Home';
 import Login from './Components/Login';
 import Navbar from './Components/NavBar';
 import Soon from './Components/Soon';
+import OrgDashboard from './Components/OrgDashBoard';
 
 function App() {
 if(2>3){
@@ -16,10 +18,27 @@ if(2>3){
       else{
         return(
           <>
-       <Navbar></Navbar>
-       <Home></Home>
+       {/* <Navbar></Navbar>
+       <Router>
+        <Routes>
+        <Navbar></Navbar>
+          <Route path='/' element={<Home></Home>}></Route>
+          <Route path='/org' element={<Soon></Soon>}></Route>
+        </Routes>
+       </Router>
+       {/* <Home></Home> */}
        {/* <Login></Login> */}
-       <Footer></Footer>
+       {/*Footer></Footer> */}
+       <>
+        <BrowserRouter>
+          <Navbar />
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/employeer/dashboard' element={<OrgDashboard />} />
+          </Routes>
+          <Footer />
+        </BrowserRouter>
+      </>
           </>
         )
       }

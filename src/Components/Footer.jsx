@@ -10,7 +10,8 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     marginTop: 'auto',
     width: '100%',
-    bottom: 0
+    bottom: 0,
+    zIndex: 1000,
   },
   link: {
     marginLeft: theme.spacing(2),
@@ -56,3 +57,4 @@ export default function Footer() {
     </footer>
   );
 }
+

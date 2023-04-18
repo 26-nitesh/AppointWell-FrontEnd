@@ -3,6 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, Typography, Button, Link, Dialog, DialogTitle, DialogContent, TextField, FormControl, InputLabel, Select, MenuItem, DialogActions } from '@material-ui/core';
 import Login from './Login';
 import Register from './Register';
+import { Route, Routes, useNavigate } from 'react-router';
+import Soon from './Soon';
+import { BrowserRouter } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,7 +45,8 @@ export default function NavBar() {
   const [openDialog, setOpenDialog] = useState(false);
   const [openDialog2, setOpenDialog2] = useState(false);
   const [loginType, setLoginType] = useState('');
-
+  const [isLogedIn, setIsLogedIn] = useState(false);
+ const navigate = useNavigate();
   const handleOpenDialog = () => {
     setOpenDialog(true);
   };
@@ -51,11 +55,16 @@ export default function NavBar() {
     setOpenDialog(false);
     setOpenDialog2(false)
   };
-
   const updateloginPopUp = (data) =>{
     setOpenDialog(data);
     setOpenDialog2(true)
     
+  };
+  const updatePopup = (data) =>{
+    setOpenDialog(data);
+    if(data==false){
+      setIsLogedIn(true)
+    }
   };
   const updateregPopUp = (data) =>{
     setOpenDialog2(data);
@@ -65,7 +74,11 @@ export default function NavBar() {
   const handleLoginTypeChange = (event) => {
     setLoginType(event.target.value);
   };
+const handleLogOut = ()=>{
 
+  setIsLogedIn(false);
+  navigate('/');
+}
 
   return (
     <div className={classes.root}>
@@ -77,13 +90,22 @@ export default function NavBar() {
           {/* <Button className={classes.navButton} color="inherit">
             Want to know more?
           </Button> */}
+          {
+            isLogedIn ? <Button className={classes.navButton} color="inherit" onClick={handleLogOut}>
+            LogOut
+          </Button>
+          :
           <Button className={classes.navButton} color="inherit" onClick={handleOpenDialog}>
             Login
           </Button>
+          }
+          {/* <Button className={classes.navButton} color="inherit" onClick={handleOpenDialog}>
+            Login
+          </Button> */}
         </Toolbar>
       </AppBar>
       <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <Login loginPopUp={updateloginPopUp}></Login>
+        <Login loginPopUp={updateloginPopUp} loginPopUpAfterLogin = {updatePopup}></Login>
       </Dialog>
       <Dialog open={openDialog2} onClose={handleCloseDialog}>
         <Register regPopUp={updateregPopUp}></Register>

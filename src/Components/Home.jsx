@@ -28,7 +28,7 @@ export default function Home() {
         <Grid item xs={12} md={6}>
           <Paper className={classes.paper}>
             <Typography variant="h4" gutterBottom>
-              Welcome to All in one solution
+              Welcome to .............
             </Typography>
             <Typography variant="body1" gutterBottom>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
