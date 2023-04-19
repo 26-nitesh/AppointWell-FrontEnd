@@ -1,5 +1,9 @@
 import axios from "axios";
-
+import { login } from "./loginService";
+const RESPONSE = {
+  status: '',
+  message:'',
+};
 const BASE_URI_COMPANY = 'http://localhost:9596/organisation/api';
 const BASE_URI_EMPLOYEE = 'http://localhost:9595/employee/api';
 const BASE_URI_INSURANCE_AGENCY = 'http://localhost:9599/agency/api';
@@ -36,6 +40,43 @@ export const updateOrg = async (values)=>{
   }
 }
 
+export const changePassword = async (values,user)=>{
+  let res;
+  let uri;
+  try{
+    switch(user){
+      case "organisation":
+        uri = BASE_URI_COMPANY+'/changePassword'
+        let input = {email:values.email,password:values.password,loginAs:"organisation"};
+        res = await login(input);
+        break;
+      case "employee":
+        break;
+      case "agency":
+        break;
+      default:
+        break;
+    } 
+
+    if(res.data.HttpStatus==200){
+      console.log(uri);
+         const updatePass = await axios.put(uri,values);
+         if(updatePass.data.HttpStatus==200){
+          RESPONSE.status='200'
+          RESPONSE.message=updatePass.data.message;
+          return RESPONSE;
+         }
+         console.log(updatePass);
+    }else  if(res.data.HttpStatus==401) {
+      RESPONSE.status='500'
+      RESPONSE.message='Paassword did not match';
+      return RESPONSE;
+    }
+    
+  }catch(err){
+
+  }
+}
 
 // "orgId": 0,
 // "insuranceAgencyEmail": "string",

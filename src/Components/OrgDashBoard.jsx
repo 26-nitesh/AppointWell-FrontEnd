@@ -169,7 +169,7 @@ function OrgDashboard(props) {
       </Drawer>
       <main className={classes.content}>
        {openAddEmp ? 
-       <AddEmployeeForm email={emailOP}/>:openUpdateInfo?  <OrgInfoUpdate nameChange ={handleNameChange}  email={emailOP}/> :changePassword? <ChangePassword  email={emailOP}/>: <>OKKK</>}
+       <AddEmployeeForm email={emailOP}/>:openUpdateInfo?  <OrgInfoUpdate nameChange ={handleNameChange}  email={emailOP}/> :changePassword? <ChangePassword type="organisation" email={emailOP}/>: <>OKKK</>}
         {/* Your main content goes here */}
       </main>
     </div>

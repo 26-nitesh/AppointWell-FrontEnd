@@ -70,8 +70,14 @@ export default function Login(props) {
            if(parseInt(data.data.HttpStatus)===parseInt(200)){
              setErrorMessage(null);
             //  console.log(data.data.data.email);
-             navigate('/employeer/dashboard',{ state: { email: data.data.data.email } });
-                 console.log(data.data.data.email);
+            if(values.loginAs==='organisation')
+             navigate('/company/dashboard',{ state: { email: data.data.data.email } });
+            else if(values.loginAs==='employee')
+            navigate('/employee/dashboard',{ state: { email: data.data.data.email } });
+            else if(values.loginAs==='agency')
+            navigate('/agency/dashboard',{ state: { email: data.data.data.email } });
+            else if(values.loginAs==='agency')
+            navigate('/hospital/dashboard',{ state: { email: data.data.data.email } });
                  props.loginPopUpAfterLogin(false)
                  
            }else{

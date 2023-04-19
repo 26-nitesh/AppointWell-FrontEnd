@@ -34,7 +34,10 @@ if(2>3){
           <Navbar />
           <Routes>
             <Route path='/' element={<Home />} />
-            <Route path='/employeer/dashboard' element={<OrgDashboard />} />
+            <Route path='/company/dashboard' element={<OrgDashboard />} />
+            <Route path='/employee/dashboard' element={<Soon />} />
+            <Route path='/agency/dashboard' element={<Soon />} />
+            <Route path='/hospital/dashboard' element={<Soon />} />
           </Routes>
           <Footer />
         </BrowserRouter>

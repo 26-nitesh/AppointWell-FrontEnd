@@ -14,6 +14,7 @@ import {
 } from '@material-ui/core';
 import { Alert, AlertTitle, FormHelperText } from '@mui/material';
 import { register } from '../Service/registerService';
+import { changePassword } from '../Service/commonService';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -81,8 +82,15 @@ export default function ChangePassword(props) {
          },
          validationSchema:validateChangePassword,
          onSubmit: async (values)=>{
-
-           console.log(values);
+        const res = await changePassword(values,props.type);
+        if(res.status==200){
+          setSucessMessage(res.message);
+          setErrorMessage(null)
+        }else if(res.status==500){
+          setErrorMessage(res.message);
+          setSucessMessage(null);
+        }
+          //  console.log(values);
             ChangePasswordFormik.resetForm();
            
           }
