@@ -1,16 +1,21 @@
 import axios from "axios";
-
+const BASE_URI_COMPANY = 'http://localhost:9596/organisation/api';
+const BASE_URI_EMPLOYEE = 'http://localhost:9595/employee/api';
+const BASE_URI_INSURANCE_AGENCY = 'http://localhost:9599/agency/api';
+const BASE_URI_HOSPITAL = 'http://localhost:9600/hospital/api';
 
 export const  register = async(values)=>{
 
     let input = {};
     let uri ='';
   if (values.registerAs === "hospital") {
-    input = { hospitalName: values.name, hospitalEmail: values.email, hospitalPassword: values.password };
+   uri = BASE_URI_HOSPITAL+'/add-hospital';
+    input = { hospitalName: values.name, hospitalEmail: values.email, password: values.password };
   } else if (values.registerAs === "agency") {
-    input = { agencyName: values.name, agencyEmail: values.email, agencyPassword: values.password };
+    uri=BASE_URI_INSURANCE_AGENCY+'/create';
+    input = { agencyName: values.name, agencyEmail: values.email, password: values.password };
   } else if (values.registerAs === "organisation") {
-   uri='http://localhost:9596/organisation/api/addOrg';
+   uri=BASE_URI_COMPANY+'/addOrg';
    input = { organisationName: values.name, organisationEmail: values.email, password: values.password };
   }
    

@@ -76,7 +76,7 @@ export default function Login(props) {
             navigate('/employee/dashboard',{ state: { email: data.data.data.email } });
             else if(values.loginAs==='agency')
             navigate('/agency/dashboard',{ state: { email: data.data.data.email } });
-            else if(values.loginAs==='agency')
+            else if(values.loginAs==='hospital')
             navigate('/hospital/dashboard',{ state: { email: data.data.data.email } });
                  props.loginPopUpAfterLogin(false)
                  

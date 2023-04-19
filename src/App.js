@@ -6,6 +6,7 @@ import Navbar from './Components/NavBar';
 import Soon from './Components/Soon';
 import OrgDashboard from './Components/OrgDashBoard';
 import EmpDashBoard from './Components/EmpDashBoard';
+import HospitalDashboard from './Components/HospitalDashBoard';
 
 function App() {
 if(2>3){
@@ -38,7 +39,7 @@ if(2>3){
             <Route path='/company/dashboard' element={<OrgDashboard />} />
             <Route path='/employee/dashboard' element={<EmpDashBoard />} />
             <Route path='/agency/dashboard' element={<Soon />} />
-            <Route path='/hospital/dashboard' element={<Soon />} />
+            <Route path='/hospital/dashboard' element={<HospitalDashboard />} />
           </Routes>
           <Footer />
         </BrowserRouter>
