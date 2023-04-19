@@ -6,10 +6,11 @@ const BASE_URI_INSURANCE_AGENCY = 'http://localhost:9599/agency/api';
 const BASE_URI_HOSPITAL = 'http://localhost:9600/hospital/api';
 
 
-export const addEmployee = async (values)=>{
+export const addNewEmployee = async (values,orgemail)=>{
     try {
      let   uri = BASE_URI_EMPLOYEE+'/create-new-employee';
-        const response = await axios.post(uri, values);
+     const input = { empName: values.name, empEmail: values.email, password: values.password,orgEmail:orgemail };
+        const response = await axios.post(uri, input);
         return response;
       } catch (error) {
         return error.response;

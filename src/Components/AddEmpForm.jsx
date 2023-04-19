@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, CardContent, Button, TextField, Typography, FormHelperText } from '@material-ui/core';
-
+import { addNewEmployee } from '../Service/commonService';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { Alert, AlertTitle } from '@mui/material';
 const useStyles = makeStyles((theme) => ({
     root: {
       margin: theme.spacing(-10),
@@ -61,9 +62,10 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
   
-  function AddEmployeeForm() {
+  function AddEmployeeForm(props) {
     const classes = useStyles();
-
+    const [errorMessage, setErrorMessage] = useState(null);
+    const [sucessMessage, setSucessMessage] = useState(null);
     const ValidateAddEmp = yup.object({
       name: yup.string().required("required !!"),
       email: yup.string().email().required("required !!"),
@@ -79,10 +81,22 @@ const useStyles = makeStyles((theme) => ({
            },
            validationSchema:ValidateAddEmp,
            onSubmit:async(values)=>{
-               
-                
-                console.log(values);
-                addEmployeeFormik.resetForm();
+          
+            try{
+              const res = await addNewEmployee(values,props.email);
+              if(res.data.HttpStatus===201){
+                  setSucessMessage("employee Added Sucessfully");
+                  setErrorMessage(null)
+              }else if(res.data.HttpStatus===409){
+                setErrorMessage(res.data.message);
+                setSucessMessage(null)
+              }
+              console.log(res);
+              // console.log(values);
+              addEmployeeFormik.resetForm();
+            }catch(err){
+
+            }
            }
       }
   
@@ -97,6 +111,18 @@ const useStyles = makeStyles((theme) => ({
               Add Employee
             </Typography>
             <form className={classes.form} onSubmit={addEmployeeFormik.handleSubmit}>
+            {errorMessage && (
+        <Alert severity="error">
+          <AlertTitle>Error</AlertTitle>
+          {errorMessage}
+        </Alert>
+      )}
+      {sucessMessage && (
+        <Alert severity="success">
+          <AlertTitle>success</AlertTitle>
+          {sucessMessage}
+        </Alert>
+      )}
               <TextField
                 className={classes.textField}
                 label="Name"
