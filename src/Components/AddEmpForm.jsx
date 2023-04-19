@@ -1,11 +1,12 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, CardContent, Button, TextField, Typography } from '@material-ui/core';
+import { Card, CardContent, Button, TextField, Typography, FormHelperText } from '@material-ui/core';
 
-
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 const useStyles = makeStyles((theme) => ({
     root: {
-      marginTop: theme.spacing(4),
+      margin: theme.spacing(-12),
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
@@ -48,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
     form: {
       display: 'flex',
       flexDirection: 'column',
-      alignItems: 'center',
+      alignItems: 'flex-start',
     },
     textField: {
       width: '100%',
@@ -62,6 +63,28 @@ const useStyles = makeStyles((theme) => ({
   
   function AddEmployeeForm() {
     const classes = useStyles();
+
+    const ValidateAddEmp = yup.object({
+      name: yup.string().required("required !!"),
+      email: yup.string().email().required("required !!"),
+      password: yup.string().required("required !!").min(4, "Password must be at least 4 characters long."),
+    })
+    const addEmployeeFormik = useFormik(
+      {
+           initialValues:{
+            name:"",
+             email:"",
+             password:"",
+  
+           },
+           validationSchema:ValidateAddEmp,
+           onSubmit:async(values)=>{
+                console.log(values);
+                addEmployeeFormik.resetForm();
+           }
+      }
+  
+  )
   
     return (
       <div className={classes.root}>
@@ -71,27 +94,36 @@ const useStyles = makeStyles((theme) => ({
             <Typography variant="h5" component="h2" className={classes.title}>
               Add Employee
             </Typography>
-            <form className={classes.form}>
+            <form className={classes.form} onSubmit={addEmployeeFormik.handleSubmit}>
               <TextField
                 className={classes.textField}
                 label="Name"
                 variant="outlined"
-                required
+                name="name"
+                value={addEmployeeFormik.values.name} error={addEmployeeFormik.touched.name
+                 && Boolean(!addEmployeeFormik.errors.name)} onChange={addEmployeeFormik.handleChange}
               />
+              <FormHelperText error placement="start">{addEmployeeFormik.errors.name}</FormHelperText>
               <TextField
                 className={classes.textField}
                 label="Email"
                 variant="outlined"
                 type="email"
-                required
+                name="email"
+                value={addEmployeeFormik.values.email} error={addEmployeeFormik.touched.email
+                 && Boolean(!addEmployeeFormik.errors.email)} onChange={addEmployeeFormik.handleChange}
               />
+              <FormHelperText error placement="start">{addEmployeeFormik.errors.email}</FormHelperText>
               <TextField
                 className={classes.textField}
-                label="password"
+                label="Password"
                 variant="outlined"
                 type="password"
-                required
+                name="password"
+                value={addEmployeeFormik.values.password} error={addEmployeeFormik.touched.password
+                 && Boolean(!addEmployeeFormik.errors.password)} onChange={addEmployeeFormik.handleChange}
               />
+                 <FormHelperText error placement="start">{addEmployeeFormik.errors.password}</FormHelperText>
               <Button
                 className={classes.button}
                 variant="contained"

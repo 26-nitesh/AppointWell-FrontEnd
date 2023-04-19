@@ -8,6 +8,8 @@ import { Divider, Drawer, List, ListItem, ListItemIcon, ListItemText, Toolbar, T
 import AddIcon from '@material-ui/icons/Add';
 import UpdateIcon from '@material-ui/icons/Update';
 import AddEmployeeForm from './AddEmpForm';
+import OrgInfoUpdate from './OrgInfoUpdate';
+import ChangePassword from './ChangePassword';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -78,10 +80,23 @@ const useStyles = makeStyles((theme) => ({
 function OrgDashboard(props) {
   const classes = useStyles();
   const [openAddEmp, setAddEmp] = React.useState(false);
-
+  const [openUpdateInfo,setOpenUpdateInfo] = React.useState(false);
+  const [changePassword,setchangePassword] = React.useState(false);//handleChangePassword
   const handleAddEmployee = () => {
-    setAddEmp(!openAddEmp);
+    setAddEmp(true);
+    setOpenUpdateInfo(false)
+    setchangePassword(false);
   };
+  const handleOrgInfoUpdate = () =>{
+    setOpenUpdateInfo(true)
+    setAddEmp(false);
+    setchangePassword(false);
+  }
+  const handleChangePassword = () =>{
+    setOpenUpdateInfo(false)
+    setAddEmp(false);
+    setchangePassword(true);
+  }
   return (
     <div className={classes.root}>
       <Drawer
@@ -108,11 +123,11 @@ function OrgDashboard(props) {
                <ListItemIcon className={classes.icon}><AddIcon /></ListItemIcon>
                <ListItemText primary="Add policy" />
              </ListItem>
-             <ListItem button className={classes.listItem}>
+             <ListItem button className={classes.listItem}  onClick={handleOrgInfoUpdate}>
                <ListItemIcon className={classes.icon}><UpdateIcon /></ListItemIcon>
                <ListItemText  primary="Update Info" />
              </ListItem>
-              <ListItem button className={classes.listItem}>
+              <ListItem button className={classes.listItem}  onClick={handleChangePassword}>
                <ListItemIcon className={classes.icon}><UpdateIcon /></ListItemIcon>
                <ListItemText  primary="Change Pssword" />
              </ListItem>
@@ -124,7 +139,7 @@ function OrgDashboard(props) {
       </Drawer>
       <main className={classes.content}>
        {openAddEmp ? 
-       <AddEmployeeForm/>:<>view</>}
+       <AddEmployeeForm/>:openUpdateInfo?  <OrgInfoUpdate/> :changePassword? <ChangePassword/>: <>OKKK</>}
         {/* Your main content goes here */}
       </main>
     </div>
