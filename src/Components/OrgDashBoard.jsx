@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 // import Drawer from '@material-ui/core/Drawer';
 // import List from '@material-ui/core/List';
@@ -10,6 +10,8 @@ import UpdateIcon from '@material-ui/icons/Update';
 import AddEmployeeForm from './AddEmpForm';
 import OrgInfoUpdate from './OrgInfoUpdate';
 import ChangePassword from './ChangePassword';
+import { useLocation } from 'react-router-dom';
+import { getOrg } from '../Service/commonService';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -79,9 +81,37 @@ const useStyles = makeStyles((theme) => ({
 
 function OrgDashboard(props) {
   const classes = useStyles();
+  const location = useLocation();
+  const emailOP = location.state.email;
   const [openAddEmp, setAddEmp] = React.useState(false);
   const [openUpdateInfo,setOpenUpdateInfo] = React.useState(false);
   const [changePassword,setchangePassword] = React.useState(false);//handleChangePassword
+  const [orgDetails,setOrgDetails] = React.useState({});
+  const [name, setName] = useState('');
+
+  const handleNameChange = (newName) => {
+    setName(newName);
+  };
+
+      React.useEffect(()=>{
+          async function fetchData() {
+            console.log(emailOP);
+            const response = await getOrg(emailOP);
+               console.log(response.data.data);
+              setOrgDetails(response.data.data)
+              setName(response.data.data.organisationName);
+          }
+          fetchData();
+        }, []);
+      //   try{
+      //     const response = await getOrg(props.email);
+      //     console.log(response);
+      //     setEmpDetails(response);
+      //   }catch(err){
+
+      //   }
+    
+      // },[empDetails]);
   const handleAddEmployee = () => {
     setAddEmp(true);
     setOpenUpdateInfo(false)
@@ -108,7 +138,7 @@ function OrgDashboard(props) {
       >
                 <List>
                 <ListItem className={classes.info}>
-               <ListItemText primary="Welcome company"/>
+               <ListItemText primary={`Welcome ${name}`} onNameChange={handleNameChange}/>
              </ListItem>
              <Divider style={{ backgroundColor: 'white' }} />
              <ListItem button className={classes.listItem} onClick={handleAddEmployee}>
@@ -139,7 +169,7 @@ function OrgDashboard(props) {
       </Drawer>
       <main className={classes.content}>
        {openAddEmp ? 
-       <AddEmployeeForm/>:openUpdateInfo?  <OrgInfoUpdate/> :changePassword? <ChangePassword/>: <>OKKK</>}
+       <AddEmployeeForm email={emailOP}/>:openUpdateInfo?  <OrgInfoUpdate nameChange ={handleNameChange}  email={emailOP}/> :changePassword? <ChangePassword  email={emailOP}/>: <>OKKK</>}
         {/* Your main content goes here */}
       </main>
     </div>

@@ -69,15 +69,16 @@ export default function Login(props) {
            const data =   await login(values);
            if(parseInt(data.data.HttpStatus)===parseInt(200)){
              setErrorMessage(null);
-             navigate('/employeer/dashboard');
-                 console.log('login sucess');
+            //  console.log(data.data.data.email);
+             navigate('/employeer/dashboard',{ state: { email: data.data.data.email } });
+                 console.log(data.data.data.email);
                  props.loginPopUpAfterLogin(false)
                  
            }else{
              setErrorMessage(data.data.message);
            }
 
-           console.log(data);
+          //  console.log(data);
           }catch(error){
 
           }

@@ -74,7 +74,7 @@ export default function ChangePassword(props) {
   const ChangePasswordFormik = useFormik(
     {
          initialValues:{
-           email:"asx@ssas.com",
+           email:props.email,
            password:"",
            newPassword:""
 

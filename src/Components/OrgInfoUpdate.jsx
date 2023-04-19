@@ -14,6 +14,8 @@ import {
 } from '@material-ui/core';
 import { Alert, AlertTitle, FormHelperText } from '@mui/material';
 import { register } from '../Service/registerService';
+import { updateOrg } from '../Service/commonService';
+import { login } from '../Service/loginService';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -76,7 +78,7 @@ export default function OrgInfoUpdate(props) {
     {
          initialValues:{
           name: "",
-          email: "aaa@ssss.ccc",
+          email: props.email,
           password: "",
           addLine1: "",
           city: "",
@@ -85,7 +87,43 @@ export default function OrgInfoUpdate(props) {
          },
          validationSchema:updateValidation,
          onSubmit: async (values)=>{
-         console.log(values);
+
+          let input = {email:values.email,password:values.password,loginAs:"organisation"};
+          try{
+            const res = await login(input);
+            if(res.data.HttpStatus===200){
+              const res = await updateOrg(values);
+                  setSucessMessage(res.data.message)
+                  setErrorMessage(null)
+          props.nameChange(res.data.data.organisationName)
+            }else if(res.data.HttpStatus===401){
+              setErrorMessage(res.data.message)
+              setSucessMessage(null)
+            }
+          }catch(errr){
+
+          }
+        //    try{
+
+
+        // const res = await updateOrg(values);
+        // if(res.data.HttpStatus===200){
+        //   setSucessMessage(res.data.message)
+        //   props.nameChange(res.data.data.organisationName)
+        // }else{
+        //   let input = {email:values.email,password:values.password,loginAs:"organisation"};
+        //   try{
+        //     const res = await login(input);
+        //     console.log(res);
+        //   }catch(errr){
+
+        //   }
+        // }
+        //    }catch(err){
+
+        //    }
+
+        // //  console.log(values);
          
          UpdateInfoFormik.resetForm();
            

@@ -6,7 +6,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 const useStyles = makeStyles((theme) => ({
     root: {
-      margin: theme.spacing(-12),
+      margin: theme.spacing(-10),
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
@@ -79,6 +79,8 @@ const useStyles = makeStyles((theme) => ({
            },
            validationSchema:ValidateAddEmp,
            onSubmit:async(values)=>{
+               
+                
                 console.log(values);
                 addEmployeeFormik.resetForm();
            }
