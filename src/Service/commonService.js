@@ -39,34 +39,48 @@ export const updateOrg = async (values)=>{
     
   }
 }
+export const updateEmp = async (values)=>{
+  try{
+  let  uri = BASE_URI_EMPLOYEE+'/update-employee';
+  const input = { empName: values.name, empEmail: values.email, password: values.password,addLine1:values.addLine1,city:values.city,zip:values.zip };
+ return   await axios.put(uri,input);
+  }catch(error){
+    
+  }
+}
 
 export const changePassword = async (values,user)=>{
   let res;
   let uri;
+  let input;
   try{
     switch(user){
       case "organisation":
         uri = BASE_URI_COMPANY+'/changePassword'
-        let input = {email:values.email,password:values.password,loginAs:"organisation"};
+         input = {email:values.email,password:values.password,loginAs:"organisation"};
         res = await login(input);
         break;
       case "employee":
+        uri = BASE_URI_EMPLOYEE+'/changePassword'
+         input = {email:values.email,password:values.password,loginAs:"employee"};
+        res = await login(input);
         break;
       case "agency":
         break;
       default:
         break;
     } 
-
+ 
+    console.log(res);
     if(res.data.HttpStatus==200){
-      console.log(uri);
+      // console.log(uri);
          const updatePass = await axios.put(uri,values);
          if(updatePass.data.HttpStatus==200){
           RESPONSE.status='200'
           RESPONSE.message=updatePass.data.message;
           return RESPONSE;
          }
-         console.log(updatePass);
+        //  console.log(updatePass);
     }else  if(res.data.HttpStatus==401) {
       RESPONSE.status='500'
       RESPONSE.message='Paassword did not match';

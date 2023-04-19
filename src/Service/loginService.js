@@ -20,7 +20,7 @@ export const login = async(values) =>{
   }else if(values.loginAs === 'employee'){
     uri= BASE_URI_EMPLOYEE+'/login';
   }
-
+console.log(uri);
   try {
     const response = await axios.post(uri, input);
     return response;

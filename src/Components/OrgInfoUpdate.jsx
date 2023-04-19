@@ -14,7 +14,7 @@ import {
 } from '@material-ui/core';
 import { Alert, AlertTitle, FormHelperText } from '@mui/material';
 import { register } from '../Service/registerService';
-import { updateOrg } from '../Service/commonService';
+import { updateEmp, updateOrg } from '../Service/commonService';
 import { login } from '../Service/loginService';
 
 const useStyles = makeStyles((theme) => ({
@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function OrgInfoUpdate(props) {
+export default function InfoUpdate(props) {
   const classes = useStyles();
   const [errorMessage, setErrorMessage] = useState(null);
   const [sucessMessage, setSucessMessage] = useState(null);
@@ -88,14 +88,28 @@ export default function OrgInfoUpdate(props) {
          validationSchema:updateValidation,
          onSubmit: async (values)=>{
 
-          let input = {email:values.email,password:values.password,loginAs:"organisation"};
+          let input = {email:values.email,password:values.password,loginAs:props.type};
+         
           try{
             const res = await login(input);
             if(res.data.HttpStatus===200){
-              const res = await updateOrg(values);
-                  setSucessMessage(res.data.message)
+              console.log(res);
+              let result;
+              switch(props.type){
+                
+                case 'organisation':
+                  result = await updateOrg(values);
+                  setSucessMessage(result.data.message)
                   setErrorMessage(null)
-          props.nameChange(res.data.data.organisationName)
+                  props.nameChange(result.data.data.organisationName)
+                  break;
+                case 'employee':
+                  result = await updateEmp(values);
+                  setSucessMessage(result.data.message)
+                  setErrorMessage(null)
+                  props.nameChange(result.data.data.empNane)
+                break;
+              }
             }else if(res.data.HttpStatus===401){
               setErrorMessage(res.data.message)
               setSucessMessage(null)

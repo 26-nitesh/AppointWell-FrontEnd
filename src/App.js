@@ -5,6 +5,7 @@ import Login from './Components/Login';
 import Navbar from './Components/NavBar';
 import Soon from './Components/Soon';
 import OrgDashboard from './Components/OrgDashBoard';
+import EmpDashBoard from './Components/EmpDashBoard';
 
 function App() {
 if(2>3){
@@ -35,7 +36,7 @@ if(2>3){
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/company/dashboard' element={<OrgDashboard />} />
-            <Route path='/employee/dashboard' element={<Soon />} />
+            <Route path='/employee/dashboard' element={<EmpDashBoard />} />
             <Route path='/agency/dashboard' element={<Soon />} />
             <Route path='/hospital/dashboard' element={<Soon />} />
           </Routes>
