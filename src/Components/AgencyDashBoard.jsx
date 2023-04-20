@@ -11,7 +11,7 @@ import AddEmployeeForm from './AddEmpForm';
 import InfoUpdate from './InfoUpdate';
 import ChangePassword from './ChangePassword';
 import { useLocation } from 'react-router-dom';
-import { getHosp, getOrg } from '../Service/commonService';
+import { getAgency, getHosp, getOrg } from '../Service/commonService';
 import Soon from './Soon'
 const drawerWidth = 240;
 
@@ -80,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function HospitalDashboard(props) {
+function AgencyDashBoard(props) {
   const classes = useStyles();
   const location = useLocation();
   const emailOP = location.state.email;
@@ -95,10 +95,12 @@ function HospitalDashboard(props) {
 
       React.useEffect(()=>{
           async function fetchData() {
-            console.log(emailOP);
-            const response = await getHosp(emailOP);
+            // console.log(emailOP);
+            const response = await getAgency(emailOP);
                console.log(response.data.data);
-              setName(response.data.data.hospitalName);
+               console.log("done");
+              setName(response.data.data.agencyName
+                );
           }
           fetchData();
         }, []);
@@ -149,7 +151,7 @@ function HospitalDashboard(props) {
            </List>
       </Drawer>
       <main className={classes.content}>
-       {openUpdateInfo?  <InfoUpdate type="hospital" nameChange ={handleNameChange}  email={emailOP}/> :changePassword? <ChangePassword type="hospital" email={emailOP}/>: <>OKKK</>}
+       {openUpdateInfo?  <InfoUpdate type="agency" nameChange ={handleNameChange}  email={emailOP}/> :changePassword? <ChangePassword type="agency" email={emailOP}/>: <>OKKK</>}
         {/* Your main content goes here */}
        
       </main>
@@ -157,4 +159,4 @@ function HospitalDashboard(props) {
   );
 }
 
-export default HospitalDashboard;
+export default AgencyDashBoard;

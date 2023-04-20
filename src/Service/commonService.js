@@ -47,6 +47,15 @@ export const getHosp = async (values)=>{
   }
 }
 
+export const getAgency = async (values)=>{
+  try{
+  let  uri = BASE_URI_INSURANCE_AGENCY+'/'+values;
+ return   await axios.get(uri);
+  }catch(error){
+    
+  }
+}
+
 export const updateOrg = async (values)=>{
   try{
   let  uri = BASE_URI_COMPANY+'/update-org';
@@ -55,7 +64,20 @@ export const updateOrg = async (values)=>{
   }catch(error){
     
   }
-}//updateHospital
+}
+
+export const updateAgency = async (values)=>{
+  try{
+  let  uri = BASE_URI_INSURANCE_AGENCY+'/update-agency';
+  const input = { agencyName: values.name, agencyEmail: values.email, password: values.password,addLine1:values.addLine1,city:values.city,zip:values.zip };
+ return   await axios.put(uri,input);
+  }catch(error){
+    
+  }
+}
+
+//updateHospital
+
 
 export const updateHospital = async (values)=>{
   try{
@@ -80,7 +102,7 @@ export const changePassword = async (values,user)=>{
   let res;
   let uri;
   let input;
-  console.log("coming");
+  // console.log("coming");
   try{
     switch(user){
       case "organisation":
@@ -94,6 +116,9 @@ export const changePassword = async (values,user)=>{
         res = await login(input);
         break;
       case "agency":
+        uri = BASE_URI_INSURANCE_AGENCY+'/changePassword'
+        input = {email:values.email,password:values.password,loginAs:"agency"};
+       res = await login(input);
         break;
         case "hospital":
           uri = BASE_URI_HOSPITAL+'/changePassword'
