@@ -14,7 +14,7 @@ import {
 } from '@material-ui/core';
 import { Alert, AlertTitle, FormHelperText } from '@mui/material';
 import { register } from '../Service/registerService';
-import { updateEmp, updateOrg } from '../Service/commonService';
+import { updateEmp, updateHospital, updateOrg } from '../Service/commonService';
 import { login } from '../Service/loginService';
 
 const useStyles = makeStyles((theme) => ({
@@ -105,9 +105,17 @@ export default function InfoUpdate(props) {
                   break;
                 case 'employee':
                   result = await updateEmp(values);
+                  console.log(result.data.data);
                   setSucessMessage(result.data.message)
                   setErrorMessage(null)
-                  props.nameChange(result.data.data.empNane)
+                  props.nameChange(result.data.data.empName)
+                break;
+                case 'hospital':
+                  result = await updateHospital(values);
+                  console.log(result.data.data);
+                  setSucessMessage(result.data.message)
+                  setErrorMessage(null)
+                  props.nameChange(result.data.data.hospitalName)
                 break;
               }
             }else if(res.data.HttpStatus===401){

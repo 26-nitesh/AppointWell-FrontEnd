@@ -11,7 +11,7 @@ import AddEmployeeForm from './AddEmpForm';
 import ChangePassword from './ChangePassword';
 import { useLocation } from 'react-router-dom';
 import { getOrg } from '../Service/commonService';
-import InfoUpdate from './OrgInfoUpdate';
+import InfoUpdate from './InfoUpdate';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({

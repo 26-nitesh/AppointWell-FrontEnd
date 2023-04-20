@@ -8,10 +8,10 @@ import { Divider, Drawer, List, ListItem, ListItemIcon, ListItemText, Toolbar, T
 import AddIcon from '@material-ui/icons/Add';
 import UpdateIcon from '@material-ui/icons/Update';
 import AddEmployeeForm from './AddEmpForm';
-import InfoUpdate from './OrgInfoUpdate';
+import InfoUpdate from './InfoUpdate';
 import ChangePassword from './ChangePassword';
 import { useLocation } from 'react-router-dom';
-import { getOrg } from '../Service/commonService';
+import { getEmp, getOrg } from '../Service/commonService';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -92,16 +92,14 @@ function EmpDashBoard(props) {
     setName(newName);
   };
 
-    //   React.useEffect(()=>{
-    //       async function fetchData() {
-    //         console.log(emailOP);
-    //         const response = await getOrg(emailOP);
-    //            console.log(response.data.data);
-    //           setOrgDetails(response.data.data)
-    //           setName(response.data.data.organisationName);
-    //       }
-    //       fetchData();
-    //     }, []);
+      React.useEffect(()=>{
+          async function fetchData() {
+            const response = await getEmp(emailOP);
+              // setOrgDetails(response.data.data)
+              setName(response.data.data.empName);
+          }
+          fetchData();
+        }, []);
       //   try{
       //     const response = await getOrg(props.email);
       //     console.log(response);

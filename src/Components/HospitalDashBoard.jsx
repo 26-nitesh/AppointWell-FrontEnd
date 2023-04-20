@@ -8,10 +8,10 @@ import { Divider, Drawer, List, ListItem, ListItemIcon, ListItemText, Toolbar, T
 import AddIcon from '@material-ui/icons/Add';
 import UpdateIcon from '@material-ui/icons/Update';
 import AddEmployeeForm from './AddEmpForm';
-import InfoUpdate from './OrgInfoUpdate';
+import InfoUpdate from './InfoUpdate';
 import ChangePassword from './ChangePassword';
 import { useLocation } from 'react-router-dom';
-import { getOrg } from '../Service/commonService';
+import { getHosp, getOrg } from '../Service/commonService';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -92,16 +92,15 @@ function HospitalDashboard(props) {
     setName(newName);
   };
 
-    //   React.useEffect(()=>{
-    //       async function fetchData() {
-    //         console.log(emailOP);
-    //         const response = await getOrg(emailOP);
-    //            console.log(response.data.data);
-    //           setOrgDetails(response.data.data)
-    //           setName(response.data.data.organisationName);
-    //       }
-    //       fetchData();
-    //     }, []);
+      React.useEffect(()=>{
+          async function fetchData() {
+            console.log(emailOP);
+            const response = await getHosp(emailOP);
+               console.log(response.data.data);
+              setName(response.data.data.hospitalName);
+          }
+          fetchData();
+        }, []);
       //   try{
       //     const response = await getOrg(props.email);
       //     console.log(response);
@@ -134,10 +133,10 @@ function HospitalDashboard(props) {
                <ListItemText primary={`Welcome ${name}`} onNameChange={handleNameChange}/>
              </ListItem>
              <Divider style={{ backgroundColor: 'white' }} />
-             <ListItem button className={classes.listItem}>
+             {/* <ListItem button className={classes.listItem}>
                <ListItemIcon className={classes.icon}><AddIcon /></ListItemIcon>
                <ListItemText primary="Book Appointment" />
-             </ListItem>
+             </ListItem> */}
              <ListItem button className={classes.listItem}  onClick={handleOrgInfoUpdate}>
                <ListItemIcon className={classes.icon}><UpdateIcon /></ListItemIcon>
                <ListItemText  primary="Update Info" />
@@ -149,7 +148,7 @@ function HospitalDashboard(props) {
            </List>
       </Drawer>
       <main className={classes.content}>
-       {openUpdateInfo?  <InfoUpdate type="employee" nameChange ={handleNameChange}  email={emailOP}/> :changePassword? <ChangePassword type="employee" email={emailOP}/>: <>OKKK</>}
+       {openUpdateInfo?  <InfoUpdate type="hospital" nameChange ={handleNameChange}  email={emailOP}/> :changePassword? <ChangePassword type="hospital" email={emailOP}/>: <>OKKK</>}
         {/* Your main content goes here */}
       </main>
     </div>
