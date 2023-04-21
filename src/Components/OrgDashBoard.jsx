@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 // import List from '@material-ui/core/List';
 // import ListItem from '@material-ui/core/ListItem';
 // import ListItemText from '@material-ui/core/ListItemText';
-import { Divider, Drawer, List, ListItem, ListItemIcon, ListItemText, Toolbar, Typography } from '@material-ui/core';
+import { Button, Divider, Drawer, List, ListItem, ListItemIcon, ListItemText, Toolbar, Typography } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import UpdateIcon from '@material-ui/icons/Update';
 import AddEmployeeForm from './AddEmpForm';
@@ -12,6 +12,8 @@ import ChangePassword from './ChangePassword';
 import { useLocation } from 'react-router-dom';
 import { getOrg } from '../Service/commonService';
 import InfoUpdate from './InfoUpdate';
+import OrgHome from './OrgHome';
+import AgencyList from './AgencyList';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -77,6 +79,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop:'0',
     padding:'13px',
   },
+  
 }));
 
 function OrgDashboard(props) {
@@ -88,6 +91,8 @@ function OrgDashboard(props) {
   const [changePassword,setchangePassword] = React.useState(false);//handleChangePassword
   const [orgDetails,setOrgDetails] = React.useState({});
   const [name, setName] = useState('');
+const [openAgencyList, setOpenAgencyList] = React.useState(false);
+
 
   const handleNameChange = (newName) => {
     setName(newName);
@@ -127,6 +132,22 @@ function OrgDashboard(props) {
     setAddEmp(false);
     setchangePassword(true);
   }
+  const handleButtonClick = (event) => {
+    // handle button click event
+    setOpenUpdateInfo(false)
+    setAddEmp(false);
+    setOpenAgencyList(false);
+    setchangePassword(false);
+    event.preventDefault();
+  };
+  const handelAllAgency = () =>{
+   setOpenAgencyList(true)
+   setAddEmp(false)
+   setOpenUpdateInfo(false)
+   setchangePassword(false);
+
+  }
+  
   return (
     <div className={classes.root}>
       <Drawer
@@ -137,15 +158,25 @@ function OrgDashboard(props) {
         }}
       >
                 <List>
+                <a href='#' onClick={handleButtonClick}>
                 <ListItem className={classes.info}>
-               <ListItemText primary={`Welcome ${name}`} onNameChange={handleNameChange}/>
-             </ListItem>
+              <ListItemText primary={`Welcome ${name}`} onNameChange={handleNameChange} style={{ fontWeight: 'bold', textDecoration: 'none' }}/>
+             </ListItem></a>
+             {/* <ListItem className={classes.info}>
+  <a href="#" onClick={handleButtonClick} style={{ textDecoration: 'none' }}>
+    <ListItemText
+      primary={`Welcome ${name}`}
+      onNameChange={handleNameChange}
+      style={{ fontWeight: 'bold', color: 'white' }}
+    />
+  </a>
+</ListItem> */}
              <Divider style={{ backgroundColor: 'white' }} />
              <ListItem button className={classes.listItem} onClick={handleAddEmployee}>
                <ListItemIcon className={classes.icon}><AddIcon /></ListItemIcon>
                <ListItemText primary="Add Employee" />
              </ListItem>
-             <ListItem button className={classes.listItem}>
+             <ListItem button className={classes.listItem}  onClick={handelAllAgency}>
                <ListItemIcon className={classes.icon}><AddIcon /></ListItemIcon>
                <ListItemText primary="Affiliate With Agency" />
              </ListItem>
@@ -169,8 +200,12 @@ function OrgDashboard(props) {
       </Drawer>
       <main className={classes.content}>
        {openAddEmp ? 
-       <AddEmployeeForm email={emailOP}/>:openUpdateInfo?  <InfoUpdate type="organisation" nameChange ={handleNameChange}  email={emailOP}/> :changePassword? <ChangePassword type="organisation" email={emailOP}/>: <>OKKK</>}
-        {/* Your main content goes here */}
+       <AddEmployeeForm email={emailOP}/>
+                    :openUpdateInfo? <InfoUpdate type="organisation" nameChange ={handleNameChange}  email={emailOP}/> 
+                    :changePassword? <ChangePassword type="organisation" email={emailOP}/>
+                    :openAgencyList? <AgencyList orgEmail={emailOP}></AgencyList>
+                    : <OrgHome></OrgHome>}
+       
       </main>
     </div>
   );

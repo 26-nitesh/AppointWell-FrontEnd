@@ -150,11 +150,12 @@ export const changePassword = async (values,user)=>{
   }
 }
 
-// "orgId": 0,
-// "insuranceAgencyEmail": "string",
-// "organisationName": "string",
-// "organisationEmail": "string",
-// "password": "string",
-// "addLine1": "string",
-// "city": "string",
-// "zip": "string"
+export const getAllAgencies = async()=>{
+
+ try{
+  const response = await axios.get(BASE_URI_INSURANCE_AGENCY+'/all');
+  return response.data.data;
+ }catch(err){
+    return null;
+ }
+}
