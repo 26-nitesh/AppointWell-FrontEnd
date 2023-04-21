@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { findAgencyByEmail, getAllAgencies } from "../Service/commonService";
-import { Button, Dialog, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import {  getOrg, findAgencyByEmail, getAllAgencies, updateOrg, updateOrgWithAgency } from "../Service/commonService";
+import { Alert, AlertTitle, Button, Dialog, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
@@ -35,12 +35,13 @@ const AgencyList = (props) => {
   const [agencyByEmail, setAgency] = useState({});
   const [openDialog, setopenDialog] = useState(false)
   const[selectedEmail, setSelectedEmail] = useState('');
-
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [sucessMessage, setSucessMessage] = useState(null);
   const classes = useStyles();
   React.useEffect(() => {
     async function fetchData() {
       const response = await getAllAgencies();
-      console.log(response);
+    //   console.log(response);
       if (response != null)
         setAgencies(response);
     }
@@ -54,13 +55,42 @@ const AgencyList = (props) => {
         setopenDialog(true);
         setAgency(agency)
     }
-    console.log(agency);
+    // console.log(agency);
+  }
+
+  const handleAddAgency = async(email) =>{
+    const confirmed = window.confirm("atmost one agency is allowed to affiliate older agency wil be updated with new one. Click ok to confirm")
+    if (confirmed) {
+       const empRes =  await getOrg(props.orgEmail);
+    //    console.log(empRes.data.data);
+   let json =  empRes.data.data
+   json.insuranceAgencyEmail=email;
+       const res = await updateOrgWithAgency(json);
+       if(res.data.HttpStatus==200){
+        setSucessMessage("Agency Added SueesFully");
+       }else{
+            setErrorMessage(res.data.message);
+       }
+    //    console.log(res)
+      }
   }
  const handleCloseDialog = () =>{
     setopenDialog(false)
  }
   return (
     <>
+     {errorMessage && (
+        <Alert severity="error">
+          <AlertTitle>Error</AlertTitle>
+          {errorMessage}
+        </Alert>
+      )}
+      {sucessMessage && (
+        <Alert severity="success">
+          <AlertTitle>success</AlertTitle>
+          {sucessMessage}
+        </Alert>
+      )}
       <div className={classes.listContainer}>
         <Typography variant="subtitle1" className={classes.listTitle} style={{fontSize:'32px'}}>
           List of Available Agencies
@@ -81,7 +111,7 @@ const AgencyList = (props) => {
             <TableRow key={agency.id}>
                 <TableCell style={{ fontWeight: 'bold', fontSize: '15px' }}><Button variant="text"  sx={{ textTransform: 'none' }} onClick={() => handleAgencyClick(agency['Agency Email'])} >{agency['Agency Email']}</Button></TableCell>
                 <TableCell style={{ fontWeight: 'bold', fontSize: '15px' }}>{agency['Agency Name']}</TableCell>
-                <TableCell><Button variant="contained">add</Button></TableCell>
+                <TableCell><Button variant="contained" onClick={() => handleAddAgency(agency['Agency Email'])}>add</Button></TableCell>
               </TableRow>
                    {selectedEmail && selectedEmail ===agency['Agency Email'] && <TableRow> 
                    {/* <div>
