@@ -159,3 +159,13 @@ export const getAllAgencies = async()=>{
     return null;
  }
 }
+
+export const findAgencyByEmail = async(email) =>{
+
+  try{
+    const response = await axios.get(BASE_URI_INSURANCE_AGENCY+'/'+email);
+    return response.data.data;
+   }catch(err){
+      return null;
+   }
+}
