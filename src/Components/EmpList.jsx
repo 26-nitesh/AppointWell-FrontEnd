@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {  getOrg, findAgencyByEmail, getAllAgencies, updateOrg, updateOrgWithAgency, getHosp, updateHospWithAgency } from "../Service/commonService";
+import {  getOrg, findAgencyByEmail, getAllAgencies, updateOrg, updateOrgWithAgency } from "../Service/commonService";
 import { Alert, AlertTitle, Button, Dialog, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -30,7 +30,7 @@ const useStyles = makeStyles({
      
 });
 
-const AgencyList = (props) => {
+const EmpList = (props) => {
   const [agencies, setAgencies] = useState([]);
   const [agencyByEmail, setAgency] = useState({});
   const [openDialog, setopenDialog] = useState(false)
@@ -60,32 +60,18 @@ const AgencyList = (props) => {
   const handleAddAgency = async(email) =>{
     const confirmed = window.confirm("atmost one agency is allowed to affiliate older agency wil be updated with new one. Click ok to confirm")
     if (confirmed) {
-        if(props.type==='org'){
-          const empRes =  await getOrg(props.orgEmail);
-          //    console.log(empRes.data.data);
-         let json =  empRes.data.data
-         json.insuranceAgencyEmail=email;
-             const res = await updateOrgWithAgency(json);
-             setopenDialog(true);
-             if(res.data.HttpStatus==200){
-              setSucessMessage("Agency Added SueesFully");
-             }else{
-                  setErrorMessage(res.data.message);
-             }
-          //    console.log(res)
-        }else if(props.type==='hospital'){
-          const hospRes =  await getHosp(props.orgEmail);
-             console.log(hospRes.data.data);
-         let json =  hospRes.data.data
-         json.agencyEmail=email;
-             const res = await updateHospWithAgency(json);
-             setopenDialog(true);
-             if(res.data.HttpStatus==200){
-              setSucessMessage("Agency Added SueesFully");
-             }else{
-                  setErrorMessage(res.data.message);
-             }
-        }
+       const empRes =  await getOrg(props.orgEmail);
+    //    console.log(empRes.data.data);
+   let json =  empRes.data.data
+   json.insuranceAgencyEmail=email;
+       const res = await updateOrgWithAgency(json);
+       setopenDialog(true);
+       if(res.data.HttpStatus==200){
+        setSucessMessage("Agency Added SueesFully");
+       }else{
+            setErrorMessage(res.data.message);
+       }
+    //    console.log(res)
       }
   }
  const handleCloseDialog = () =>{
@@ -156,5 +142,5 @@ const AgencyList = (props) => {
     </>
   )
 }
-export default AgencyList;
+export default EmpList;
 

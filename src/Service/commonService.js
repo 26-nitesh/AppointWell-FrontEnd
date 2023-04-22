@@ -76,6 +76,16 @@ export const updateOrgWithAgency = async (values)=>{//updateOrgWithAgency
   }
 }
 
+export const updateHospWithAgency = async (values)=>{
+  try{
+    // console.log(values);
+  let  uri = BASE_URI_HOSPITAL+'/update-hosp';
+ return   await axios.put(uri,values);
+  }catch(error){
+    
+  }
+}
+
 export const updateAgency = async (values)=>{
   try{
   let  uri = BASE_URI_INSURANCE_AGENCY+'/update-agency';

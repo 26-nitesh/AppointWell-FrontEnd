@@ -203,7 +203,7 @@ const [openAgencyList, setOpenAgencyList] = React.useState(false);
        <AddEmployeeForm email={emailOP}/>
                     :openUpdateInfo? <InfoUpdate type="organisation" nameChange ={handleNameChange}  email={emailOP}/> 
                     :changePassword? <ChangePassword type="organisation" email={emailOP}/>
-                    :openAgencyList? <AgencyList orgEmail={emailOP}></AgencyList>
+                    :openAgencyList? <AgencyList orgEmail={emailOP} type= "org"></AgencyList>
                     : <OrgHome></OrgHome>}
        
       </main>

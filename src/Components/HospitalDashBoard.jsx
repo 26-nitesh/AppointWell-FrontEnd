@@ -13,6 +13,7 @@ import ChangePassword from './ChangePassword';
 import { useLocation } from 'react-router-dom';
 import { getHosp, getOrg } from '../Service/commonService';
 import Soon from './Soon'
+import AgencyList from './AgencyList';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -86,6 +87,7 @@ function HospitalDashboard(props) {
   const emailOP = location.state.email;
   const [openUpdateInfo,setOpenUpdateInfo] = React.useState(false);
   const [changePassword,setchangePassword] = React.useState(false);//handleChangePassword
+  const [openAgencyList, setOpenAgencyList] = React.useState(false);
 //   const [orgDetails,setOrgDetails] = React.useState({});
   const [name, setName] = useState('');
 
@@ -120,6 +122,12 @@ function HospitalDashboard(props) {
     setOpenUpdateInfo(false)
     setchangePassword(true);
   }
+  const handelAllAgency = () =>{
+    setOpenAgencyList(true)
+    setOpenUpdateInfo(false)
+    setchangePassword(false);
+
+   }
   return (
     <div className={classes.root}>
       <Drawer
@@ -134,10 +142,10 @@ function HospitalDashboard(props) {
                <ListItemText primary={`Welcome ${name}`} onNameChange={handleNameChange}/>
              </ListItem>
              <Divider style={{ backgroundColor: 'white' }} />
-             {/* <ListItem button className={classes.listItem}>
+             <ListItem button className={classes.listItem}  onClick={handelAllAgency}>
                <ListItemIcon className={classes.icon}><AddIcon /></ListItemIcon>
-               <ListItemText primary="Book Appointment" />
-             </ListItem> */}
+               <ListItemText primary="Affiliate With Agency" />
+             </ListItem>
              <ListItem button className={classes.listItem}  onClick={handleOrgInfoUpdate}>
                <ListItemIcon className={classes.icon}><UpdateIcon /></ListItemIcon>
                <ListItemText  primary="Update Info" />
@@ -149,7 +157,9 @@ function HospitalDashboard(props) {
            </List>
       </Drawer>
       <main className={classes.content}>
-       {openUpdateInfo?  <InfoUpdate type="hospital" nameChange ={handleNameChange}  email={emailOP}/> :changePassword? <ChangePassword type="hospital" email={emailOP}/>: <>OKKK</>}
+       {openUpdateInfo?  <InfoUpdate type="hospital" nameChange ={handleNameChange}  email={emailOP}/> 
+       :changePassword? <ChangePassword type="hospital" email={emailOP}/>
+       :openAgencyList? <AgencyList orgEmail={emailOP} type="hospital"></AgencyList>: <>OKKK</>}
         {/* Your main content goes here */}
        
       </main>

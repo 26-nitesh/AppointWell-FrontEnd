@@ -72,6 +72,9 @@ const useStyles = makeStyles((theme) => ({
       name: yup.string().required("required !!"),
       email: yup.string().email().required("required !!"),
       password: yup.string().required("required !!").min(4, "Password must be at least 4 characters long."),
+      designation: yup.string().required("required !!"),
+      dob: yup.date().required("required !!"),
+      doj: yup.date().required("required !!"),
     })
     const addEmployeeFormik = useFormik(
       {
@@ -80,6 +83,7 @@ const useStyles = makeStyles((theme) => ({
              email:"",
              password:"",
              designation:"",
+             dob:"",
              doj:"",
              exposureType:"",
   
@@ -168,9 +172,20 @@ const useStyles = makeStyles((theme) => ({
               <FormHelperText error placement="start">{addEmployeeFormik.errors.name}</FormHelperText>
               <TextField
                 className={classes.textField}
+                label="Date of Birth"
+                variant="outlined"
+                type='date'
+                name="dob"
+                value={addEmployeeFormik.values.doj} error={addEmployeeFormik.touched.doj
+                 && Boolean(!addEmployeeFormik.errors.doj)} onChange={addEmployeeFormik.handleChange}
+              />
+              <FormHelperText error placement="start">{addEmployeeFormik.errors.doj}</FormHelperText>
+              <TextField
+                className={classes.textField}
                 label="Date of Joining"
                 variant="outlined"
                 name="doj"
+                type='date'
                 value={addEmployeeFormik.values.doj} error={addEmployeeFormik.touched.doj
                  && Boolean(!addEmployeeFormik.errors.doj)} onChange={addEmployeeFormik.handleChange}
               />
