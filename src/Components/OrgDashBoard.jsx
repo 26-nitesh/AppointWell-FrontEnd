@@ -182,7 +182,7 @@ const [openAgencyList, setOpenAgencyList] = React.useState(false);
              </ListItem>
              <ListItem button className={classes.listItem}>
                <ListItemIcon className={classes.icon}><AddIcon /></ListItemIcon>
-               <ListItemText primary="Add policy" />
+               <ListItemText primary="Policy Management" />
              </ListItem>
              <ListItem button className={classes.listItem}  onClick={handleOrgInfoUpdate}>
                <ListItemIcon className={classes.icon}><UpdateIcon /></ListItemIcon>

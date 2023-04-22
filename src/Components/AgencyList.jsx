@@ -52,7 +52,6 @@ const AgencyList = (props) => {
     const agency = await findAgencyByEmail(email);
     if(agency!=null){
         setSelectedEmail(email);
-        setopenDialog(true);
         setAgency(agency)
     }
     // console.log(agency);
@@ -66,6 +65,7 @@ const AgencyList = (props) => {
    let json =  empRes.data.data
    json.insuranceAgencyEmail=email;
        const res = await updateOrgWithAgency(json);
+       setopenDialog(true);
        if(res.data.HttpStatus==200){
         setSucessMessage("Agency Added SueesFully");
        }else{
@@ -79,7 +79,8 @@ const AgencyList = (props) => {
  }
   return (
     <>
-     {errorMessage && (
+  <Dialog open={openDialog} onClose={handleCloseDialog}>
+  {errorMessage && (
         <Alert severity="error">
           <AlertTitle>Error</AlertTitle>
           {errorMessage}
@@ -91,6 +92,7 @@ const AgencyList = (props) => {
           {sucessMessage}
         </Alert>
       )}
+  </Dialog>
       <div className={classes.listContainer}>
         <Typography variant="subtitle1" className={classes.listTitle} style={{fontSize:'32px'}}>
           List of Available Agencies
