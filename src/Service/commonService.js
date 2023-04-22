@@ -189,3 +189,21 @@ export const findAgencyByEmail = async(email) =>{
       return null;
    }
 }
+
+export const getAllHospitalsForOrg = async(orgEmail) =>{
+  try{
+       const org = await   getOrg(orgEmail);
+      //  console.log(org.data.data.insuranceAgencyEmail);
+
+     const hospitals =  await  axios.get(BASE_URI_HOSPITAL+'/agency/'+org.data.data.insuranceAgencyEmail);
+         if(hospitals.data.HttpStatus==200){
+          return hospitals.data.data;
+         }else{
+          return null;
+         }
+
+    //  console.log();
+  }catch(err){
+    return null;
+  }
+}

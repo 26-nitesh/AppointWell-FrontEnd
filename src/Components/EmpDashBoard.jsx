@@ -12,6 +12,7 @@ import InfoUpdate from './InfoUpdate';
 import ChangePassword from './ChangePassword';
 import { useLocation } from 'react-router-dom';
 import { getEmp, getOrg } from '../Service/commonService';
+import ProcessAppointment from './ProcessAppointment';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -84,10 +85,11 @@ function EmpDashBoard(props) {
   const location = useLocation();
   const emailOP = location.state.email;
   const [openUpdateInfo,setOpenUpdateInfo] = React.useState(false);
+  const [openProcessAppointMent,setOpenProcessAppointMent] = React.useState(false);
   const [changePassword,setchangePassword] = React.useState(false);//handleChangePassword
 //   const [orgDetails,setOrgDetails] = React.useState({});
   const [name, setName] = useState('');
-
+  const [compEmail, setCompEmail] = useState('');
   const handleNameChange = (newName) => {
     setName(newName);
   };
@@ -96,7 +98,8 @@ function EmpDashBoard(props) {
           async function fetchData() {
             const response = await getEmp(emailOP);
               // setOrgDetails(response.data.data)
-              setName(response.data.data.empName);
+              setName(response.data.data.empName);//orgEmail
+              setCompEmail(response.data.data.orgEmail);
           }
           fetchData();
         }, []);
@@ -111,12 +114,20 @@ function EmpDashBoard(props) {
       // },[empDetails]);
 
   const handleOrgInfoUpdate = () =>{
+    setOpenProcessAppointMent(false);
     setOpenUpdateInfo(true)
     setchangePassword(false);
   }
   const handleChangePassword = () =>{
+    setOpenProcessAppointMent(false);
     setOpenUpdateInfo(false)
     setchangePassword(true);
+  }
+  const handleProcessAppointment = ()=>{
+    setOpenUpdateInfo(false)
+    setchangePassword(false);
+    setOpenProcessAppointMent(true);
+   
   }
   return (
     <div className={classes.root}>
@@ -132,7 +143,7 @@ function EmpDashBoard(props) {
                <ListItemText primary={`Welcome ${name}`} onNameChange={handleNameChange}/>
              </ListItem>
              <Divider style={{ backgroundColor: 'white' }} />
-             <ListItem button className={classes.listItem}>
+             <ListItem button className={classes.listItem} onClick={handleProcessAppointment}>
                <ListItemIcon className={classes.icon}><AddIcon /></ListItemIcon>
                <ListItemText primary="Book Appointment" />
              </ListItem>
@@ -147,7 +158,9 @@ function EmpDashBoard(props) {
            </List>
       </Drawer>
       <main className={classes.content}>
-       {openUpdateInfo?  <InfoUpdate type="employee" nameChange ={handleNameChange}  email={emailOP}/> :changePassword? <ChangePassword type="employee" email={emailOP}/>: <>OKKK</>}
+       {openUpdateInfo?  <InfoUpdate type="employee" nameChange ={handleNameChange}  email={emailOP}/> 
+       :changePassword? <ChangePassword type="employee" email={emailOP}/>
+       : openProcessAppointMent?<ProcessAppointment comapnyEmail = {compEmail}/>: <>OKKK</>}
         {/* Your main content goes here */}
       </main>
     </div>
