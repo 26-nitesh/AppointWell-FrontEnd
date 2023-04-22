@@ -7,7 +7,9 @@ import * as yup from 'yup';
 import { Alert, AlertTitle } from '@mui/material';
 const useStyles = makeStyles((theme) => ({
     root: {
-      margin: theme.spacing(-10),
+      // margin: theme.spacing(-10),
+      marginTop:'50px',
+      marginBottom:'120px',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
@@ -19,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
       top: 0,
       left: 0,
       width: '100%',
-      height: '100%',
+      height: '940px',
       backgroundImage: 'url("https://images.unsplash.com/photo-1527613426441-4da17471b66d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=852&q=80")',
       backgroundSize: 'cover',
       backgroundPosition: 'center',
@@ -77,6 +79,9 @@ const useStyles = makeStyles((theme) => ({
             name:"",
              email:"",
              password:"",
+             designation:"",
+             doj:"",
+             exposureType:"",
   
            },
            validationSchema:ValidateAddEmp,
@@ -103,8 +108,9 @@ const useStyles = makeStyles((theme) => ({
   )
   
     return (
-      <div className={classes.root}>
+      <>
         <div className={classes.background}></div>
+      <div className={classes.root}>
         <Card className={classes.card}>
           <CardContent>
             <Typography variant="h5" component="h2" className={classes.title}>
@@ -151,6 +157,33 @@ const useStyles = makeStyles((theme) => ({
                 value={addEmployeeFormik.values.password} error={addEmployeeFormik.touched.password
                  && Boolean(!addEmployeeFormik.errors.password)} onChange={addEmployeeFormik.handleChange}
               />
+               <TextField
+                className={classes.textField}
+                label="Designation"
+                variant="outlined"
+                name="designation"
+                value={addEmployeeFormik.values.designation} error={addEmployeeFormik.touched.designation
+                 && Boolean(!addEmployeeFormik.errors.designation)} onChange={addEmployeeFormik.handleChange}
+              />
+              <FormHelperText error placement="start">{addEmployeeFormik.errors.name}</FormHelperText>
+              <TextField
+                className={classes.textField}
+                label="Date of Joining"
+                variant="outlined"
+                name="doj"
+                value={addEmployeeFormik.values.doj} error={addEmployeeFormik.touched.doj
+                 && Boolean(!addEmployeeFormik.errors.doj)} onChange={addEmployeeFormik.handleChange}
+              />
+              <FormHelperText error placement="start">{addEmployeeFormik.errors.doj}</FormHelperText>
+              <TextField
+                className={classes.textField}
+                label="Exposure Type"
+                variant="outlined"
+                name="exposureType"
+                value={addEmployeeFormik.values.exposureType} error={addEmployeeFormik.touched.exposureType
+                 && Boolean(!addEmployeeFormik.errors.exposureType)} onChange={addEmployeeFormik.handleChange}
+              />
+              <FormHelperText error placement="start">{addEmployeeFormik.errors.name}</FormHelperText>
                  <FormHelperText error placement="start">{addEmployeeFormik.errors.password}</FormHelperText>
               <Button
                 className={classes.button}
@@ -164,6 +197,7 @@ const useStyles = makeStyles((theme) => ({
           </CardContent>
         </Card>
       </div>
+      </>
     );
   }
   
