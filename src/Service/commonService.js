@@ -248,3 +248,18 @@ export const getAppointMentByHospital = async(emailOP,archived) => {
 
  }
 }
+export const   updateAppointmnet = async(empEmail,hospEmail,archived,verified,status,remarks) =>{
+
+  let input = {employeeEmail:empEmail,hospitalEmail:hospEmail,isArchived:archived,verified:verified,status:status,remarks:remarks};
+ const response =  await  axios.put(BASE_URI_APPOINTMENT+'/updateAppointmnet',input);
+ console.log(response);
+}
+
+// export const   updateAppointmnetForReject = async(empEmail,hospEmail,archived,verified,status,remarks) =>{
+
+//   let input = {employeeEmail:empEmail,hospitalEmail:hospEmail,isArchived:archived,verified:verified,status:status,remarks:remarks};
+//  const response =  await  axios.put(BASE_URI_APPOINTMENT+'/updateAppointmnet',input);
+//  console.log(response);
+// }
+
+

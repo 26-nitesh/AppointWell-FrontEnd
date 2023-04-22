@@ -2,7 +2,7 @@ import { TableHead } from "@material-ui/core";
 import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from "@mui/material";
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useState } from "react";
-import { getAppointMentByHospital } from "../Service/commonService";
+import { getAppointMentByHospital, updateAppointmnet } from "../Service/commonService";
 
 const useStyles = makeStyles({
     table: {
@@ -34,10 +34,10 @@ const useStyles = makeStyles({
 
 const AppointMentList = (props) =>{
     const classes = useStyles();
-    console.log(props.data);
-    const [showVerifyWithAgency, setShowVerifyWithAgency] = useState(true);
+    // console.log(props.data);
+    const [showApproveButton, setShowApproveButton] = useState(true);
     const [appList, setAppList] = React.useState([])
-
+    const [reload, setReload] = React.useState(false)
 
     React.useEffect(()=>{
         async function fetchData() {
@@ -47,12 +47,19 @@ const AppointMentList = (props) =>{
                }
         }
         fetchData();
-      }, []);
-    const verifyWithAgency = () =>{
+      }, [reload]);
+    const approveAppointment = async(empEmail) =>{//
 
-    //    updateVerifiedAtHospital
-        setShowVerifyWithAgency(false) 
+   const updated =  await updateAppointmnet(empEmail,props.data,false,true,'appointment approved','valid');
+        setShowApproveButton(false) 
+        setReload(true)
     }
+    const rejectAppointMent = async(empEmail) =>{//rejectAppointMent
+
+        const updated =  await updateAppointmnet(empEmail,props.data,false,false,'rejected','not valid');
+             setShowApproveButton(false) 
+             setReload(true)
+         }
     return(
         <>
             <div className={classes.listContainer}>
@@ -66,8 +73,9 @@ const AppointMentList = (props) =>{
             <TableRow className={classes.tableHead}>
               <TableCell sx={{ fontWeight: 'bold' ,fontSize: '20px' }}>Employee Email</TableCell>
               <TableCell sx={{ fontWeight: 'bold' ,fontSize: '20px' }}>Date Of AppointMent</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' ,fontSize: '20px' }}>Applied Date</TableCell>
               <TableCell sx={{ fontWeight: 'bold' ,fontSize: '20px' }}>Status</TableCell>
-              <TableCell></TableCell>
+              <TableCell></TableCell>    <TableCell></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -75,9 +83,23 @@ const AppointMentList = (props) =>{
         <>
         <TableRow key={appointment.appointmentId}>
                 <TableCell style={{ fontWeight: 'bold', fontSize: '15px' }}><Button variant="text"  sx={{ textTransform: 'none' }}>{appointment.employeeEmail}</Button></TableCell>
-                <TableCell style={{ fontWeight: 'bold', fontSize: '15px' }}>{appointment.appointmentDate}</TableCell>
+                <TableCell style={{  fontSize: '15px' }}>{appointment.appointmentDate}</TableCell>
+                <TableCell style={{ fontSize: '15px' }}>{appointment.bookingDate}</TableCell>
                 <TableCell style={{  fontSize: '15px' }}>{appointment.status}</TableCell>
-              <TableCell> {showVerifyWithAgency? <Button variant="text" style={{textTransform:'none'}} onClick={verifyWithAgency}>verify with Agency</Button>:<></>}</TableCell>
+              <TableCell>   <Button
+          variant="text"
+          disabled={appointment.status === 'appointment approved' || appointment.status === 'rejected'}
+          style={{ textTransform: 'none' }}
+          onClick={() => approveAppointment(appointment.employeeEmail)}
+        >
+          approve
+        </Button></TableCell>
+              <TableCell style={{  fontSize: '15px' }}><Button variant="text"
+                disabled={appointment.status === 'appointment approved' || appointment.status === 'rejected'}
+               style={{textTransform:'none',color:'red'}} 
+                onClick={() => rejectAppointMent(appointment.employeeEmail)}
+                >
+                reject</Button></TableCell>
               </TableRow>
         </>
           ))}
