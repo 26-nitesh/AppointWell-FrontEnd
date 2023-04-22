@@ -75,6 +75,7 @@ const useStyles = makeStyles((theme) => ({
       designation: yup.string().required("required !!"),
       dob: yup.date().required("required !!"),
       doj: yup.date().required("required !!"),
+      exposureType: yup.string(),
     })
     const addEmployeeFormik = useFormik(
       {
@@ -176,8 +177,8 @@ const useStyles = makeStyles((theme) => ({
                 variant="outlined"
                 type='date'
                 name="dob"
-                value={addEmployeeFormik.values.doj} error={addEmployeeFormik.touched.doj
-                 && Boolean(!addEmployeeFormik.errors.doj)} onChange={addEmployeeFormik.handleChange}
+                value={addEmployeeFormik.values.dob} error={addEmployeeFormik.touched.dob
+                 && Boolean(!addEmployeeFormik.errors.dob)} onChange={addEmployeeFormik.handleChange}
               />
               <FormHelperText error placement="start">{addEmployeeFormik.errors.doj}</FormHelperText>
               <TextField

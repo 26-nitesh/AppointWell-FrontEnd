@@ -160,7 +160,7 @@ function EmpDashBoard(props) {
       <main className={classes.content}>
        {openUpdateInfo?  <InfoUpdate type="employee" nameChange ={handleNameChange}  email={emailOP}/> 
        :changePassword? <ChangePassword type="employee" email={emailOP}/>
-       : openProcessAppointMent?<ProcessAppointment comapnyEmail = {compEmail}/>: <>OKKK</>}
+       : openProcessAppointMent?<ProcessAppointment email={emailOP} comapnyEmail = {compEmail}/>: <>OKKK</>}
         {/* Your main content goes here */}
       </main>
     </div>

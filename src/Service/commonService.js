@@ -8,6 +8,7 @@ const BASE_URI_COMPANY = 'http://localhost:9596/organisation/api';
 const BASE_URI_EMPLOYEE = 'http://localhost:9595/employee/api';
 const BASE_URI_INSURANCE_AGENCY = 'http://localhost:9599/agency/api';
 const BASE_URI_HOSPITAL = 'http://localhost:9600/hospital/api';
+const BASE_URI_APPOINTMENT = 'http://localhost:9598/appointment/api';
 
 
 export const addNewEmployee = async (values,orgemail)=>{
@@ -206,4 +207,44 @@ export const getAllHospitalsForOrg = async(orgEmail) =>{
   }catch(err){
     return null;
   }
+}
+
+export const createAppointMent = async(email,selectedHosp,selectedDate) => {
+let input = {employeeEmail:email,hospitalEmail:selectedHosp,appointmentDate:selectedDate};
+    try{
+      const res = await axios.post(BASE_URI_APPOINTMENT+'/create-new-appointment',input);
+         if(res.data.HttpStatus===201){
+          RESPONSE.message= "Appointment Booked Sucess ";
+          RESPONSE.status="200";
+          return RESPONSE;
+         }
+         else {
+          RESPONSE.message= "Failed";
+          RESPONSE.status="500"
+          return RESPONSE
+         }
+      // return res.data.data.message;
+    }catch(err){
+// console.log(err.response.data.message);
+RESPONSE.message= err.response.data.message;
+RESPONSE.status="500"
+ return RESPONSE;
+    }
+}
+
+export const getAppointMentByHospital = async(emailOP,archived) => {
+  // http://localhost:9598/appointment/api/getByHospital/hosp@hosp1?archived=false
+         let input = BASE_URI_APPOINTMENT+`/getByHospital/${emailOP}?archived=${archived}`;
+        //  console.log(input);
+ try{
+  const response = await axios.get(input)
+  if(response.data.HttpStatus===200){
+    return response.data.data;
+  }
+  else {
+    return null
+  }
+ }catch(err){
+
+ }
 }

@@ -11,9 +11,10 @@ import AddEmployeeForm from './AddEmpForm';
 import InfoUpdate from './InfoUpdate';
 import ChangePassword from './ChangePassword';
 import { useLocation } from 'react-router-dom';
-import { getHosp, getOrg } from '../Service/commonService';
+import { getAppointMentByHospital, getHosp, getOrg } from '../Service/commonService';
 import Soon from './Soon'
 import AgencyList from './AgencyList';
+import AppointMentList from './AppointMentList';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -88,6 +89,8 @@ function HospitalDashboard(props) {
   const [openUpdateInfo,setOpenUpdateInfo] = React.useState(false);
   const [changePassword,setchangePassword] = React.useState(false);//handleChangePassword
   const [openAgencyList, setOpenAgencyList] = React.useState(false);
+  const [openAppointmentList, setOpenAppointmentList] = React.useState(false);
+  const [appList, setAppList] = React.useState([])
 //   const [orgDetails,setOrgDetails] = React.useState({});
   const [name, setName] = useState('');
 
@@ -128,6 +131,18 @@ function HospitalDashboard(props) {
     setchangePassword(false);
 
    }
+
+   const handleProcessAppointment = async() =>{
+     const response = await  getAppointMentByHospital(emailOP,false);
+     console.log(response);
+     setOpenAgencyList(false)
+     setOpenUpdateInfo(false)
+     setchangePassword(false); 
+     setOpenAppointmentList(true);
+     if(response!=null){
+      setAppList(response)
+     }
+   }
   return (
     <div className={classes.root}>
       <Drawer
@@ -146,6 +161,10 @@ function HospitalDashboard(props) {
                <ListItemIcon className={classes.icon}><AddIcon /></ListItemIcon>
                <ListItemText primary="Affiliate With Agency" />
              </ListItem>
+             <ListItem button className={classes.listItem}  onClick={handleProcessAppointment}>
+               <ListItemIcon className={classes.icon}><AddIcon /></ListItemIcon>
+               <ListItemText primary="Process AppointMents" />
+             </ListItem>
              <ListItem button className={classes.listItem}  onClick={handleOrgInfoUpdate}>
                <ListItemIcon className={classes.icon}><UpdateIcon /></ListItemIcon>
                <ListItemText  primary="Update Info" />
@@ -159,7 +178,8 @@ function HospitalDashboard(props) {
       <main className={classes.content}>
        {openUpdateInfo?  <InfoUpdate type="hospital" nameChange ={handleNameChange}  email={emailOP}/> 
        :changePassword? <ChangePassword type="hospital" email={emailOP}/>
-       :openAgencyList? <AgencyList orgEmail={emailOP} type="hospital"></AgencyList>: <>OKKK</>}
+       :openAgencyList? <AgencyList orgEmail={emailOP} type="hospital"></AgencyList>
+       :openAppointmentList?<AppointMentList data=  {emailOP}></AppointMentList>:<>OKKK</>}
         {/* Your main content goes here */}
        
       </main>
