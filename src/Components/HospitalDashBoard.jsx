@@ -16,6 +16,8 @@ import Soon from './Soon'
 import AgencyList from './AgencyList';
 import AppointMentList from './AppointMentList';
 import ProcessReport from './ProcessReport';
+import HomeIcon from '@material-ui/icons/Home';
+import HospitalHome from './HospitalHome';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -172,6 +174,14 @@ function HospitalDashboard(props) {
       setAppList(response)
      }
    }
+
+const handleHomeView = ()=>{
+  setOpenAgencyList(false)
+  setOpenUpdateInfo(false)
+  setchangePassword(false); 
+  setOpenAppointmentList(false);
+setOpenApprovedAppointMents(false);
+}   
   return (
     <div className={classes.root}>
       <Drawer
@@ -182,8 +192,12 @@ function HospitalDashboard(props) {
         }}
       >
                 <List>
-                <ListItem className={classes.info}>
+                {/* <ListItem className={classes.info}>
                <ListItemText primary={`Welcome ${name}`} onNameChange={handleNameChange}/>
+             </ListItem> */}
+             <ListItem button className={classes.listItem} onClick={handleHomeView}>
+               <ListItemIcon className={classes.icon}><HomeIcon /></ListItemIcon>
+               <ListItemText primary="Home" />
              </ListItem>
              <Divider style={{ backgroundColor: 'white' }} />
              <ListItem button className={classes.listItem}  onClick={handelAllAgency}>
@@ -214,7 +228,7 @@ function HospitalDashboard(props) {
        :openAgencyList? <AgencyList orgEmail={emailOP} type="hospital"></AgencyList>
        :openApprovedAppointMents?<ProcessReport hospEmail={emailOP}></ProcessReport>
        :openAppointmentList?<AppointMentList data=  {emailOP}></AppointMentList>
-      :<>OKKK</>}
+      :<HospitalHome hospEmail={emailOP}></HospitalHome>}
         {/* Your main content goes here */}
        
       </main>
