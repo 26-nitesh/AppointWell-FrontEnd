@@ -14,6 +14,9 @@ import { useLocation } from 'react-router-dom';
 import { getAgency, getHosp, getOrg } from '../Service/commonService';
 import Soon from './Soon'
 import ClaimDetails from './ClaimDetails';
+import AgencyHome from './AgencyHome';
+import HomeIcon from '@material-ui/icons/Home';
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -129,6 +132,11 @@ function AgencyDashBoard(props) {
     setOpenUpdateInfo(false)
     setchangePassword(false);
   }
+  const handleHomeView = () =>{
+    setOpenClaimInfo(false);
+    setOpenUpdateInfo(false)
+    setchangePassword(false);
+  }
   return (
     <div className={classes.root}>
       <Drawer
@@ -139,8 +147,12 @@ function AgencyDashBoard(props) {
         }}
       >
                 <List>
-                <ListItem className={classes.info}>
+                {/* <ListItem className={classes.info}>
                <ListItemText primary={`Welcome ${name}`} onNameChange={handleNameChange}/>
+             </ListItem> */}
+             <ListItem button className={classes.listItem} onClick={handleHomeView}>
+               <ListItemIcon className={classes.icon}><HomeIcon /></ListItemIcon>
+               <ListItemText primary="Home" />
              </ListItem>
              <Divider style={{ backgroundColor: 'white' }} />
              {/* <ListItem button className={classes.listItem}>
@@ -165,7 +177,7 @@ function AgencyDashBoard(props) {
        {openUpdateInfo?  <InfoUpdate type="agency" nameChange ={handleNameChange}  email={emailOP}/> 
        :changePassword? <ChangePassword type="agency" email={emailOP}/>
        :openClaimInfo? <ClaimDetails agencyEmail = {emailOP}></ClaimDetails>
-       :<>OKKK</>}
+       :<AgencyHome agencyEmail = {emailOP}></AgencyHome>}
         {/* Your main content goes here */}
        
       </main>
