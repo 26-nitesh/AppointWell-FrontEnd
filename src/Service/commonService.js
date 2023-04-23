@@ -4,12 +4,12 @@ const RESPONSE = {
   status: '',
   message:'',
 };
-const BASE_URI_COMPANY = 'http://localhost:9596/organisation/api';
-const BASE_URI_EMPLOYEE = 'http://localhost:9595/employee/api';
-const BASE_URI_INSURANCE_AGENCY = 'http://localhost:9599/agency/api';
-const BASE_URI_HOSPITAL = 'http://localhost:9600/hospital/api';
-const BASE_URI_APPOINTMENT = 'http://localhost:9598/appointment/api';
-
+export const BASE_URI_COMPANY = 'http://localhost:9596/organisation/api';
+export const BASE_URI_EMPLOYEE = 'http://localhost:9595/employee/api';
+export const BASE_URI_INSURANCE_AGENCY = 'http://localhost:9599/agency/api';
+export const BASE_URI_HOSPITAL = 'http://localhost:9600/hospital/api';
+export const BASE_URI_APPOINTMENT = 'http://localhost:9598/appointment/api';
+export const BASE_URI_REPORT = "http://localhost:9601/report/api";
 
 export const addNewEmployee = async (values,orgemail)=>{
     try {

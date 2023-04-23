@@ -3,6 +3,7 @@ import { Button, ButtonBase, Dialog, DialogActions, DialogTitle, Paper, Table, T
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useState } from "react";
 import { getAppointMentByHospital, updateAppointmnet } from "../Service/commonService";
+import ProcessReport from "./ProcessReport";
 
 const useStyles = makeStyles({
     table: {
@@ -177,7 +178,7 @@ const handleStatusChange = (event) => {
                 </TableCell>
               </TableRow>
               {createReportForSelectedEmployee === appointment.employeeEmail && <Dialog open={openReportDialog} onClose={handleDialogClose}>
-                     Create Report here
+             <ProcessReport data = {appointment}></ProcessReport>
               </Dialog>}
 
               {selectedEmp=== appointment.employeeEmail && <Dialog open={openDialog} onClose={handleDialogClose}>
