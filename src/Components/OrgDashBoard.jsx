@@ -14,6 +14,7 @@ import { getOrg } from '../Service/commonService';
 import InfoUpdate from './InfoUpdate';
 import OrgHome from './OrgHome';
 import AgencyList from './AgencyList';
+import HomeIcon from '@material-ui/icons/Home';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -148,6 +149,12 @@ const [openAgencyList, setOpenAgencyList] = React.useState(false);
 
   }
   
+  const handleHomeView = () =>{
+    setOpenAgencyList(false)
+    setAddEmp(false)
+    setOpenUpdateInfo(false)
+    setchangePassword(false);
+  }
   return (
     <div className={classes.root}>
       <Drawer
@@ -158,19 +165,14 @@ const [openAgencyList, setOpenAgencyList] = React.useState(false);
         }}
       >
                 <List>
-                <a href='#' onClick={handleButtonClick}>
+                {/* <a href='#' onClick={handleButtonClick}>
                 <ListItem className={classes.info}>
               <ListItemText primary={`Welcome ${name}`} onNameChange={handleNameChange} style={{ fontWeight: 'bold', textDecoration: 'none' }}/>
-             </ListItem></a>
-             {/* <ListItem className={classes.info}>
-  <a href="#" onClick={handleButtonClick} style={{ textDecoration: 'none' }}>
-    <ListItemText
-      primary={`Welcome ${name}`}
-      onNameChange={handleNameChange}
-      style={{ fontWeight: 'bold', color: 'white' }}
-    />
-  </a>
-</ListItem> */}
+             </ListItem></a> */}
+             <ListItem button className={classes.listItem} onClick={handleHomeView}>
+               <ListItemIcon className={classes.icon}><HomeIcon /></ListItemIcon>
+               <ListItemText primary="Home" />
+             </ListItem>
              <Divider style={{ backgroundColor: 'white' }} />
              <ListItem button className={classes.listItem} onClick={handleAddEmployee}>
                <ListItemIcon className={classes.icon}><AddIcon /></ListItemIcon>
@@ -204,7 +206,7 @@ const [openAgencyList, setOpenAgencyList] = React.useState(false);
                     :openUpdateInfo? <InfoUpdate type="organisation" nameChange ={handleNameChange}  email={emailOP}/> 
                     :changePassword? <ChangePassword type="organisation" email={emailOP}/>
                     :openAgencyList? <AgencyList orgEmail={emailOP} type= "org"></AgencyList>
-                    : <OrgHome></OrgHome>}
+                    : <OrgHome orgEmail = {emailOP}></OrgHome>}
        
       </main>
     </div>

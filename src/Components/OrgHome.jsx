@@ -1,5 +1,6 @@
 
-
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import HomeIcon from '@material-ui/icons/Home';
 import ReviewIcon from '@mui/icons-material/RateReview';
 import React from 'react';
 import Card from '@mui/material/Card';
@@ -12,6 +13,8 @@ import { Button } from '@mui/material';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import { LinkOff } from '@mui/icons-material';
+import { getAgency, getEmp, getOrg } from '../Service/commonService';
+import TableViewIcon from '@mui/icons-material/TableView';
 // import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles({
@@ -30,16 +33,25 @@ const useStyles = makeStyles({
   },
 });
 
-const OrgHome = () => {
+const OrgHome = (props) => {
   const classes = useStyles();
   const hour = new Date().getHours();
+  const [orgDetails , setOrgDetails] = React.useState('')
   const welcomeMessage = `Good ${hour < 12 ? 'morning' : 'evening'}`;
 
-
+  React.useEffect(()=>{
+    async function fetchData() {
+      const response = await getOrg(props.orgEmail)
+      setOrgDetails(response.data.data);
+    //   console.log(response.data.data);
+    }
+    fetchData();
+  }, [props.agencyEmail]);
+//   welcomeMessage = welcomeMessage+' '+name;
   return (
    <>
      <Typography variant="h4">
-        {welcomeMessage}
+        {welcomeMessage +',    '+ orgDetails.organisationName}
       </Typography>
       <Typography variant="caption" component="h3" style={{ marginBottom: '24px' }}  color="textSecondary">
             Thank you for choosing us.  New to the system ?
@@ -63,19 +75,32 @@ const OrgHome = () => {
       </Card>
       <Card className={`${classes.card}`} style={{backgroundColor: "#f6fff2"}}>
         <CardHeader
-          title="Example Card"
-          subheader="April 21, 2023"
+          title="View Appointmnets" variant="body2" color="text.secondary"
+        //   subheader="April 21, 2023"
         />
         <CardContent>
-          <Typography variant="body2" color="text.secondary">
-            This is a sample card created with React and Material-UI.
-          </Typography>
-          <Button variant="contained" onClick={() => console.log("Button clicked!")}>
-            Click here to continue
+        <TableViewIcon fontSize="large" color="primary" />
+          <Button variant="text" style={{textTransform:'none'}} onClick={() => console.log("Button clicked!")}>
+            Click here to see
           </Button>
         </CardContent>
       </Card>
       <Card className={`${classes.card}`} style={{backgroundColor: "#f6fff2"}}>
+        <CardHeader
+          title="Profile"
+        //   subheader="April 22, 2023"
+        />
+        <CardContent>
+          {/* <Typography variant="body2" color="text.secondary">
+            This is another sample card.
+          </Typography> */}
+          <AccountBoxIcon fontSize="large" color="primary" />
+          <Button variant="text" style={{textTransform:'none'}} onClick={() => console.log("Button clicked!")}>
+            Click here to see
+          </Button>
+        </CardContent>
+      </Card>
+      {/* <Card className={`${classes.card}`} style={{backgroundColor: "#f6fff2"}}>
         <CardHeader
           title="Another Card"
           subheader="April 22, 2023"
@@ -88,21 +113,7 @@ const OrgHome = () => {
             Click here to continue
           </Button>
         </CardContent>
-      </Card>
-      <Card className={`${classes.card}`} style={{backgroundColor: "#f6fff2"}}>
-        <CardHeader
-          title="Another Card"
-          subheader="April 22, 2023"
-        />
-        <CardContent>
-          <Typography variant="body2" color="text.secondary">
-            This is another sample card.
-          </Typography>
-          <Button variant="contained" onClick={() => console.log("Button clicked!")}>
-            Click here to continue
-          </Button>
-        </CardContent>
-      </Card>
+      </Card> */}
     </div>
    </>
   );
