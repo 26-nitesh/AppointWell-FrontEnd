@@ -33,6 +33,7 @@ export const getOrg = async (values)=>{
 export const getEmp = async (values)=>{
   try{
   let  uri = BASE_URI_EMPLOYEE+'/'+values;
+  // console.log(uri);
  return   await axios.get(uri);
   }catch(error){
     
