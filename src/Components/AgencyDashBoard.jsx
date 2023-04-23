@@ -13,6 +13,7 @@ import ChangePassword from './ChangePassword';
 import { useLocation } from 'react-router-dom';
 import { getAgency, getHosp, getOrg } from '../Service/commonService';
 import Soon from './Soon'
+import ClaimDetails from './ClaimDetails';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -85,6 +86,7 @@ function AgencyDashBoard(props) {
   const location = useLocation();
   const emailOP = location.state.email;
   const [openUpdateInfo,setOpenUpdateInfo] = React.useState(false);
+  const [openClaimInfo,setOpenClaimInfo] = React.useState(false);
   const [changePassword,setchangePassword] = React.useState(false);//handleChangePassword
 //   const [orgDetails,setOrgDetails] = React.useState({});
   const [name, setName] = useState('');
@@ -122,6 +124,11 @@ function AgencyDashBoard(props) {
     setOpenUpdateInfo(false)
     setchangePassword(true);
   }
+  const handleClaim = () =>{
+    setOpenClaimInfo(true);
+    setOpenUpdateInfo(false)
+    setchangePassword(false);
+  }
   return (
     <div className={classes.root}>
       <Drawer
@@ -140,6 +147,10 @@ function AgencyDashBoard(props) {
                <ListItemIcon className={classes.icon}><AddIcon /></ListItemIcon>
                <ListItemText primary="Book Appointment" />
              </ListItem> */}
+             <ListItem button className={classes.listItem}  onClick={handleClaim}>
+               <ListItemIcon className={classes.icon}><UpdateIcon /></ListItemIcon>
+               <ListItemText  primary="Manage Cliams" />
+             </ListItem>
              <ListItem button className={classes.listItem}  onClick={handleOrgInfoUpdate}>
                <ListItemIcon className={classes.icon}><UpdateIcon /></ListItemIcon>
                <ListItemText  primary="Update Info" />
@@ -151,7 +162,10 @@ function AgencyDashBoard(props) {
            </List>
       </Drawer>
       <main className={classes.content}>
-       {openUpdateInfo?  <InfoUpdate type="agency" nameChange ={handleNameChange}  email={emailOP}/> :changePassword? <ChangePassword type="agency" email={emailOP}/>: <>OKKK</>}
+       {openUpdateInfo?  <InfoUpdate type="agency" nameChange ={handleNameChange}  email={emailOP}/> 
+       :changePassword? <ChangePassword type="agency" email={emailOP}/>
+       :openClaimInfo? <ClaimDetails agencyEmail = {emailOP}></ClaimDetails>
+       :<>OKKK</>}
         {/* Your main content goes here */}
        
       </main>
