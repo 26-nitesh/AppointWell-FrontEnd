@@ -264,3 +264,15 @@ export const   updateAppointmnet = async(empEmail,hospEmail,archived,verified,st
 // }
 
 
+export const addAgecy = async(hospEmail,agencyEmail) =>{
+  try{
+    //http://localhost:9600/hospital/api/add-agency?hospEmail=string1&agencyEmail=rrrr
+const response = await axios.get(BASE_URI_HOSPITAL+'/add-agency?hospEmail='+hospEmail+'&agencyEmail='+agencyEmail);
+console.log(response);
+return response;
+  }catch(err){
+
+  }
+}
+
+

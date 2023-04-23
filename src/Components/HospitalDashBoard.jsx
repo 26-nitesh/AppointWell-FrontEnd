@@ -15,6 +15,7 @@ import { getAppointMentByHospital, getHosp, getOrg } from '../Service/commonServ
 import Soon from './Soon'
 import AgencyList from './AgencyList';
 import AppointMentList from './AppointMentList';
+import ProcessReport from './ProcessReport';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -89,7 +90,8 @@ function HospitalDashboard(props) {
   const [openUpdateInfo,setOpenUpdateInfo] = React.useState(false);
   const [changePassword,setchangePassword] = React.useState(false);//handleChangePassword
   const [openAgencyList, setOpenAgencyList] = React.useState(false);
-  const [openAppointmentList, setOpenAppointmentList] = React.useState(false);
+  const [openAppointmentList, setOpenAppointmentList] = React.useState(false);//
+  const [openApprovedAppointMents,  setOpenApprovedAppointMents] = React.useState(false)
   const [appList, setAppList] = React.useState([])
 //   const [orgDetails,setOrgDetails] = React.useState({});
   const [name, setName] = useState('');
@@ -120,25 +122,52 @@ function HospitalDashboard(props) {
   const handleOrgInfoUpdate = () =>{
     setOpenUpdateInfo(true)
     setchangePassword(false);
+    // setOpenApprovedAppointMents(false);
+    setOpenApprovedAppointMents(false);
+    setOpenAgencyList(false)
+    setOpenAppointmentList(false);
   }
   const handleChangePassword = () =>{
     setOpenUpdateInfo(false)
     setchangePassword(true);
+    setOpenApprovedAppointMents(false);
+    setOpenAgencyList(false)
+    setOpenAppointmentList(false);
+
   }
   const handelAllAgency = () =>{
     setOpenAgencyList(true)
     setOpenUpdateInfo(false)
     setchangePassword(false);
-
+    setOpenApprovedAppointMents(false);
+    setOpenAppointmentList(false);
    }
 
+ const handelCreateReport = () =>{
+  console.log("onclick happenning");
+  setOpenApprovedAppointMents(true);
+  console.log(openApprovedAppointMents);
+  setOpenAgencyList(false)
+  setOpenUpdateInfo(false)
+  setchangePassword(false); 
+  setOpenAppointmentList(false);
+
+ }  
    const handleProcessAppointment = async() =>{
+    setOpenAgencyList(false)
+    setOpenUpdateInfo(false)
+    setchangePassword(false); 
+    setOpenAppointmentList(true);
+ setOpenApprovedAppointMents(false);
+
      const response = await  getAppointMentByHospital(emailOP,false);
      console.log(response);
-     setOpenAgencyList(false)
-     setOpenUpdateInfo(false)
-     setchangePassword(false); 
-     setOpenAppointmentList(true);
+  //    setOpenAgencyList(false)
+  //    setOpenUpdateInfo(false)
+  //    setchangePassword(false); 
+  //    setOpenAppointmentList(true);
+  // setOpenApprovedAppointMents(false);
+
      if(response!=null){
       setAppList(response)
      }
@@ -163,8 +192,12 @@ function HospitalDashboard(props) {
              </ListItem>
              <ListItem button className={classes.listItem}  onClick={handleProcessAppointment}>
                <ListItemIcon className={classes.icon}><AddIcon /></ListItemIcon>
-               <ListItemText primary="Process AppointMents" />
+               <ListItemText primary="Process Appointments" />
              </ListItem>
+             {/* <ListItem button className={classes.listItem}  onClick={handelCreateReport}>
+               <ListItemIcon className={classes.icon}><AddIcon /></ListItemIcon>
+               <ListItemText primary="Create Report" />
+             </ListItem> */}
              <ListItem button className={classes.listItem}  onClick={handleOrgInfoUpdate}>
                <ListItemIcon className={classes.icon}><UpdateIcon /></ListItemIcon>
                <ListItemText  primary="Update Info" />
@@ -179,7 +212,9 @@ function HospitalDashboard(props) {
        {openUpdateInfo?  <InfoUpdate type="hospital" nameChange ={handleNameChange}  email={emailOP}/> 
        :changePassword? <ChangePassword type="hospital" email={emailOP}/>
        :openAgencyList? <AgencyList orgEmail={emailOP} type="hospital"></AgencyList>
-       :openAppointmentList?<AppointMentList data=  {emailOP}></AppointMentList>:<>OKKK</>}
+       :openApprovedAppointMents?<ProcessReport hospEmail={emailOP}></ProcessReport>
+       :openAppointmentList?<AppointMentList data=  {emailOP}></AppointMentList>
+      :<>OKKK</>}
         {/* Your main content goes here */}
        
       </main>

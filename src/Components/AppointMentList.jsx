@@ -6,7 +6,7 @@ import { getAppointMentByHospital, updateAppointmnet } from "../Service/commonSe
 
 const useStyles = makeStyles({
     table: {
-        minWidth: 750,
+        minWidth: 900,
         '& tbody tr:hover': {
           backgroundColor: '#f6fff2',
         },
@@ -14,7 +14,7 @@ const useStyles = makeStyles({
       tableHead: {
         backgroundColor: '#f6fff2',
         fontWeight: 'bold',
-        fontSize: '24px',
+        fontSize: '18px',
       },
       listContainer: {
         display: 'flex',
@@ -25,8 +25,8 @@ const useStyles = makeStyles({
       },
       listTitle: {
         fontWeight: 'bold',
-        fontSize: '32px',
-        marginBottom: '20px',
+        // fontSize: '32px',
+        // marginBottom: '20px',
       },
      
 });
@@ -35,6 +35,7 @@ const useStyles = makeStyles({
 const AppointMentList = (props) =>{
     const classes = useStyles();
     const [openDialog, setopenDialog] = useState(false)
+    const [openReportDialog, setOpenReportDialog] = useState(false)//setOpenReportDialog
    const[selectedEmp, setSelectedEmp]= useState(null);//setSelectedEmpForReject
    const[selectedEmpForReject, setSelectedEmpForReject]= useState(null)
     // console.log(props.data);
@@ -44,6 +45,7 @@ const AppointMentList = (props) =>{
     const [inactive,setInactive] = React.useState(false);
     const [enteredStatus, SetEnteredStatus] = useState(null);
     const [enteredRemarks, SetEnteredRemarks] = useState(null);
+    const [createReportForSelectedEmployee, setCreateReportForSelectedEmployee] = useState(null);//createReportForSelectedEmployee
     const [OpenDialogForReject,SetOpenDialogForReject] = useState(false);
     const[selectedEmpNew, setSelectedEmpNew]= useState(null);
     React.useEffect(()=>{
@@ -100,7 +102,11 @@ const AppointMentList = (props) =>{
     setInactive(true)
     setopenDialog(false)
     SetOpenDialogForReject(false)
-    
+    setOpenReportDialog(false);
+}
+const handleCreateReport = (empEmail) =>{
+  setOpenReportDialog(true);
+  setCreateReportForSelectedEmployee(empEmail);
 }
    
 const handleStatusChange = (event) => {
@@ -121,15 +127,15 @@ const handleStatusChange = (event) => {
           List of Appointments
         </Typography>
       </div>
-      <TableContainer component={Paper} style={{ marginTop: '30px', width: '80%' ,margin: 'auto' }}>
+      <TableContainer component={Paper} style={{ marginTop: '30px', width: '100%' ,margin: 'auto' }}>
         <Table className={classes.table}>
           <TableHead>
             <TableRow className={classes.tableHead}>
-              <TableCell sx={{ fontWeight: 'bold' ,fontSize: '20px' }}>Employee Email</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' ,fontSize: '20px' }}>Date Of AppointMent</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' ,fontSize: '20px' }}>Applied Date</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' ,fontSize: '20px' }}>Status</TableCell>
-              <TableCell></TableCell>    <TableCell></TableCell> <TableCell></TableCell>
+              <TableCell sx={{ fontWeight: 'bold' ,fontSize: '15px' }}>Employee Email</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' ,fontSize: '15px' }}>Date Of AppointMent</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' ,fontSize: '15px' }}>Applied Date</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' ,fontSize: '15px' }}>Status</TableCell>
+              <TableCell></TableCell>    <TableCell></TableCell> <TableCell></TableCell><TableCell></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -153,28 +159,30 @@ const handleStatusChange = (event) => {
                style={{textTransform:'none',color:'red'}} 
                 onClick={() => handleOpenDialogForReject(appointment.employeeEmail)}//rejectAppointMent
                 >
-                reject</Button></TableCell>
+                reject</Button>
+                </TableCell>
 
                 <TableCell style={{  fontSize: '15px' }}><Button variant="text"
                 disabled={appointment.status === 'rejected' && selectedEmpNew===appointment.employeeEmail}
                style={{textTransform:'none'}} 
                 onClick={() => handleOpenDialog(appointment.employeeEmail)}
                 >
-                update</Button></TableCell>
+                update</Button>
+                </TableCell>
+                <TableCell style={{  fontSize: '15px' }}><Button variant="contained"
+                disabled={!(appointment.status === 'appointment approved')}
+                onClick={() => handleCreateReport(appointment.employeeEmail)}
+                >
+                create report</Button>
+                </TableCell>
               </TableRow>
+              {createReportForSelectedEmployee === appointment.employeeEmail && <Dialog open={openReportDialog} onClose={handleDialogClose}>
+                     Create Report here
+              </Dialog>}
+
               {selectedEmp=== appointment.employeeEmail && <Dialog open={openDialog} onClose={handleDialogClose}>
            <DialogTitle>Update remarks</DialogTitle>
-        {/* <DialogContent> */}
           <div style={{margin: 'auto'}}>
-          {/* <TextField
-  label="status"
-  value={enteredStatus}
-  onChange={handleStatusChange}
-  InputLabelProps={{
-    shrink: true,
-  }}
-  style={{padding:'5px' }} // Add this style property
-/><br/><br/> */}
 <TextField
   label="remarks"
   value={enteredRemarks}
@@ -185,7 +193,6 @@ const handleStatusChange = (event) => {
   style={{padding:'5px' }} // Add this style property
 />
           </div>
-        {/* </DialogContent> */}
         <DialogActions>
           <Button onClick={handleDialogClose} >Cancel</Button>
           <Button onClick={handleUpdateRemarks}>Confirm</Button>
@@ -196,15 +203,6 @@ const handleStatusChange = (event) => {
            <DialogTitle>Update remarks</DialogTitle>
         {/* <DialogContent> */}
           <div style={{margin: 'auto'}}>
-          {/* <TextField
-  label="status"
-  value={enteredStatus}
-  onChange={handleStatusChange}
-  InputLabelProps={{
-    shrink: true,
-  }}
-  style={{padding:'5px' }} // Add this style property
-/><br/><br/> */}
 <TextField
   label="remarks"
   value={enteredRemarks}
