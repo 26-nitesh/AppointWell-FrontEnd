@@ -1,5 +1,5 @@
-import axios from "axios"
-import { BASE_URI_REPORT } from "./commonService"
+import axios, { Axios } from "axios"
+import { BASE_URI_APPOINTMENT, BASE_URI_REPORT } from "./commonService"
 
 export const  createNewReport = async (values) =>{
 
@@ -19,3 +19,12 @@ return report;
   return err.response;
     }
 }
+export const updateAppointmnetByStatus = async(appintmentId,status)=>{//
+ await axios.get(BASE_URI_APPOINTMENT+`/updateAppointmnet/${appintmentId}?status=${status}`)
+}
+export const  updateClaimAmount = async(enteredAmount,appId)=>{
+  let status='claim submitted'
+  // await Axios.get
+  const response = await axios.get(BASE_URI_APPOINTMENT+`/updateAppointmnet/${appId}?status=${status}&amount=${parseFloat(enteredAmount)}`)
+  console.log(response.data.HttpStatus);
+};

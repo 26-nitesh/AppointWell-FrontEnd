@@ -1,7 +1,7 @@
 import { TableHead } from "@material-ui/core";
 import { Button, ButtonBase, Dialog, DialogActions, DialogContent, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableRow, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
-import { getAppointMentByHospital } from "../Service/commonService";
+import { getAppointMentByHospital, updateAppointmnet } from "../Service/commonService";
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { makeStyles } from '@material-ui/core/styles';
@@ -13,7 +13,7 @@ import {
   Link,
 } from '@material-ui/core';
 import { Alert, AlertTitle, FormHelperText } from '@mui/material';
-import { createNewReport, updateReport } from "../Service/reportService";
+import { createNewReport, updateAppointmnetByStatus, updateReport } from "../Service/reportService";
 import ConfirmationDialog from "./ConfirmationDialog";
 
 const useStyles = makeStyles((theme) => ({
@@ -71,7 +71,7 @@ const handleUpdateAppointment = async() =>{
 }
   const reportValidation = yup.object({
     appointmentId: yup.number().required("required !!"),
-    reportDetails: yup.string().required("required !!"),
+    reportDetails: yup.string(),
     appointmentDate: yup.date(),
     remarks: yup.string(),
   })
@@ -91,9 +91,12 @@ const handleUpdateAppointment = async() =>{
          if(report.data.HttpStatus===201){
           // alert('report created sucessfully');
           setSucessMessage('report created');
+          reportFormik.resetForm();
+        const res =  await updateAppointmnetByStatus(props.data.appintmentId,'report submitted');
          }else if(report.data.HttpStatus===409){
           handleConfirmDialog();
           setDataToUpdate(values);
+          reportFormik.resetForm();
           // confirm('Report Already Found for this appointment. Click OK to confirm if You want it to override');
         //  const response = await updateExistingReport(values);
          }

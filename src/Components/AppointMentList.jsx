@@ -4,10 +4,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import React, { useState } from "react";
 import { getAppointMentByHospital, updateAppointmnet } from "../Service/commonService";
 import ProcessReport from "./ProcessReport";
+import { updateClaimAmount } from "../Service/reportService";
 
 const useStyles = makeStyles({
     table: {
-        minWidth: 900,
+        // minWidth: 900,
+        
         '& tbody tr:hover': {
           backgroundColor: '#f6fff2',
         },
@@ -37,6 +39,7 @@ const AppointMentList = (props) =>{
     const classes = useStyles();
     const [openDialog, setopenDialog] = useState(false)
     const [openReportDialog, setOpenReportDialog] = useState(false)//setOpenReportDialog
+    const [openClaimDialog, setOpenClaimDialog] = useState(false)
    const[selectedEmp, setSelectedEmp]= useState(null);//setSelectedEmpForReject
    const[selectedEmpForReject, setSelectedEmpForReject]= useState(null)
     // console.log(props.data);
@@ -49,6 +52,9 @@ const AppointMentList = (props) =>{
     const [createReportForSelectedEmployee, setCreateReportForSelectedEmployee] = useState(null);//createReportForSelectedEmployee
     const [OpenDialogForReject,SetOpenDialogForReject] = useState(false);
     const[selectedEmpNew, setSelectedEmpNew]= useState(null);
+    const[selectedEmpForClaim, setSelectedEmpForClaim]= useState(null);
+    const[enteredAmount, setEnteredAmount]= useState(null);//enteredAmount
+    const[appIdForClaim,setAppIdForClaim] = useState(null);
     React.useEffect(()=>{
         async function fetchData() {
           const response = await  getAppointMentByHospital(props.data,false);
@@ -60,6 +66,15 @@ const AppointMentList = (props) =>{
         }
         fetchData();
       }, [reload]);
+
+      const handleCreateClaim = async(empEmail,appId) =>{
+        console.log(empEmail);
+        console.log(appId);
+        setAppIdForClaim(appId);
+        setSelectedEmpForClaim(empEmail)
+        setOpenClaimDialog(true)
+        setReload(true)
+      }
     const approveAppointment = async(empEmail) =>{//
       setSelectedEmpNew(empEmail)
    const updated =  await updateAppointmnet(empEmail,props.data,false,true,'appointment approved','valid');
@@ -104,6 +119,7 @@ const AppointMentList = (props) =>{
     setopenDialog(false)
     SetOpenDialogForReject(false)
     setOpenReportDialog(false);
+    setOpenClaimDialog(false)
 }
 const handleCreateReport = (empEmail) =>{
   setOpenReportDialog(true);
@@ -120,7 +136,16 @@ const handleStatusChange = (event) => {
     setReload(true)
   };
 
+const handleClaimAmount = (event) =>{
+  setEnteredAmount(event.target.value)
+  setReload(true)
+}
 
+const handleClaimSubmit = async() =>{
+const res = await updateClaimAmount(enteredAmount,appIdForClaim);
+setOpenClaimDialog(false);
+setReload(true)
+}
     return(
         <>
             <div className={classes.listContainer}>
@@ -136,27 +161,27 @@ const handleStatusChange = (event) => {
               <TableCell sx={{ fontWeight: 'bold' ,fontSize: '15px' }}>Date Of AppointMent</TableCell>
               <TableCell sx={{ fontWeight: 'bold' ,fontSize: '15px' }}>Applied Date</TableCell>
               <TableCell sx={{ fontWeight: 'bold' ,fontSize: '15px' }}>Status</TableCell>
-              <TableCell></TableCell>    <TableCell></TableCell> <TableCell></TableCell><TableCell></TableCell>
+              <TableCell></TableCell>    <TableCell></TableCell> <TableCell></TableCell><TableCell></TableCell><TableCell></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
           {appList.map((appointment)=>(
         <>
-        <TableRow key={appointment.appointmentId}>
-                <TableCell style={{ fontWeight: 'bold', fontSize: '15px' }}><Button variant="text"  sx={{ textTransform: 'none' }}>{appointment.employeeEmail}</Button></TableCell>
+        <TableRow key={appointment.appintmentId} style={{height:'5px', whiteSpace: 'nowrap'}}>
+                <TableCell style={{ fontWeight: 'bold', fontSize: '15px'}}><Button variant="text"  sx={{ textTransform: 'none' }}>{appointment.employeeEmail}</Button></TableCell>
                 <TableCell style={{  fontSize: '15px' }}>{appointment.appointmentDate}</TableCell>
-                <TableCell style={{ fontSize: '15px' }}>{appointment.bookingDate}</TableCell>
-                <TableCell style={{  fontSize: '15px' }}>{appointment.status}</TableCell>
+                <TableCell style={{ fontSize: '15px'}}>{appointment.bookingDate}</TableCell>
+                <TableCell style={{  fontSize: '15px'}}>{appointment.status}</TableCell>
               <TableCell>   <Button
           variant="text"
-          disabled={appointment.status === 'appointment approved'|| (appointment.status === 'appointment approved' || appointment.status === 'rejected' ||inactive ) && selectedEmpNew===appointment.employeeEmail}
+          disabled={appointment.status==='claim submitted'||appointment.status === 'report submitted'||appointment.status === 'appointment approved'|| (appointment.status === 'appointment approved' || appointment.status === 'rejected' ||inactive ) && selectedEmpNew===appointment.employeeEmail}
           style={{ textTransform: 'none' }}
           onClick={() => approveAppointment(appointment.employeeEmail)}
         >
           approve
         </Button></TableCell>
               <TableCell style={{  fontSize: '15px' }}><Button variant="text"
-                disabled={appointment.status === 'appointment approved' || (appointment.status === 'appointment approved' || appointment.status === 'rejected' || inactive) && selectedEmpNew===appointment.employeeEmail}
+                disabled={appointment.status==='claim submitted'||appointment.status === 'report submitted'|| appointment.status === 'appointment approved' || (appointment.status === 'appointment approved' || appointment.status === 'rejected' || inactive) && selectedEmpNew===appointment.employeeEmail}
                style={{textTransform:'none',color:'red'}} 
                 onClick={() => handleOpenDialogForReject(appointment.employeeEmail)}//rejectAppointMent
                 >
@@ -164,19 +189,53 @@ const handleStatusChange = (event) => {
                 </TableCell>
 
                 <TableCell style={{  fontSize: '15px' }}><Button variant="text"
-                disabled={appointment.status === 'rejected' && selectedEmpNew===appointment.employeeEmail}
+                disabled={appointment.status==='claim submitted'||appointment.status === 'report submitted' || appointment.status === 'rejected' && selectedEmpNew===appointment.employeeEmail}
                style={{textTransform:'none'}} 
                 onClick={() => handleOpenDialog(appointment.employeeEmail)}
                 >
                 update</Button>
                 </TableCell>
                 <TableCell style={{  fontSize: '15px' }}><Button variant="contained"
-                disabled={!(appointment.status === 'appointment approved')}
+                // disabled={(appointment.status !== 'appointment approved')}
+                disabled={appointment.status !== 'appointment approved' && appointment.status !== 'report submitted'}
                 onClick={() => handleCreateReport(appointment.employeeEmail)}
-                >
-                create report</Button>
+                style={{textTransform:'none'}}>
+                submit report</Button>
                 </TableCell>
+                <TableCell style={{  fontSize: '15px' }}><Button variant="contained"
+                // disabled={(appointment.status !== 'appointment approved')}
+                // disabled={(appointment.status !== 'report submitted' || appointment.status==='claim submitted') || appointment.status!=='claim submitted'}
+                disabled={appointment.status !== 'report submitted'}
+                onClick={() => handleCreateClaim(appointment.employeeEmail,appointment.appintmentId)}
+                style={{textTransform:'none'}}>
+                Claim</Button>
+                </TableCell>
+                
               </TableRow>
+              {selectedEmpForClaim ===appointment.employeeEmail && <Dialog open={openClaimDialog} onClose={handleDialogClose}>
+              <DialogTitle>Enter Claim Amount</DialogTitle>
+        {/* <DialogContent> */}
+          <div style={{margin: 'auto'}}>
+          <TextField
+  label="Enter Amount"
+  type="number"
+
+  value={enteredAmount}
+  onChange={handleClaimAmount}
+  InputLabelProps={{
+    shrink: true,
+  }}
+  style={{padding:'5px' }} 
+/>
+          </div>
+        {/* </DialogContent> */}
+        <DialogActions>
+          <Button onClick={handleDialogClose} >Cancel</Button>
+          <Button onClick={handleClaimSubmit}>Confirm</Button>
+        </DialogActions>                
+              </Dialog>}
+
+
               {createReportForSelectedEmployee === appointment.employeeEmail && <Dialog open={openReportDialog} onClose={handleDialogClose}>
              <ProcessReport data = {appointment}></ProcessReport>
               </Dialog>}
