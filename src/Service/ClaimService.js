@@ -57,5 +57,9 @@ export const trackClaimRecords = async(hospEmail)=>{
   return response;
 };
 
-
+export const updateRejectStatus = async(appintmentId,remarksValue) =>{
+let status='claim rejected'
+  return await axios.get(BASE_URI_APPOINTMENT+`/updateAppointmnet/${appintmentId}?status=${status}&claimRemarks=${remarksValue}`)
+}
+//http://localhost:9598/appointment/api/updateAppointmnet/2?status=ref&claimRemarks=222
 // approveClaimById(appId)

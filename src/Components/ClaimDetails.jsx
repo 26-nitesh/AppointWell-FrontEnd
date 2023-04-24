@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
-import { getClaimRecords } from "../Service/ClaimService";
-import { Alert, AlertTitle, Button, Dialog, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { getClaimRecords, updateRejectStatus } from "../Service/ClaimService";
+import { Alert, AlertTitle, Button, Dialog, DialogActions, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import { makeStyles } from '@material-ui/core/styles';
 import { FormControl, IconButton, InputLabel, ListItemSecondaryAction, MenuItem, Select } from "@material-ui/core";
 import { updateAppointmnetByStatus } from "../Service/reportService";
@@ -39,6 +39,7 @@ const ClaimDetails = (props) =>{
     const[selectedAppIdForReject, setSelectedAppIdForReject] = useState(null);
     const[selectedAppIdForApprove, setSelectedAppIdForApprove] = useState(null);
     const[openRemarksDialog, setOpenRemarksDialog] = useState(null);
+    const[remarksValue,setRemarksValue] = useState(null)
     const [reload, setReload] = React.useState(false)
     React.useEffect(()=>{
         async function fetchData() {
@@ -62,8 +63,21 @@ const ClaimDetails = (props) =>{
     }
     const handleDialogClose = () =>{
       setOpenRemarksDialog(false)
+      setReload(true)
     }
 
+    const handleRemarksChamge = (event) =>{
+      setRemarksValue(event.target.value)
+    }
+
+    const handleRejectSubmit = async()=>{
+      // console.log(remarksValue);
+      // console.log(selectedAppIdForReject);
+      setReload(false);
+      await updateRejectStatus(selectedAppIdForReject,remarksValue);
+      setReload(true);
+      setOpenRemarksDialog(false);
+    }
     return(
         <>
           <div className={classes.listContainer}>
@@ -129,7 +143,26 @@ const ClaimDetails = (props) =>{
           </Table>
           </TableContainer>
           {selectedAppIdForReject && <Dialog open={openRemarksDialog} onClose={handleDialogClose}>
-               Enter Remarks
+          <DialogTitle>Remarks</DialogTitle>
+        {/* <DialogContent> */}
+          <div style={{margin: 'auto'}}>
+          <TextField
+  label="Remarks"
+  type="text"
+
+  value={remarksValue}
+  onChange={handleRemarksChamge}
+  InputLabelProps={{
+    shrink: true,
+  }}
+  style={{padding:'5px' }} 
+/>
+          </div>
+        {/* </DialogContent> */}
+        <DialogActions>
+          <Button onClick={handleDialogClose} >Cancel</Button>
+          <Button onClick={handleRejectSubmit}>Confirm</Button>
+        </DialogActions>     
           </Dialog>
           }
         </>
