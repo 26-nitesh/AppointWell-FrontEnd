@@ -1,5 +1,5 @@
 import axios from "axios"
-import { BASE_URI_APPOINTMENT, BASE_URI_EMPLOYEE, getOrg } from "./commonService"
+import { BASE_URI_APPOINTMENT, BASE_URI_EMPLOYEE, getEmp, getOrg } from "./commonService"
 
 export const  getClaimRecords = async(agencyEmail)=>{
     let appoitments = [];
@@ -15,7 +15,9 @@ export const  getClaimRecords = async(agencyEmail)=>{
         if(organisation.data.HttpStatus===200){
             // console.log(organisation.data.data.insuranceAgencyEmail);
           if(organisation.data.data.insuranceAgencyEmail===agencyEmail){
-            appoitments.push(app);
+            if(app.status==='claim submitted'||app.status==='claim approved' || app.status ==='claim rejected'){
+              appoitments.push(app);
+            }
             // console.log(app);
           }
         }
@@ -27,3 +29,33 @@ export const  getClaimRecords = async(agencyEmail)=>{
   }
   return appoitments;
 }
+
+
+export const trackClaimRecords = async(hospEmail)=>{
+
+  let response = [];
+
+  const apps  = await axios.get(BASE_URI_APPOINTMENT+'/findAllByHosp/'+hospEmail);
+  // console.log(apps.data.data);
+  if(apps.data.HttpStatus===200){
+    for(let app of apps.data.data){
+        if(app.status==='claim submitted'||app.status==='claim approved' || app.status==='claim rejected'){
+         const emp =  await getEmp(app.employeeEmail)
+         if(emp.data.HttpStatus===200){
+// console.log(emp.data);
+       const org =  await getOrg(emp.data.data.orgEmail);
+       if(org.data.HttpStatus===200){
+        // console.log(org.data);
+        app.agencyEmail=org.data.data.insuranceAgencyEmail;        ;
+       }
+         }
+          response.push(app);
+        }
+    }
+  }
+  // console.log(response);
+  return response;
+};
+
+
+// approveClaimById(appId)

@@ -20,7 +20,7 @@ return report;
     }
 }
 export const updateAppointmnetByStatus = async(appintmentId,status)=>{//
- await axios.get(BASE_URI_APPOINTMENT+`/updateAppointmnet/${appintmentId}?status=${status}`)
+ return await axios.get(BASE_URI_APPOINTMENT+`/updateAppointmnet/${appintmentId}?status=${status}`)
 }
 export const  updateClaimAmount = async(enteredAmount,appId)=>{
   let status='claim submitted'

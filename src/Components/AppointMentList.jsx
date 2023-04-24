@@ -62,7 +62,7 @@ const AppointMentList = (props) =>{
                 setAppList(response)
                 setReload(false)
                }
-               console.log(response);
+               console.log(response==undefined);
         }
         fetchData();
       }, [reload]);
@@ -183,7 +183,7 @@ setReload(true)
           approve
         </Button></TableCell>
               <TableCell style={{  fontSize: '15px' }}><Button variant="text"
-                disabled={appointment.status==='claim submitted'||appointment.status === 'report submitted'|| appointment.status === 'appointment approved' || (appointment.status === 'appointment approved' || appointment.status === 'rejected') && selectedEmpNew===appointment.employeeEmail}
+                disabled={appointment.status==='claim submitted'||appointment.status === 'report submitted'|| appointment.status === 'appointment approved' || (appointment.status === 'appointment approved' || appointment.status === 'rejected' ) && selectedEmpNew===appointment.employeeEmail}
                style={{textTransform:'none',color:'red'}} 
                 onClick={() => handleOpenDialogForReject(appointment.employeeEmail)}//rejectAppointMent
                 >
@@ -214,6 +214,7 @@ setReload(true)
                 </TableCell>
                 
               </TableRow>
+          
               {selectedEmpForClaim ===appointment.employeeEmail && <Dialog open={openClaimDialog} onClose={handleDialogClose}>
               <DialogTitle>Enter Claim Amount</DialogTitle>
         {/* <DialogContent> */}

@@ -18,6 +18,7 @@ import AppointMentList from './AppointMentList';
 import ProcessReport from './ProcessReport';
 import HomeIcon from '@material-ui/icons/Home';
 import HospitalHome from './HospitalHome';
+import TrackClaims from './TrackClaims';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -95,6 +96,7 @@ function HospitalDashboard(props) {
   const [openAppointmentList, setOpenAppointmentList] = React.useState(false);//
   const [openApprovedAppointMents,  setOpenApprovedAppointMents] = React.useState(false)
   const [appList, setAppList] = React.useState([])
+  const [openTrackClaims, setOpenTrackClaims] = React.useState(false)
 //   const [orgDetails,setOrgDetails] = React.useState({});
   const [name, setName] = useState('');
 
@@ -128,6 +130,8 @@ function HospitalDashboard(props) {
     setOpenApprovedAppointMents(false);
     setOpenAgencyList(false)
     setOpenAppointmentList(false);
+    setOpenTrackClaims(false);
+
   }
   const handleChangePassword = () =>{
     setOpenUpdateInfo(false)
@@ -135,6 +139,8 @@ function HospitalDashboard(props) {
     setOpenApprovedAppointMents(false);
     setOpenAgencyList(false)
     setOpenAppointmentList(false);
+    setOpenTrackClaims(false);
+
 
   }
   const handelAllAgency = () =>{
@@ -143,6 +149,8 @@ function HospitalDashboard(props) {
     setchangePassword(false);
     setOpenApprovedAppointMents(false);
     setOpenAppointmentList(false);
+    setOpenTrackClaims(false);
+
    }
 
  const handelCreateReport = () =>{
@@ -153,6 +161,7 @@ function HospitalDashboard(props) {
   setOpenUpdateInfo(false)
   setchangePassword(false); 
   setOpenAppointmentList(false);
+  setOpenTrackClaims(false);
 
  }  
    const handleProcessAppointment = async() =>{
@@ -161,6 +170,7 @@ function HospitalDashboard(props) {
     setchangePassword(false); 
     setOpenAppointmentList(true);
  setOpenApprovedAppointMents(false);
+ setOpenTrackClaims(false);
 
      const response = await  getAppointMentByHospital(emailOP,false);
      console.log(response);
@@ -181,7 +191,17 @@ const handleHomeView = ()=>{
   setchangePassword(false); 
   setOpenAppointmentList(false);
 setOpenApprovedAppointMents(false);
+setOpenTrackClaims(false);
 }   
+
+const handleTrackClaims = ()=>{
+  setOpenTrackClaims(true);
+  setOpenAgencyList(false)
+  setOpenUpdateInfo(false)
+  setchangePassword(false); 
+  setOpenAppointmentList(false);
+setOpenApprovedAppointMents(false);
+}
   return (
     <div className={classes.root}>
       <Drawer
@@ -208,6 +228,10 @@ setOpenApprovedAppointMents(false);
                <ListItemIcon className={classes.icon}><AddIcon /></ListItemIcon>
                <ListItemText primary="Process Appointments" />
              </ListItem>
+             <ListItem button className={classes.listItem}  onClick={handleTrackClaims}>
+               <ListItemIcon className={classes.icon}><AddIcon /></ListItemIcon>
+               <ListItemText primary="Track Claims" />
+             </ListItem>
              {/* <ListItem button className={classes.listItem}  onClick={handelCreateReport}>
                <ListItemIcon className={classes.icon}><AddIcon /></ListItemIcon>
                <ListItemText primary="Create Report" />
@@ -228,9 +252,9 @@ setOpenApprovedAppointMents(false);
        :openAgencyList? <AgencyList orgEmail={emailOP} type="hospital"></AgencyList>
        :openApprovedAppointMents?<ProcessReport hospEmail={emailOP}></ProcessReport>
        :openAppointmentList?<AppointMentList data=  {emailOP}></AppointMentList>
+      :openTrackClaims?<TrackClaims hospEmail={emailOP}></TrackClaims>
       :<HospitalHome hospEmail={emailOP}></HospitalHome>}
         {/* Your main content goes here */}
-       
       </main>
     </div>
   );
