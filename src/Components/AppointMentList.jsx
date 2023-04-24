@@ -103,7 +103,7 @@ const AppointMentList = (props) =>{
             setopenDialog(false)
             SetOpenDialogForReject(true);
             setSelectedEmpNew(empEmail)
-            
+            setReload(true)
          }
    const handleUpdateRemarks = async() =>{
     
@@ -118,8 +118,10 @@ const AppointMentList = (props) =>{
     setInactive(true)
     setopenDialog(false)
     SetOpenDialogForReject(false)
+    // setReload(false)
     setOpenReportDialog(false);
     setOpenClaimDialog(false)
+    // setReload(true)
 }
 const handleCreateReport = (empEmail) =>{
   setOpenReportDialog(true);
@@ -174,14 +176,14 @@ setReload(true)
                 <TableCell style={{  fontSize: '15px'}}>{appointment.status}</TableCell>
               <TableCell>   <Button
           variant="text"
-          disabled={appointment.status==='claim submitted'||appointment.status === 'report submitted'||appointment.status === 'appointment approved'|| (appointment.status === 'appointment approved' || appointment.status === 'rejected' ||inactive ) && selectedEmpNew===appointment.employeeEmail}
+          disabled={appointment.status==='claim submitted'||appointment.status === 'report submitted'||appointment.status === 'appointment approved'|| (appointment.status === 'appointment approved' || appointment.status === 'rejected' ) && selectedEmpNew===appointment.employeeEmail}
           style={{ textTransform: 'none' }}
           onClick={() => approveAppointment(appointment.employeeEmail)}
         >
           approve
         </Button></TableCell>
               <TableCell style={{  fontSize: '15px' }}><Button variant="text"
-                disabled={appointment.status==='claim submitted'||appointment.status === 'report submitted'|| appointment.status === 'appointment approved' || (appointment.status === 'appointment approved' || appointment.status === 'rejected' || inactive) && selectedEmpNew===appointment.employeeEmail}
+                disabled={appointment.status==='claim submitted'||appointment.status === 'report submitted'|| appointment.status === 'appointment approved' || (appointment.status === 'appointment approved' || appointment.status === 'rejected') && selectedEmpNew===appointment.employeeEmail}
                style={{textTransform:'none',color:'red'}} 
                 onClick={() => handleOpenDialogForReject(appointment.employeeEmail)}//rejectAppointMent
                 >

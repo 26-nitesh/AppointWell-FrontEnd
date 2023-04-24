@@ -161,7 +161,7 @@ function AgencyDashBoard(props) {
              </ListItem> */}
              <ListItem button className={classes.listItem}  onClick={handleClaim}>
                <ListItemIcon className={classes.icon}><UpdateIcon /></ListItemIcon>
-               <ListItemText  primary="Manage Cliams" />
+               <ListItemText  primary="Manage Claims" />
              </ListItem>
              <ListItem button className={classes.listItem}  onClick={handleOrgInfoUpdate}>
                <ListItemIcon className={classes.icon}><UpdateIcon /></ListItemIcon>
