@@ -21,6 +21,7 @@ let expType=false
      const input = { empName: values.name, empEmail: values.email,dob:values.dob,dateOfJoining:values.doj,
       isHazardousExposure:expType, password: values.password,orgEmail:orgemail };
       console.log(input);
+      console.log("sending Request");
         const response = await axios.post(uri, input);
         return response;
       } catch (error) {

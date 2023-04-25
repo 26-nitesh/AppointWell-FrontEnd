@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
       designation: yup.string().required("required !!"),
       dob: yup.date().required("required !!"),
       doj: yup.date().required("required !!"),
-      exposureType: yup.string().oneOf(['hazardous', 'Normal']).required("required !!"),
+      exposureType: yup.string().oneOf(['hazardous', 'normal']).required("required !!"),
     })
     const addEmployeeFormik = useFormik(
       {
@@ -91,7 +91,7 @@ const useStyles = makeStyles((theme) => ({
            },
            validationSchema:ValidateAddEmp,
            onSubmit:async(values)=>{
-          
+            console.log(values);
             try{
               const res = await addNewEmployee(values,props.email);
               if(res.data.HttpStatus===201){

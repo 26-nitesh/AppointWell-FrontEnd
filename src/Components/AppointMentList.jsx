@@ -1,10 +1,11 @@
 import { TableHead } from "@material-ui/core";
-import { Button, ButtonBase, Dialog, DialogActions, DialogTitle, Paper,TablePagination, Table, TableBody, TableCell, TableContainer, TableRow, TextField, Typography } from "@mui/material";
+import { Button, ButtonBase, Dialog, DialogActions, DialogTitle, Paper,TablePagination, Table, TableBody, TableCell, TableContainer, TableRow, TextField, Typography, CircularProgress } from "@mui/material";
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useState } from "react";
 import { getAppointMentByHospital, updateAppointmnet } from "../Service/commonService";
 import ProcessReport from "./ProcessReport";
 import { updateClaimAmount } from "../Service/reportService";
+import { updateLastAppDateForEmployee } from "../Service/EmployeeService";
 
 const useStyles = makeStyles({
     table: {
@@ -57,6 +58,7 @@ const AppointMentList = (props) =>{
     const[appIdForClaim,setAppIdForClaim] = useState(null);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
+    const[isLoading, setLoading] = useState(false);
     React.useEffect(()=>{
         async function fetchData() {
           const response = await  getAppointMentByHospital(props.data,false);
@@ -79,10 +81,15 @@ const AppointMentList = (props) =>{
       }
     const approveAppointment = async(empEmail) =>{//
       setSelectedEmpNew(empEmail)
+      setLoading(true)
    const updated =  await updateAppointmnet(empEmail,props.data,false,true,'appointment approved','valid');
         setShowApproveButton(false) 
         setReload(true)
         setInactive(true);
+
+        // update Last AppointMent Date by EmpEmail
+        const empUpdate = await updateLastAppDateForEmployee(empEmail);
+        setLoading(false)
     }
     const rejectAppointMent = async() =>{//rejectAppointMent
         setSelectedEmpNew(selectedEmpForReject)
@@ -151,6 +158,9 @@ setOpenClaimDialog(false);
 setReload(true)
 }
     return(
+      isLoading? <div className={classes.listContainer}>
+      <CircularProgress />
+  </div>:
         <>
             <div className={classes.listContainer}>
         <Typography variant="subtitle1" className={classes.listTitle} style={{fontSize:'32px'}}>
