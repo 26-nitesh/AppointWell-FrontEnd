@@ -140,11 +140,6 @@ const AgencyList = (props) => {
                 <TableCell><Button variant="contained" onClick={() => handleAddAgency(agency['Agency Email'])}>add</Button></TableCell>
               </TableRow>
                    {selectedEmail && selectedEmail ===agency['Agency Email'] && <TableRow> 
-                   {/* <div>
-      <Typography variant="subtitle1">
-        <strong>Name: </strong>{agencyByEmail.agencyName} <strong>Address: </strong> {agencyByEmail.addLine1}  <strong>City: </strong>{agencyByEmail.city}   <strong>Zip: </strong>{agencyByEmail.zip}
-      </Typography>
-    </div> */}
     <TableCell colSpan={3}>
       <div style={{ paddingLeft: '32px' }}>
         <Typography variant="subtitle1" style={{ color: '#666666' }}>
