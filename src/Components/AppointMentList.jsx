@@ -307,10 +307,14 @@ const handleEmployeeClick = async(email) =>{
         </DialogActions>
               </Dialog>}
               {selectedEmpEmail && selectedEmpEmail ===appointment.employeeEmail && <TableRow> 
-    <TableCell colSpan={3}>
+    <TableCell colSpan={12}>
       <div style={{ paddingLeft: '32px' }}>
         <Typography variant="subtitle1" style={{ color: '#666666' }}>
           <strong>Name:</strong> {employeeAddInfo.empName}
+        </Typography>
+        <Typography variant="subtitle1" style={{ color: '#666666' }}>
+          <strong>Company Name:</strong> {employeeAddInfo.organisationName}<br/>
+          <strong>Agency Email:</strong> {employeeAddInfo.insuranceAgencyEmail}
         </Typography>
         <Typography variant="subtitle1" style={{ color: '#666666', marginTop: '8px' }}>
           <strong>Address:</strong> {employeeAddInfo.addLine1}  {employeeAddInfo.city}  {employeeAddInfo.zip}
