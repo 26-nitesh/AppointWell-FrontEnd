@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { createAppointMent, getAllHospitalsForOrg } from '../Service/commonService';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
+import { TablePagination } from '@material-ui/core';
 
 
 
@@ -41,6 +42,8 @@ const ProcessAppointment = (props) =>{
     const [selectedDate, setSelectedDate] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
     const [sucessMessage, setSucessMessage] = useState(null);
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
     React.useEffect(()=>{
         async function getAllHospitals() {
 
@@ -103,7 +106,10 @@ const handleSaveAppointment = async()=>{
             </TableRow>
           </TableHead>
           <TableBody>
-            {hospitals.map((hospital) =>(
+          {  (rowsPerPage > 0
+                    ? hospitals.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    : hospitals
+                ).map((hospital) =>(
                 <>
                 <TableRow key={hospital.hospitalId}>
                 <TableCell style={{ fontWeight: 'bold', fontSize: '15px' }}><Button variant="text"  sx={{ textTransform: 'none' }} >{hospital.hospitalEmail}</Button></TableCell>
@@ -136,6 +142,20 @@ const handleSaveAppointment = async()=>{
             ))}
           </TableBody>
          </Table>
+         <TablePagination
+  rowsPerPageOptions={[5, 10, 25]}
+  component="div"
+  count={hospitals.length}
+  rowsPerPage={rowsPerPage}
+  page={page}
+  onPageChange={(event, newPage) => {
+    setPage(newPage);
+  }}
+  onRowsPerPageChange={(event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  }}
+/>
           </TableContainer>
         </>
     )

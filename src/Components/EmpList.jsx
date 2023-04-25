@@ -37,6 +37,8 @@ const EmpList = (props) => {
   const[selectedEmail, setSelectedEmail] = useState('');
   const [errorMessage, setErrorMessage] = useState(null);
   const [sucessMessage, setSucessMessage] = useState(null);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const classes = useStyles();
   React.useEffect(() => {
     async function fetchData() {
@@ -108,7 +110,10 @@ const EmpList = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {agencies.map((agency) => (
+          {  (rowsPerPage > 0
+                    ? agencies.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    : agencies
+                ).map((agency) => (
             <>
             <TableRow key={agency.id}>
                 <TableCell style={{ fontWeight: 'bold', fontSize: '15px' }}><Button variant="text"  sx={{ textTransform: 'none' }} onClick={() => handleAgencyClick(agency['Agency Email'])} >{agency['Agency Email']}</Button></TableCell>
@@ -136,6 +141,20 @@ const EmpList = (props) => {
             ))}
           </TableBody>
         </Table>
+        <TablePagination
+  rowsPerPageOptions={[5, 10, 25]}
+  component="div"
+  count={agencies.length}
+  rowsPerPage={rowsPerPage}
+  page={page}
+  onPageChange={(event, newPage) => {
+    setPage(newPage);
+  }}
+  onRowsPerPageChange={(event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  }}
+/>
       </TableContainer>
 
 
