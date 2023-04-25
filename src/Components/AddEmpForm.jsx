@@ -4,7 +4,7 @@ import { Card, CardContent, Button, TextField, Typography, FormHelperText } from
 import { addNewEmployee } from '../Service/commonService';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { Alert, AlertTitle } from '@mui/material';
+import { Alert, AlertTitle, MenuItem } from '@mui/material';
 const useStyles = makeStyles((theme) => ({
     root: {
       // margin: theme.spacing(-10),
@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
       designation: yup.string().required("required !!"),
       dob: yup.date().required("required !!"),
       doj: yup.date().required("required !!"),
-      exposureType: yup.string(),
+      exposureType: yup.string().oneOf(['hazardous', 'Normal']).required("required !!"),
     })
     const addEmployeeFormik = useFormik(
       {
@@ -171,7 +171,7 @@ const useStyles = makeStyles((theme) => ({
                  && Boolean(!addEmployeeFormik.errors.designation)} onChange={addEmployeeFormik.handleChange}
               />
               <FormHelperText error placement="start">{addEmployeeFormik.errors.name}</FormHelperText>
-              <TextField
+              {/* <TextField
                 className={classes.textField}
                 label="Date of Birth"
                 variant="outlined"
@@ -179,7 +179,20 @@ const useStyles = makeStyles((theme) => ({
                 name="dob"
                 value={addEmployeeFormik.values.dob} error={addEmployeeFormik.touched.dob
                  && Boolean(!addEmployeeFormik.errors.dob)} onChange={addEmployeeFormik.handleChange}
-              />
+              /> */}
+              <TextField
+  className={classes.textField}
+  label="Date of Birth"
+  variant="outlined"
+  type="date"
+  name="dob"
+  InputLabelProps={{ shrink: true }}
+
+  value={addEmployeeFormik.values.dob}
+  error={addEmployeeFormik.touched.dob && Boolean(!addEmployeeFormik.errors.dob)}
+  onChange={addEmployeeFormik.handleChange}
+  inputProps={{ max: new Date().toISOString().split("T")[0] }}
+/>
               <FormHelperText error placement="start">{addEmployeeFormik.errors.doj}</FormHelperText>
               <TextField
                 className={classes.textField}
@@ -187,20 +200,34 @@ const useStyles = makeStyles((theme) => ({
                 variant="outlined"
                 name="doj"
                 type='date'
+                InputLabelProps={{ shrink: true }}
                 value={addEmployeeFormik.values.doj} error={addEmployeeFormik.touched.doj
                  && Boolean(!addEmployeeFormik.errors.doj)} onChange={addEmployeeFormik.handleChange}
               />
               <FormHelperText error placement="start">{addEmployeeFormik.errors.doj}</FormHelperText>
               <TextField
+               className={classes.textField}
+               label="Exposure Type"
+               variant="outlined"
+              select
+              name="exposureType"
+              value={addEmployeeFormik.values.exposureType} error={addEmployeeFormik.touched.exposureType
+                 && Boolean(!addEmployeeFormik.errors.exposureType)} onChange={addEmployeeFormik.handleChange}
+             required
+            >
+            <MenuItem value="hazardous">Hazardous</MenuItem>
+              <MenuItem value="normal">Normal</MenuItem>
+            </TextField>
+              {/* <TextField
                 className={classes.textField}
                 label="Exposure Type"
                 variant="outlined"
                 name="exposureType"
                 value={addEmployeeFormik.values.exposureType} error={addEmployeeFormik.touched.exposureType
                  && Boolean(!addEmployeeFormik.errors.exposureType)} onChange={addEmployeeFormik.handleChange}
-              />
-              <FormHelperText error placement="start">{addEmployeeFormik.errors.name}</FormHelperText>
-                 <FormHelperText error placement="start">{addEmployeeFormik.errors.password}</FormHelperText>
+              /> */}
+              {/* <FormHelperText error placement="start">{addEmployeeFormik.errors.name}</FormHelperText>
+                 <FormHelperText error placement="start">{addEmployeeFormik.errors.password}</FormHelperText> */}
               <Button
                 className={classes.button}
                 variant="contained"

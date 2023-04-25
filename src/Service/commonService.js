@@ -14,13 +14,24 @@ export const BASE_URI_REPORT = "http://localhost:9601/report/api";
 export const addNewEmployee = async (values,orgemail)=>{
     try {
      let   uri = BASE_URI_EMPLOYEE+'/create-new-employee';
-     const input = { empName: values.name, empEmail: values.email, password: values.password,orgEmail:orgemail };
+let expType=false
+     if(values.exposureType==='hazardous'){
+      expType=true;
+     }
+     const input = { empName: values.name, empEmail: values.email,dob:values.dob,dateOfJoining:values.doj,
+      isHazardousExposure:expType, password: values.password,orgEmail:orgemail };
+      console.log(input);
         const response = await axios.post(uri, input);
         return response;
       } catch (error) {
         return error.response;
       }
 
+  //     private String empDesignation;
+	// private LocalDate dob;
+	// private LocalDate dateOfJoining;
+	// private boolean isHazardousExposure;
+	// private LocalDate lastCheckupDate;
 }
 export const getOrg = async (values)=>{
   try{
