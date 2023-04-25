@@ -1,5 +1,5 @@
 import axios from "axios"
-import { BASE_URI_APPOINTMENT, BASE_URI_COMPANY, BASE_URI_EMPLOYEE, BASE_URI_REPORT, getEmp } from "./commonService";
+import { BASE_URI_APPOINTMENT, BASE_URI_COMPANY, BASE_URI_EMPLOYEE, BASE_URI_REPORT, getEmp, getHosp } from "./commonService";
 
 export const getAppointmentsByEmployee = async(email) =>{
     // http://localhost:9598/appointment/api/getByEmp/ww
@@ -47,3 +47,13 @@ if(appLst.data.HttpStatus===200){
 
       // const emp = getEmp(empEmail);
 }
+
+export const findHospitalByEmail =async (email)=>{
+
+  const hosp =  await getHosp(email);
+  if(hosp.data.HttpStatus===200){
+    return hosp.data.data;
+  }else{
+    return null
+  }
+};

@@ -51,11 +51,16 @@ const AgencyList = (props) => {
   }, []);
 
   const handleAgencyClick = async(email) =>{
+    if(selectedEmail===email){
+      setSelectedEmail(null)
+    }
+   else{
     const agency = await findAgencyByEmail(email);
     if(agency!=null){
         setSelectedEmail(email);
         setAgency(agency)
     }
+   }
     // console.log(agency);
   }
 

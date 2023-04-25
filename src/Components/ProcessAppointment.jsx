@@ -3,6 +3,7 @@ import { createAppointMent, getAllHospitalsForOrg } from '../Service/commonServi
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
 import { TablePagination } from '@material-ui/core';
+import { findHospitalByEmail } from '../Service/EmployeeService';
 
 
 
@@ -42,6 +43,8 @@ const ProcessAppointment = (props) =>{
     const [selectedDate, setSelectedDate] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
     const [sucessMessage, setSucessMessage] = useState(null);
+    const [selectedEmailForAddInfo, setSelectedEmailForAddInfo] = useState(null);
+    const [hospitalForAddInfo, setHospitalForAddInfo] = useState(null);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     React.useEffect(()=>{
@@ -87,6 +90,18 @@ const handleSaveAppointment = async()=>{
     console.log(response);
     // setopenDialog(false)
 }
+const handleHospitalClick = async(email) =>{
+  if(selectedEmailForAddInfo===email)
+  setSelectedEmailForAddInfo(null)
+  else{
+    const hosp = await findHospitalByEmail(email);
+  if(hosp!=null){
+      setSelectedEmailForAddInfo(email);
+      setHospitalForAddInfo(hosp)
+  }
+  }
+  // console.log(agency);
+}
     return(
         <>
         {/* {sucessMessage && <MyAlert severity="success" message={sucessMessage}/>}
@@ -112,10 +127,22 @@ const handleSaveAppointment = async()=>{
                 ).map((hospital) =>(
                 <>
                 <TableRow key={hospital.hospitalId}>
-                <TableCell style={{ fontWeight: 'bold', fontSize: '15px' }}><Button variant="text"  sx={{ textTransform: 'none' }} >{hospital.hospitalEmail}</Button></TableCell>
+                <TableCell style={{ fontWeight: 'bold', fontSize: '15px' }}><Button variant="text"  sx={{ textTransform: 'none' }}  onClick={() => handleHospitalClick(hospital.hospitalEmail)}  >{hospital.hospitalEmail}</Button></TableCell>
                 <TableCell style={{ fontWeight: 'bold', fontSize: '15px' }}>{hospital.hospitalName}</TableCell>
                 <TableCell><Button variant="contained" onClick={() => handleAddappointment(hospital.hospitalEmail)}>Book</Button></TableCell>
               </TableRow>
+              {selectedEmailForAddInfo && selectedEmailForAddInfo ===hospital.hospitalEmail && <TableRow> 
+    <TableCell colSpan={3}>
+      <div style={{ paddingLeft: '32px' }}>
+        <Typography variant="subtitle1" style={{ color: '#666666' }}>
+          <strong>Name:</strong> {hospitalForAddInfo.hospitalName}
+        </Typography>
+        <Typography variant="subtitle1" style={{ color: '#666666', marginTop: '8px' }}>
+          <strong>Address:</strong> {hospitalForAddInfo.addLine1}  {hospitalForAddInfo.city}  {hospitalForAddInfo.zip}
+        </Typography>
+      </div>
+    </TableCell>
+    </TableRow>}
            {selectedHosp=== hospital.hospitalEmail&& <Dialog open={openDialog} onClose={handleDialogClose}>
            <DialogTitle>Select Date and Book Appointment</DialogTitle>
         {/* <DialogContent> */}
