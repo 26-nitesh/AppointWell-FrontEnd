@@ -59,6 +59,7 @@ const TrackClaims = (props)=>{
               <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px' }}>employee Email</TableCell>
               <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px' }}>claim date</TableCell>
               <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px' }}>status</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px' }}>remarks</TableCell>
               <TableCell>Amount</TableCell> <TableCell></TableCell>
               </TableRow>
               </TableHead>
@@ -74,6 +75,7 @@ const TrackClaims = (props)=>{
                 <TableCell style={{ fontWeight: 'bold', fontSize: '15px'}}>{claim.employeeEmail}</TableCell>
                 <TableCell style={{  fontSize: '15px'}}>{claim.claimDate}</TableCell> 
                 <TableCell style={{  fontSize: '15px'}}>{claim.status}</TableCell> 
+                <TableCell style={{  fontSize: '15px'}}>{claim.claimRemarks}</TableCell> 
                 <TableCell style={{ fontWeight: 'bold', fontSize: '15px'}}>₹ {claim.amount}</TableCell>
                 <TableCell>   <Button
           variant="text"
