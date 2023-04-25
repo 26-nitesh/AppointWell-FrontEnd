@@ -4,6 +4,7 @@ const RESPONSE = {
   status: '',
   message:'',
 };
+export const BASE_URI_POLICY = 'http://localhost:9597/policy/api';
 export const BASE_URI_COMPANY = 'http://localhost:9596/organisation/api';
 export const BASE_URI_EMPLOYEE = 'http://localhost:9595/employee/api';
 export const BASE_URI_INSURANCE_AGENCY = 'http://localhost:9599/agency/api';

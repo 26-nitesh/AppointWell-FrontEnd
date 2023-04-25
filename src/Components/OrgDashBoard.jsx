@@ -16,6 +16,7 @@ import OrgHome from './OrgHome';
 import AgencyList from './AgencyList';
 import HomeIcon from '@material-ui/icons/Home';
 import EmployeeList from './EmployeeList';
+import PolicyHome from './PolicyHome';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -190,12 +191,15 @@ const [openPolicyManagement,setOpenPolicyManagement] =  React.useState(false);
   }
 
 const hanadlePolicyManagement = () =>{
+  // console.log('clicked');
   setOpenAgencyList(false)
   setAddEmp(false)
   setOpenUpdateInfo(false)
   setchangePassword(false);
   setOpenManageEmployee(false)
   setOpenPolicyManagement(true)
+
+
 }
 
   return (
@@ -250,7 +254,7 @@ const hanadlePolicyManagement = () =>{
                     :changePassword? <ChangePassword type="organisation" email={emailOP}/>
                     :openAgencyList? <AgencyList orgEmail={emailOP} type= "org"></AgencyList>
                     :openManageEmployee? <EmployeeList  orgEmail={emailOP}></EmployeeList>
-                    :openPolicyManagement?<>Policy Management</>
+                    :openPolicyManagement?<PolicyHome orgEmail={emailOP}></PolicyHome>
                     : <OrgHome orgEmail = {emailOP}></OrgHome>}
        
       </main>
