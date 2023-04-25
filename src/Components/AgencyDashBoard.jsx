@@ -16,6 +16,7 @@ import Soon from './Soon'
 import ClaimDetails from './ClaimDetails';
 import AgencyHome from './AgencyHome';
 import HomeIcon from '@material-ui/icons/Home';
+import ClaimHstory from './ClaimHistory';
 
 const drawerWidth = 240;
 
@@ -91,7 +92,8 @@ function AgencyDashBoard(props) {
   const emailOP = location.state.email;
   const [openUpdateInfo,setOpenUpdateInfo] = React.useState(false);
   const [openClaimInfo,setOpenClaimInfo] = React.useState(false);
-  const [changePassword,setchangePassword] = React.useState(false);//handleChangePassword
+  const [openClaimHistory,setOpenClaimHistory] = React.useState(false);
+  const [changePassword,setchangePassword] = React.useState(false);//handleClaimHistory
 //   const [orgDetails,setOrgDetails] = React.useState({});
   const [name, setName] = useState('');
 
@@ -121,19 +123,31 @@ function AgencyDashBoard(props) {
       // },[empDetails]);
 
   const handleOrgInfoUpdate = () =>{
+    setOpenClaimHistory(false)
     setOpenUpdateInfo(true)
+    setOpenClaimInfo(false);
     setchangePassword(false);
   }
   const handleChangePassword = () =>{
+    setOpenClaimHistory(false)
     setOpenUpdateInfo(false)
     setchangePassword(true);
+    setOpenClaimInfo(false);
   }
   const handleClaim = () =>{
+    setOpenClaimHistory(false)
     setOpenClaimInfo(true);
     setOpenUpdateInfo(false)
     setchangePassword(false);
   }
   const handleHomeView = () =>{
+    setOpenClaimHistory(false)
+    setOpenClaimInfo(false);
+    setOpenUpdateInfo(false)
+    setchangePassword(false);
+  }
+  const handleClaimHistory = () =>{
+    setOpenClaimHistory(true)
     setOpenClaimInfo(false);
     setOpenUpdateInfo(false)
     setchangePassword(false);
@@ -164,6 +178,10 @@ function AgencyDashBoard(props) {
                <ListItemIcon className={classes.icon}><UpdateIcon /></ListItemIcon>
                <ListItemText  primary="Manage Claims" />
              </ListItem>
+             <ListItem button className={classes.listItem}  onClick={handleClaimHistory}>
+               <ListItemIcon className={classes.icon}><UpdateIcon /></ListItemIcon>
+               <ListItemText  primary="Claims History" />
+             </ListItem>
              <ListItem button className={classes.listItem}  onClick={handleOrgInfoUpdate}>
                <ListItemIcon className={classes.icon}><UpdateIcon /></ListItemIcon>
                <ListItemText  primary="Update Info" />
@@ -178,6 +196,7 @@ function AgencyDashBoard(props) {
        {openUpdateInfo?  <InfoUpdate type="agency" nameChange ={handleNameChange}  email={emailOP}/> 
        :changePassword? <ChangePassword type="agency" email={emailOP}/>
        :openClaimInfo? <ClaimDetails agencyEmail = {emailOP}></ClaimDetails>
+       :openClaimHistory? <ClaimHstory agencyEmail = {emailOP}></ClaimHstory>
        :<AgencyHome agencyEmail = {emailOP}></AgencyHome>}
         {/* Your main content goes here */}
        

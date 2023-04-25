@@ -1,7 +1,8 @@
+
 import React, { useState } from "react";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
-import { getClaimRecords, updateRejectStatus } from "../Service/ClaimService";
+import { getClaimHistory, getClaimRecords, updateRejectStatus } from "../Service/ClaimService";
 import { Alert, AlertTitle, Button, Dialog, DialogActions, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import { makeStyles } from '@material-ui/core/styles';
 import { FormControl, IconButton, InputLabel, ListItemSecondaryAction, MenuItem, Select } from "@material-ui/core";
@@ -33,57 +34,24 @@ const useStyles = makeStyles({
      
 });
 
-const ClaimDetails = (props) =>{
+const ClaimHstory = (props) =>{
     const [claims, setClaims] = useState([]);
     const classes = useStyles();
-    const [statusFilter,setStatusFilter] = useState("");
-    const[selectedAppIdForReject, setSelectedAppIdForReject] = useState(null);
-    const[selectedAppIdForApprove, setSelectedAppIdForApprove] = useState(null);
-    const[openRemarksDialog, setOpenRemarksDialog] = useState(null);
-    const[remarksValue,setRemarksValue] = useState(null)
     const [reload, setReload] = React.useState(false)
     React.useEffect(()=>{
         async function fetchData() {
-      const claims =   await getClaimRecords(props.agencyEmail);
+      const claims =   await getClaimHistory(props.agencyEmail);
       setClaims(claims);
         }
         fetchData();
       }, [reload]);
 
 
-      const handleRejectClaim = (appId) =>{
-        console.log(appId);
-          setSelectedAppIdForReject(appId);
-          setOpenRemarksDialog(true)
-      }
-      const handleApproveClaim = async(appId) =>{
-        console.log(appId);
-        setSelectedAppIdForApprove(appId);
-      const res =  await updateAppointmnetByStatus(appId,'claim approved');
-      setReload(true)
-    }
-    const handleDialogClose = () =>{
-      setOpenRemarksDialog(false)
-      setReload(true)
-    }
-
-    const handleRemarksChamge = (event) =>{
-      setRemarksValue(event.target.value)
-    }
-
-    const handleRejectSubmit = async()=>{
-      // console.log(remarksValue);
-      // console.log(selectedAppIdForReject);
-      setReload(false);
-      await updateRejectStatus(selectedAppIdForReject,remarksValue);
-      setReload(true);
-      setOpenRemarksDialog(false);
-    }
     return(
         <>
           <div className={classes.listContainer}>
         <Typography variant="subtitle1" className={classes.listTitle} style={{fontSize:'32px'}}>
-          Appointment And their Claims
+          Claim History
         </Typography>
       </div>
       <TableContainer component={Paper} style={{ marginTop: '30px' ,margin: 'auto', }}>
@@ -100,7 +68,7 @@ const ClaimDetails = (props) =>{
     </TableCell>
 
               <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px' }}>Claim Amount</TableCell>
-              <TableCell></TableCell><TableCell></TableCell>
+     
             </TableRow>
           </TableHead>
           <TableBody>
@@ -113,49 +81,14 @@ const ClaimDetails = (props) =>{
                 <TableCell style={{  fontSize: '15px'}}>{claim.claimDate}</TableCell> 
                 <TableCell style={{  fontSize: '15px'}}>{claim.status}</TableCell> 
                 <TableCell style={{ fontWeight: 'bold', fontSize: '15px'}}>₹ {claim.amount}</TableCell>
-                <TableCell style={{  fontSize: '15px' }}><Button variant="text"
-                disabled={claim.status !== 'claim submitted'}
-                onClick={() => handleApproveClaim(claim.appintmentId)}
-                style={{textTransform:'none'}}>
-               Approve</Button>
-                </TableCell>
-                <TableCell style={{  fontSize: '15px' }}><Button variant="text"
-                disabled={claim.status !== 'claim submitted'}
-                onClick={() => handleRejectClaim(claim.appintmentId)}
-                style={{textTransform:'none',color:'red'}}>
-               Reject</Button>
-                </TableCell>
                 </TableRow>
                 </>
             ))}
           </TableBody>
           </Table>
           </TableContainer>
-          {selectedAppIdForReject && <Dialog open={openRemarksDialog} onClose={handleDialogClose}>
-          <DialogTitle>Remarks</DialogTitle>
-        {/* <DialogContent> */}
-          <div style={{margin: 'auto'}}>
-          <TextField
-  label="Remarks"
-  type="text"
-
-  value={remarksValue}
-  onChange={handleRemarksChamge}
-  InputLabelProps={{
-    shrink: true,
-  }}
-  style={{padding:'5px' }} 
-/>
-          </div>
-        {/* </DialogContent> */}
-        <DialogActions>
-          <Button onClick={handleDialogClose} >Cancel</Button>
-          <Button onClick={handleRejectSubmit}>Confirm</Button>
-        </DialogActions>     
-          </Dialog>
-          }
         </>
     )
 }
 
-export default ClaimDetails;
+export default ClaimHstory;
