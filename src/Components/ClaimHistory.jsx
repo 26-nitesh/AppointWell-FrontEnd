@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 import { getClaimHistory, getClaimRecords, updateRejectStatus } from "../Service/ClaimService";
-import { Alert, AlertTitle, Button, Dialog, DialogActions, DialogTitle, Paper, Table, TableBody, TablePagination,TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Alert, AlertTitle, Button, Dialog, DialogActions, DialogTitle, Paper, Table, TableBody, TablePagination,TableCell, TableContainer, TableHead, TableRow, TextField, Typography, CircularProgress } from "@mui/material";
 import { makeStyles } from '@material-ui/core/styles';
 import { FormControl, IconButton, InputLabel, ListItemSecondaryAction, MenuItem, Select } from "@material-ui/core";
 import { updateAppointmnetByStatus } from "../Service/reportService";
@@ -39,16 +39,23 @@ const ClaimHstory = (props) =>{
     const classes = useStyles();
     const [reload, setReload] = React.useState(false)
     const [page, setPage] = useState(0);
+    const [isLoading, setIsLoading] = useState(true);
+
     const [rowsPerPage, setRowsPerPage] = useState(5);
     React.useEffect(()=>{
         async function fetchData() {
       const claims =   await getClaimHistory(props.agencyEmail);
       setClaims(claims);
+      setIsLoading(false);
+
         }
         fetchData();
       }, [props.agencyEmail]);
 
     return(
+      isLoading? <div className={classes.listContainer}>
+      <CircularProgress />
+  </div>:
         <>
           <div className={classes.listContainer}>
         <Typography variant="subtitle1" className={classes.listTitle} style={{fontSize:'32px'}}>
