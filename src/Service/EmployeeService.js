@@ -1,5 +1,5 @@
 import axios from "axios"
-import { BASE_URI_APPOINTMENT, BASE_URI_REPORT } from "./commonService";
+import { BASE_URI_APPOINTMENT, BASE_URI_COMPANY, BASE_URI_EMPLOYEE, BASE_URI_REPORT } from "./commonService";
 
 export const getAppointmentsByEmployee = async(email) =>{
     // http://localhost:9598/appointment/api/getByEmp/ww
@@ -16,4 +16,16 @@ export const getAppointmentsByEmployee = async(email) =>{
   }
   return null;
  
+}
+
+export const getEmpForOrg = async(orgEmail) =>{
+  console.log(orgEmail);
+const emps = await axios.get(BASE_URI_EMPLOYEE+'/org/'+orgEmail);
+// http://localhost:9595/employee/api/org/55%4055
+if(emps.data.HttpStatus===200){
+  return emps.data.data
+
+}
+// console.log(emps.data.data);
+else {return null;}
 }

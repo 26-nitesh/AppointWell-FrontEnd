@@ -15,6 +15,7 @@ import InfoUpdate from './InfoUpdate';
 import OrgHome from './OrgHome';
 import AgencyList from './AgencyList';
 import HomeIcon from '@material-ui/icons/Home';
+import EmployeeList from './EmployeeList';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -94,6 +95,8 @@ function OrgDashboard(props) {
   const [orgDetails,setOrgDetails] = React.useState({});
   const [name, setName] = useState('');
 const [openAgencyList, setOpenAgencyList] = React.useState(false);
+const [openManageEmployee,setOpenManageEmployee] = React.useState(false);
+const [openPolicyManagement,setOpenPolicyManagement] =  React.useState(false);
 
 
   const handleNameChange = (newName) => {
@@ -123,22 +126,37 @@ const [openAgencyList, setOpenAgencyList] = React.useState(false);
     setAddEmp(true);
     setOpenUpdateInfo(false)
     setchangePassword(false);
+    setOpenManageEmployee(false)
+    setOpenPolicyManagement(false)
+
+    setOpenAgencyList(false)
   };
   const handleOrgInfoUpdate = () =>{
     setOpenUpdateInfo(true)
     setAddEmp(false);
     setchangePassword(false);
+    setOpenManageEmployee(false)
+    setOpenPolicyManagement(false)
+
+    setOpenAgencyList(false)
   }
   const handleChangePassword = () =>{
     setOpenUpdateInfo(false)
     setAddEmp(false);
     setchangePassword(true);
+    setOpenManageEmployee(false)
+    setOpenAgencyList(false)
+    setOpenPolicyManagement(false)
+
+
   }
   const handleButtonClick = (event) => {
     // handle button click event
     setOpenUpdateInfo(false)
     setAddEmp(false);
     setOpenAgencyList(false);
+    setOpenPolicyManagement(false)
+
     setchangePassword(false);
     event.preventDefault();
   };
@@ -147,6 +165,8 @@ const [openAgencyList, setOpenAgencyList] = React.useState(false);
    setAddEmp(false)
    setOpenUpdateInfo(false)
    setchangePassword(false);
+   setOpenManageEmployee(false)
+   setOpenPolicyManagement(false)
 
   }
   
@@ -155,7 +175,29 @@ const [openAgencyList, setOpenAgencyList] = React.useState(false);
     setAddEmp(false)
     setOpenUpdateInfo(false)
     setchangePassword(false);
+    setOpenManageEmployee(false)
+    setOpenPolicyManagement(false)
+
   }
+  const handleManageEmployee = () =>{
+    setOpenAgencyList(false)
+    setAddEmp(false)
+    setOpenUpdateInfo(false)
+    setchangePassword(false);
+    setOpenManageEmployee(true);
+    setOpenPolicyManagement(false)
+
+  }
+
+const hanadlePolicyManagement = () =>{
+  setOpenAgencyList(false)
+  setAddEmp(false)
+  setOpenUpdateInfo(false)
+  setchangePassword(false);
+  setOpenManageEmployee(false)
+  setOpenPolicyManagement(true)
+}
+
   return (
     <div className={classes.root}>
       <Drawer
@@ -183,7 +225,7 @@ const [openAgencyList, setOpenAgencyList] = React.useState(false);
                <ListItemIcon className={classes.icon}><AddIcon /></ListItemIcon>
                <ListItemText primary="Affiliate With Agency" />
              </ListItem>
-             <ListItem button className={classes.listItem}>
+             <ListItem button className={classes.listItem} onClick={hanadlePolicyManagement}>
                <ListItemIcon className={classes.icon}><AddIcon /></ListItemIcon>
                <ListItemText primary="Policy Management" />
              </ListItem>
@@ -195,7 +237,7 @@ const [openAgencyList, setOpenAgencyList] = React.useState(false);
                <ListItemIcon className={classes.icon}><UpdateIcon /></ListItemIcon>
                <ListItemText  primary="Change Pssword" />
              </ListItem>
-             <ListItem button className={classes.listItem}>
+             <ListItem button className={classes.listItem} onClick={handleManageEmployee}>
                <ListItemIcon className={classes.icon}><UpdateIcon /></ListItemIcon>
                <ListItemText primary="Manage Employee" />
              </ListItem>
@@ -207,6 +249,8 @@ const [openAgencyList, setOpenAgencyList] = React.useState(false);
                     :openUpdateInfo? <InfoUpdate type="organisation" nameChange ={handleNameChange}  email={emailOP}/> 
                     :changePassword? <ChangePassword type="organisation" email={emailOP}/>
                     :openAgencyList? <AgencyList orgEmail={emailOP} type= "org"></AgencyList>
+                    :openManageEmployee? <EmployeeList  orgEmail={emailOP}></EmployeeList>
+                    :openPolicyManagement?<>Policy Management</>
                     : <OrgHome orgEmail = {emailOP}></OrgHome>}
        
       </main>
