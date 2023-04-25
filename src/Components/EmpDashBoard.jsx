@@ -15,6 +15,7 @@ import { useLocation } from 'react-router-dom';
 import { getEmp, getOrg } from '../Service/commonService';
 import ProcessAppointment from './ProcessAppointment';
 import EmployeeHome from './EmpHome';
+import EmpViewAppointMent from './EmpViewAppointMent';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -41,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
+    width:100,
     padding: theme.spacing(3),
   },
   menuButton: {
@@ -90,6 +92,7 @@ function EmpDashBoard(props) {
   const [openProcessAppointMent,setOpenProcessAppointMent] = React.useState(false);
   const [changePassword,setchangePassword] = React.useState(false);//handleChangePassword
 //   const [orgDetails,setOrgDetails] = React.useState({});
+const [appHistory,setAppHistory] = React.useState(false)
   const [name, setName] = useState('');
   const [compEmail, setCompEmail] = useState('');
   const [empEmail, setEmpEmail] = useState('');
@@ -135,6 +138,13 @@ function EmpDashBoard(props) {
   }
 
   const handleHomeView = () =>{
+    setAppHistory(false)
+    setOpenUpdateInfo(false)
+    setchangePassword(false);
+    setOpenProcessAppointMent(false);
+  }
+  const handleHistoryAppointMent = () =>{
+   setAppHistory(true)
     setOpenUpdateInfo(false)
     setchangePassword(false);
     setOpenProcessAppointMent(false);
@@ -161,6 +171,10 @@ function EmpDashBoard(props) {
                <ListItemIcon className={classes.icon}><AddIcon /></ListItemIcon>
                <ListItemText primary="Book Appointment" />
              </ListItem>
+             <ListItem button className={classes.listItem}  onClick={handleHistoryAppointMent}>
+               <ListItemIcon className={classes.icon}><UpdateIcon /></ListItemIcon>
+               <ListItemText  primary="Appointment History" />
+             </ListItem>
              <ListItem button className={classes.listItem}  onClick={handleOrgInfoUpdate}>
                <ListItemIcon className={classes.icon}><UpdateIcon /></ListItemIcon>
                <ListItemText  primary="Update Info" />
@@ -175,6 +189,7 @@ function EmpDashBoard(props) {
        {openUpdateInfo?  <InfoUpdate type="employee" nameChange ={handleNameChange}  email={emailOP}/> 
        :changePassword? <ChangePassword type="employee" email={emailOP}/>
        : openProcessAppointMent?<ProcessAppointment email={emailOP} comapnyEmail = {compEmail}/>
+       :appHistory? <EmpViewAppointMent email={emailOP}></EmpViewAppointMent>
        :<EmployeeHome empEmail = {empEmail}/>}
         {/* Your main content goes here */}
       </main>

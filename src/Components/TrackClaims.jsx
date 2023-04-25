@@ -4,28 +4,29 @@ import { trackClaimRecords } from "../Service/ClaimService";
 import { Alert, AlertTitle, Button, Dialog, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 
 const useStyles = makeStyles({
-    table: {
-        '& tbody tr:hover': {
-          backgroundColor: '#f6fff2',
-        },
-      },
-      tableHead: {
-        backgroundColor: '#f6fff2',
-        fontWeight: 'bold',
-        fontSize: '24px',
-      },
-      listContainer: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column',
-        marginTop: '50px',
-      },
-      listTitle: {
-        fontWeight: 'bold',
-        fontSize: '32px',
-        marginBottom: '20px',
-      },
+  table: {
+    minWidth: 650,
+    '& tbody tr:hover': {
+      backgroundColor: '#f6fff2',
+    },
+  },
+  tableHead: {
+    backgroundColor: '#f6fff2',
+    fontWeight: 'bold',
+    fontSize: '24px',
+  },
+  listContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+    marginTop: '50px',
+  },
+  listTitle: {
+    fontWeight: 'bold',
+    fontSize: '32px',
+    marginBottom: '20px',
+  },
      
 });
 
@@ -47,7 +48,7 @@ const TrackClaims = (props)=>{
          All Claims
         </Typography>
       </div>
-      <TableContainer component={Paper} style={{ marginTop: '30px', width: '100%' ,margin: 'auto', }}>
+      <TableContainer component={Paper} style={{ marginTop: '30px', width: '100%'  }}>
         <Table className={classes.table}>
           <TableHead>
             <TableRow className={classes.tableHead} style={{whiteSpace: 'nowrap'}}>
@@ -68,7 +69,7 @@ const TrackClaims = (props)=>{
                 <TableCell style={{ fontWeight: 'bold', fontSize: '15px'}}>{claim.employeeEmail}</TableCell>
                 <TableCell style={{  fontSize: '15px'}}>{claim.claimDate}</TableCell> 
                 <TableCell style={{  fontSize: '15px'}}>{claim.status}</TableCell> 
-                <TableCell style={{ fontWeight: 'bold', fontSize: '15px'}}>{claim.amount}</TableCell>
+                <TableCell style={{ fontWeight: 'bold', fontSize: '15px'}}>₹ {claim.amount}</TableCell>
                 <TableCell>   <Button
           variant="text"
           disabled={!(claim.status==='claim rejected')}

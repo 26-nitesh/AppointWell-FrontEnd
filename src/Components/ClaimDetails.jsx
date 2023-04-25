@@ -7,28 +7,29 @@ import { makeStyles } from '@material-ui/core/styles';
 import { FormControl, IconButton, InputLabel, ListItemSecondaryAction, MenuItem, Select } from "@material-ui/core";
 import { updateAppointmnetByStatus } from "../Service/reportService";
 const useStyles = makeStyles({
-    table: {
-        '& tbody tr:hover': {
-          backgroundColor: '#f6fff2',
-        },
-      },
-      tableHead: {
-        backgroundColor: '#f6fff2',
-        fontWeight: 'bold',
-        fontSize: '24px',
-      },
-      listContainer: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column',
-        marginTop: '50px',
-      },
-      listTitle: {
-        fontWeight: 'bold',
-        fontSize: '32px',
-        marginBottom: '20px',
-      },
+  table: {
+    minWidth: 650,
+    '& tbody tr:hover': {
+      backgroundColor: '#f6fff2',
+    },
+  },
+  tableHead: {
+    backgroundColor: '#f6fff2',
+    fontWeight: 'bold',
+    fontSize: '24px',
+  },
+  listContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+    marginTop: '50px',
+  },
+  listTitle: {
+    fontWeight: 'bold',
+    fontSize: '32px',
+    marginBottom: '20px',
+  },
      
 });
 
@@ -85,7 +86,7 @@ const ClaimDetails = (props) =>{
           Appointment And their Claims
         </Typography>
       </div>
-      <TableContainer component={Paper} style={{ marginTop: '30px', width: '100%' ,margin: 'auto', }}>
+      <TableContainer component={Paper} style={{ marginTop: '30px' ,margin: 'auto', }}>
         <Table className={classes.table}>
           <TableHead>
             <TableRow className={classes.tableHead} style={{whiteSpace: 'nowrap'}}>
@@ -95,19 +96,7 @@ const ClaimDetails = (props) =>{
               <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px' }}>claim date</TableCell>
               {/* <TableCell sx={{ fontWeight: 'bold' ,fontSize: '20px' }}>status</TableCell> */}
               <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px' }}>
-      <FormControl sx={{ minWidth: 180 }}>
-        <InputLabel style={{ fontWeight: 'bold' ,fontSize: '18px',color:'black' }} >Status</InputLabel>
-        <Select
-          value={statusFilter}
-          endIcon={<ArrowDropDownIcon />}
-          // onChange={(e) => setStatusFilter(e.target.value)}
-        >
-          {/* <MenuItem value="" >All</MenuItem> */}
-          <MenuItem value="claim submitted">Claim Submitted</MenuItem>
-          <MenuItem value="approved">Claim Approved</MenuItem>
-          <MenuItem value="rejected">Claim Rejected</MenuItem>
-        </Select>
-      </FormControl>
+  status
     </TableCell>
 
               <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px' }}>Claim Amount</TableCell>
@@ -123,7 +112,7 @@ const ClaimDetails = (props) =>{
                 <TableCell style={{ fontWeight: 'bold', fontSize: '15px'}}>company Email</TableCell>
                 <TableCell style={{  fontSize: '15px'}}>{claim.claimDate}</TableCell> 
                 <TableCell style={{  fontSize: '15px'}}>{claim.status}</TableCell> 
-                <TableCell style={{ fontWeight: 'bold', fontSize: '15px'}}>{claim.amount}</TableCell>
+                <TableCell style={{ fontWeight: 'bold', fontSize: '15px'}}>₹ {claim.amount}</TableCell>
                 <TableCell style={{  fontSize: '15px' }}><Button variant="text"
                 disabled={claim.status !== 'claim submitted'}
                 onClick={() => handleApproveClaim(claim.appintmentId)}

@@ -7,6 +7,7 @@ export const  getClaimRecords = async(agencyEmail)=>{
   if(response.data.HttpStatus===200){
     const appArr = response.data.data;
     for(let app of appArr){
+      if(app.agencyArchived === false){
     //    console.log(app.employeeEmail);
    const employee =   await axios.get(BASE_URI_EMPLOYEE+'/'+app.employeeEmail);
      if(employee.data.HttpStatus===200){
@@ -22,6 +23,7 @@ export const  getClaimRecords = async(agencyEmail)=>{
           }
         }
      }
+    }
     }
     // console.log(appArr);
 //     let list = Object.values(appArr)

@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
     top: 0,
     zIndex: theme.zIndex.appBar,
     background: `linear-gradient(to right, #1565c0, #1565c0)`
+    //  backgroundColor:'#f2f2f2'
     // background:'#c4d6ff',
   },
   navButton: {
