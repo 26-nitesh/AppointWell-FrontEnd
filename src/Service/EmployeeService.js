@@ -1,5 +1,5 @@
 import axios from "axios"
-import { BASE_URI_APPOINTMENT, BASE_URI_COMPANY, BASE_URI_EMPLOYEE, BASE_URI_REPORT, getEmp, getHosp } from "./commonService";
+import { BASE_URI_APPOINTMENT, BASE_URI_COMPANY, BASE_URI_EMPLOYEE, BASE_URI_REPORT, getEmp, getHosp, getOrg } from "./commonService";
 
 export const getAppointmentsByEmployee = async(email) =>{
     // http://localhost:9598/appointment/api/getByEmp/ww
@@ -57,3 +57,31 @@ export const findHospitalByEmail =async (email)=>{
     return null
   }
 };
+
+export const getAddInfoDetailsToViewHospital = async(email) =>{
+const addInfo = {};
+  const empO = await getEmp(email);
+  // console.log(emp);
+if(empO.data.HttpStatus===200){
+ const emp = empO.data.data;
+  addInfo.empName=emp.empName;
+  addInfo.dateOfJoining=emp.dateOfJoining;
+  addInfo.hazardousExposure=emp.hazardousExposure;
+  addInfo.lastCheckupDate=emp.lastCheckupDate;
+  addInfo.addLine1=emp.addLine1
+addInfo.city=emp.city
+addInfo.zip=emp.zip;
+  // console.log(emp.data.data);
+ const orgO = await getOrg(emp.orgEmail);
+ if(orgO.data.HttpStatus===200){
+  const org = orgO.data.data;
+  addInfo.insuranceAgencyEmail=org.insuranceAgencyEmail;
+addInfo.organisationName = org.organisationName;
+addInfo.organisationEmail=org.organisationEmail;
+ }
+  // console.log(addInfo);
+  return addInfo;
+}else{
+  return null;
+}
+}

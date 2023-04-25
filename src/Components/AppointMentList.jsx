@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { getAppointMentByHospital, updateAppointmnet } from "../Service/commonService";
 import ProcessReport from "./ProcessReport";
 import { updateClaimAmount } from "../Service/reportService";
-import { updateLastAppDateForEmployee } from "../Service/EmployeeService";
+import { getAddInfoDetailsToViewHospital, updateLastAppDateForEmployee } from "../Service/EmployeeService";
 
 const useStyles = makeStyles({
     table: {
@@ -59,6 +59,8 @@ const AppointMentList = (props) =>{
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const[isLoading, setLoading] = useState(false);
+    const[selectedEmpEmail,setSelectedEmpEmail] = useState(null)
+    const [employeeAddInfo,setEmployeeAddInfo] = useState(null)
     React.useEffect(()=>{
         async function fetchData() {
           const response = await  getAppointMentByHospital(props.data,false);
@@ -157,6 +159,16 @@ const res = await updateClaimAmount(enteredAmount,appIdForClaim);
 setOpenClaimDialog(false);
 setReload(true)
 }
+
+const handleEmployeeClick = async(email) =>{
+    if(selectedEmpEmail===email){
+      setSelectedEmpEmail(null)
+    }else{
+      const addInfo = await getAddInfoDetailsToViewHospital(email)
+      setSelectedEmpEmail(email)
+      setEmployeeAddInfo(addInfo)
+    }
+}
     return(
       isLoading? <div className={classes.listContainer}>
       <CircularProgress />
@@ -182,7 +194,7 @@ setReload(true)
           {appList.map((appointment)=>(
         <>
         <TableRow key={appointment.appintmentId} style={{height:'5px', whiteSpace: 'nowrap'}}>
-                <TableCell style={{ fontWeight: 'bold', fontSize: '15px'}}><Button variant="text"  sx={{ textTransform: 'none' }}>{appointment.employeeEmail}</Button></TableCell>
+                <TableCell style={{ fontWeight: 'bold', fontSize: '15px'}}><Button variant="text"  sx={{ textTransform: 'none' }} onClick={() => handleEmployeeClick(appointment.employeeEmail)}>{appointment.employeeEmail}</Button></TableCell>
                 <TableCell style={{  fontSize: '15px' }}>{appointment.appointmentDate}</TableCell>
                 <TableCell style={{ fontSize: '15px'}}>{appointment.bookingDate}</TableCell>
                 <TableCell style={{  fontSize: '15px'}}>{appointment.status}</TableCell>
@@ -294,6 +306,18 @@ setReload(true)
           <Button onClick={rejectAppointMent}>Confirm</Button>
         </DialogActions>
               </Dialog>}
+              {selectedEmpEmail && selectedEmpEmail ===appointment.employeeEmail && <TableRow> 
+    <TableCell colSpan={3}>
+      <div style={{ paddingLeft: '32px' }}>
+        <Typography variant="subtitle1" style={{ color: '#666666' }}>
+          <strong>Name:</strong> {employeeAddInfo.empName}
+        </Typography>
+        <Typography variant="subtitle1" style={{ color: '#666666', marginTop: '8px' }}>
+          <strong>Address:</strong> {employeeAddInfo.addLine1}  {employeeAddInfo.city}  {employeeAddInfo.zip}
+        </Typography>
+      </div>
+    </TableCell>
+    </TableRow>}
         </>
           ))}
           </TableBody>
