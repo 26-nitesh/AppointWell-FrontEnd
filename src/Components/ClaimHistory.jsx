@@ -48,16 +48,6 @@ const ClaimHstory = (props) =>{
         fetchData();
       }, [props.agencyEmail]);
 
-      const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, claims.length - page * rowsPerPage);
-
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-    };
-
     return(
         <>
           <div className={classes.listContainer}>

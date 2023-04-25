@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import { trackClaimRecords } from "../Service/ClaimService";
-import { Alert, AlertTitle, Button, Dialog, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Alert, AlertTitle, Button, Dialog, Paper, Table, TableBody,TablePagination, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 
 const useStyles = makeStyles({
   table: {
@@ -34,6 +34,8 @@ const useStyles = makeStyles({
 const TrackClaims = (props)=>{
     const [claims, setClaims] = useState([]);
     const classes = useStyles();
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
     React.useEffect(()=>{
         async function fetchData() {
       const claims =   await trackClaimRecords(props.hospEmail);
@@ -61,7 +63,10 @@ const TrackClaims = (props)=>{
               </TableRow>
               </TableHead>
               <TableBody>
-              {claims.map((claim)=>(
+              {  (rowsPerPage > 0
+                    ? claims.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    : claims
+                ).map((claim)=>(
                 <>
                 <TableRow key={claim.appintmentId} style={{height:'5px', whiteSpace: 'nowrap'}}>
                 <TableCell style={{ fontSize: '15px'}}>{claim.appintmentId}</TableCell>
@@ -83,6 +88,20 @@ const TrackClaims = (props)=>{
                 ))}
               </TableBody>
               </Table>
+              <TablePagination
+  rowsPerPageOptions={[5, 10, 25]}
+  component="div"
+  count={claims.length}
+  rowsPerPage={rowsPerPage}
+  page={page}
+  onPageChange={(event, newPage) => {
+    setPage(newPage);
+  }}
+  onRowsPerPageChange={(event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  }}
+/>
               </TableContainer>
               
         </>

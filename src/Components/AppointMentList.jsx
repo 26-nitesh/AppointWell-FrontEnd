@@ -1,5 +1,5 @@
 import { TableHead } from "@material-ui/core";
-import { Button, ButtonBase, Dialog, DialogActions, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableRow, TextField, Typography } from "@mui/material";
+import { Button, ButtonBase, Dialog, DialogActions, DialogTitle, Paper,TablePagination, Table, TableBody, TableCell, TableContainer, TableRow, TextField, Typography } from "@mui/material";
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useState } from "react";
 import { getAppointMentByHospital, updateAppointmnet } from "../Service/commonService";
@@ -55,6 +55,8 @@ const AppointMentList = (props) =>{
     const[selectedEmpForClaim, setSelectedEmpForClaim]= useState(null);
     const[enteredAmount, setEnteredAmount]= useState(null);//enteredAmount
     const[appIdForClaim,setAppIdForClaim] = useState(null);
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
     React.useEffect(()=>{
         async function fetchData() {
           const response = await  getAppointMentByHospital(props.data,false);
@@ -285,7 +287,22 @@ setReload(true)
         </>
           ))}
           </TableBody>
+          
           </Table>
+          <TablePagination
+  rowsPerPageOptions={[5, 10, 25]}
+  component="div"
+  count={appList.length}
+  rowsPerPage={rowsPerPage}
+  page={page}
+  onPageChange={(event, newPage) => {
+    setPage(newPage);
+  }}
+  onRowsPerPageChange={(event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  }}
+/>
           </TableContainer>
         </>
     )
