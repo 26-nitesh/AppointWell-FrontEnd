@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {  getOrg, findAgencyByEmail, getAllAgencies, updateOrg, updateOrgWithAgency, getHosp, updateHospWithAgency, addAgecy } from "../Service/commonService";
 import { Alert, AlertTitle, Button, Dialog, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from "@mui/material";
 import { makeStyles } from '@material-ui/core/styles';
+import { checkAddAgencyAllowed } from "../Service/AgencyService";
 
 const useStyles = makeStyles({
     table: {
@@ -70,16 +71,22 @@ const AgencyList = (props) => {
     if (confirmed) {
           const empRes =  await getOrg(props.orgEmail);
           //    console.log(empRes.data.data);
-         let json =  empRes.data.data
-         json.insuranceAgencyEmail=email;
-             const res = await updateOrgWithAgency(json);
-             setopenDialog(true);
-             if(res.data.HttpStatus==200){
-              setSucessMessage("Agency Added SueesFully");
-             }else{
-                  setErrorMessage(res.data.message);
-             }
-          //    console.log(res)
+          // check here if with the existing agency is there transaction pending return true if eligible
+        const flag =   await checkAddAgencyAllowed(empRes.data.data);
+        if(flag){
+          let json =  empRes.data.data
+          json.insuranceAgencyEmail=email;
+              const res = await updateOrgWithAgency(json);
+              setopenDialog(true);
+              if(res.data.HttpStatus==200){
+               setSucessMessage("Agency Added SueesFully");
+              }else{
+                   setErrorMessage(res.data.message);
+              }
+           //    console.log(res)
+        }else{
+          alert("Ovverrding agency is not allowed at this moment because there are some ongoing transactions")
+        }
         }
       }else if(props.type==='hospital'){
          try{

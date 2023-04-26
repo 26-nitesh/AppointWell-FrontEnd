@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { getAppointMentByHospital, updateAppointmnet } from "../Service/commonService";
 import ProcessReport from "./ProcessReport";
 import { updateClaimAmount } from "../Service/reportService";
-import { getAddInfoDetailsToViewHospital, updateLastAppDateForEmployee } from "../Service/EmployeeService";
+import { getAddInfoDetailsToViewHospital, getFinalResponseCheckingAfetrEmployeeExistOrNot, updateLastAppDateForEmployee } from "../Service/EmployeeService";
 
 const useStyles = makeStyles((theme) => ({
     table: {
@@ -74,12 +74,13 @@ const AppointMentList = (props) =>{
     const [ viewMore , setViewMore]  = useState(false);
     React.useEffect(()=>{
         async function fetchData() {
-          const response = await  getAppointMentByHospital(props.data,false);
-            if(response!=null){
+          const responseO = await  getAppointMentByHospital(props.data,false);
+            if(responseO!=null){
+              const response = await getFinalResponseCheckingAfetrEmployeeExistOrNot(responseO);
                 setAppList(response)
                 setReload(false)
                }
-               console.log(response==undefined);
+               console.log(responseO==undefined);
         }
         fetchData();
       }, [reload]);

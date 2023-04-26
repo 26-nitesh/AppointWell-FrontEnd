@@ -99,6 +99,15 @@ addInfo.organisationEmail=org.organisationEmail;
 }
 }
 
+export const  deleteEmpByEmail = async(empEmail)=>{
+  try{
+    const res =   axios.delete(BASE_URI_EMPLOYEE+'/delete/'+empEmail);
+    return res;
+  }catch(err){
+    return err.response
+  }
+};
+
 export const getAge = async (dob1)=>{
 
   const dob = new Date(dob1);
@@ -159,5 +168,25 @@ if (today.getDate() < dob.getDate()) {
 }
 
 return `${age} months`; 
+
+}
+export const getFinalResponseCheckingAfetrEmployeeExistOrNot = async(responseO) =>{
+
+  // console.log("checking");
+let response=[];
+  for(let app of responseO ){
+     const emp = await getEmp( app.employeeEmail);
+       if(emp.data.HttpStatus===200){
+        response.push(app);
+       }
+       else if(emp.data.HttpStatus===404){
+        // deleteA
+      await  axios.delete(BASE_URI_APPOINTMENT+'/deleteByEmp/'+app.employeeEmail);
+        // BASE_URI_APPOINTMENT
+       }
+  }
+  // console.log(responseO);
+
+  return response;
 
 }

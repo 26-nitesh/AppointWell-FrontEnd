@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { Alert, AlertTitle, Button, Dialog, Paper, Table, TableBody,TablePagination, TableCell, TableContainer, TableHead, TableRow, Typography, CircularProgress } from "@mui/material";
 import React, { useState } from "react";
-import { getEmpForOrg } from '../Service/EmployeeService';
+import { deleteEmpByEmail, getEmpForOrg } from '../Service/EmployeeService';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const useStyles = makeStyles({
@@ -34,7 +34,8 @@ const useStyles = makeStyles({
 const EmployeeList  =  (props) =>{
     const [employees, setEmps] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-
+    const [errorMessage, setErrorMessage] = useState(null);
+    const [sucessMessage, setSucessMessage] = useState(null);
     const [reload, setReload] = useState(false);
     const classes = useStyles();
     const [page, setPage] = useState(0);
@@ -51,6 +52,22 @@ const EmployeeList  =  (props) =>{
         fetchData();
       }, [reload]);  
 
+   const handleDeleteEmployee = async(empEmail) =>{
+   const deleteRes = await deleteEmpByEmail(empEmail);
+    
+    setReload((prev) => !prev);
+    if(deleteRes.data.HttpStatus===200){
+      setSucessMessage(deleteRes.data.message)
+      setErrorMessage(null)
+ }else{
+  setSucessMessage(null)
+  setErrorMessage("error occured")
+ }
+ setTimeout(() => {
+  setSucessMessage(null);
+  setErrorMessage(null);
+}, 1000);
+   }   
 
    if(isLoading){
    return(
@@ -68,6 +85,18 @@ const EmployeeList  =  (props) =>{
               </Typography>
             </div>
             <TableContainer component={Paper} style={{ marginTop: '30px', width: '100%'  }}>
+            {errorMessage && (
+        <Alert severity="error">
+          <AlertTitle>Error</AlertTitle>
+          {errorMessage}
+        </Alert>
+      )}
+      {sucessMessage && (
+        <Alert severity="success">
+          <AlertTitle>success</AlertTitle>
+          {sucessMessage}
+        </Alert>
+      )}
               <Table className={classes.table}>
                 <TableHead>
                   <TableRow className={classes.tableHead} style={{whiteSpace: 'nowrap'}}>
@@ -96,7 +125,7 @@ const EmployeeList  =  (props) =>{
                       <TableCell style={{fontSize: '15px'}}>{employee.lastCheckupDate}</TableCell>
                       <TableCell style={{fontSize: '15px'}}>{employee.dob}</TableCell>
                       <TableCell style={{fontSize: '15px',wordWrap: 'break-word'}}>{employee.addLine1} <br/>{employee.city} {employee.zip}</TableCell>
-                      <TableCell> <Button ><DeleteIcon sx={{ color: 'red' }} /></Button></TableCell>
+                      <TableCell> <Button onClick={()=>{handleDeleteEmployee(employee.empEmail)}}><DeleteIcon sx={{ color: 'red' }} /></Button></TableCell>
 
                       {/* <TableCell style={{  fontSize: '15px'}}>{claim.claimDate}</TableCell> 
                       <TableCell style={{  fontSize: '15px'}}>{claim.status}</TableCell>  */}

@@ -49,7 +49,7 @@ export const getEmp = async (values)=>{
   // console.log(uri);
  return   await axios.get(uri);
   }catch(error){
-    
+    return error.response
   }
 }
 
@@ -248,6 +248,7 @@ RESPONSE.status="500"
 
 export const getAppointMentByHospital = async(emailOP,archived) => {
   // http://localhost:9598/appointment/api/getByHospital/hosp@hosp1?archived=false
+  
          let input = BASE_URI_APPOINTMENT+`/getByHospital/${emailOP}?archived=${archived}`;
         //  console.log(input);
  try{
