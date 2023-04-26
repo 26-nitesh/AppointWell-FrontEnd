@@ -3,6 +3,7 @@ import { getAppointmentsByEmployee } from "../Service/EmployeeService";
 import { Alert, AlertTitle, Button, Dialog, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { makeStyles } from '@material-ui/core/styles';
 import { TablePagination } from "@material-ui/core";
+import { getReportById } from "../Service/reportService";
 
 const useStyles = makeStyles({
   table: {
@@ -35,6 +36,9 @@ const EmpViewAppointMent = (props) =>{
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const[reportGenerated,setReportGenerated]= useState({});
+  const[openReportDialog,setOpenReportDialog] = useState(false);
+  const[selectedAppId,setSelectedAppId] = useState(null)//selectedAppId
     const [appointments, setAppointments] = useState([]);
     React.useEffect(()=>{
         async function fetchData() {
@@ -45,6 +49,23 @@ const EmpViewAppointMent = (props) =>{
         }
         fetchData();
       }, []);
+
+const handleDialogClose=  ()=>{
+setOpenReportDialog(false)
+}
+
+      const handleSeeReport = async(appId) =>{
+        setSelectedAppId(appId)
+      const report = await  getReportById(appId)
+      // console.log(report);
+      if(report.HttpStatus===200){
+        // console.log(report.data.reportDetails          );
+        setReportGenerated(report.data);
+        setOpenReportDialog(true);
+      }
+        // console.log("view Report");
+        // console.log(report);
+      }
     return(
         <>
         <TableContainer component={Paper} style={{ marginTop: '30px' ,margin: 'auto', }}>
@@ -74,9 +95,9 @@ const EmpViewAppointMent = (props) =>{
               <TableCell style={{ fontWeight: 'bold', fontSize: '15px', color: app.status === 'completed' ? 'green' : app.status === 'rejected' ? 'red' : 'black' }}>{app.status.toUpperCase()}</TableCell>
                <TableCell style={{ fontSize: '15px'}}>{app.remarks}</TableCell>
                <TableCell style={{ fontSize: '15px'}}>
-        <Button disabled={app.status !== 'completed'}>See Report</Button>
+        <Button disabled={app.status !== 'completed'} onClick={()=>{handleSeeReport(app.appintmentId)}}>See Report</Button>
       </TableCell>
-               
+      {selectedAppId===app.appintmentId && <Dialog open={openReportDialog} onClose={handleDialogClose}> {reportGenerated.reportDetails}</Dialog>}
                 {/* <TableCell style={{  fontSize: '15px'}}>{claim.claimDate}</TableCell>  */}
                 </TableRow>
                 </>

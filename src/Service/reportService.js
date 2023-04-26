@@ -28,3 +28,16 @@ export const  updateClaimAmount = async(enteredAmount,appId)=>{
   const response = await axios.get(BASE_URI_APPOINTMENT+`/updateAppointmnet/${appId}?status=${status}&amount=${parseFloat(enteredAmount)}`)
   console.log(response.data.HttpStatus);
 };
+
+export const  getReportById = async(appId) =>{
+
+try{
+  const report = await axios.get(BASE_URI_REPORT+'/get/'+appId);
+  return report.data
+}catch(err){
+  return err.response
+}
+
+ 
+
+}
