@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Paper } from '@material-ui/core';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import { Card, Dialog, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import { getPolicyByOrg } from '../Service/PolicyService';
 import { makeStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 function PolicyHome(props) {
   const [selectedOption, setSelectedOption] = useState('review');
-
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
   };
-
+ 
+const changesetSelectedOption = (data) =>{
+   setSelectedOption('review')
+}
   return (
     <div>
       <Typography>
@@ -25,7 +27,7 @@ function PolicyHome(props) {
         </RadioGroup>
       </FormControl>
       {selectedOption === 'review' && <ReviewPolicy orgEmail={props.orgEmail}/>}
-      {selectedOption === 'create' && <CreatePolicy />}
+      {selectedOption === 'create' && <CreatePolicy  orgEmail={props.orgEmail}  changesetSelectedOption={changesetSelectedOption}/>}
     </div>
   );
 }
@@ -100,7 +102,18 @@ function ReviewPolicy(props) {
   )
 }
 
-function CreatePolicy() {
-  return <div>Create Policy Component</div>;
+function CreatePolicy(props) {
+  const [openDialog, setOpenDialog] = React.useState(true)
+  const handleDialogClose = ()=>{
+    setOpenDialog(false)
+    props.changesetSelectedOption('review');
+  }
+  return <div>
+    <Dialog open={openDialog} onClose={handleDialogClose}>
+      <Card>
+        card on dialog
+      </Card>
+    </Dialog>
+  </div>;
 }
 export default PolicyHome;
