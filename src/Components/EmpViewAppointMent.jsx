@@ -71,7 +71,7 @@ const EmpViewAppointMent = (props) =>{
               <TableCell style={{ fontSize: '15px'}}>{app.hospitalEmail}</TableCell>
               <TableCell style={{ fontSize: '15px'}}>{app.bookingDate}</TableCell>
               <TableCell style={{ fontSize: '15px'}}>{app.appointmentDate}</TableCell>
-              <TableCell style={{ fontWeight: 'bold', fontSize: '15px', color: app.status === 'completed' ? 'green' : app.status === 'rejected' ? 'red' : 'black' }}>{app.status}</TableCell>
+              <TableCell style={{ fontWeight: 'bold', fontSize: '15px', color: app.status === 'completed' ? 'green' : app.status === 'rejected' ? 'red' : 'black' }}>{app.status.toUpperCase()}</TableCell>
                <TableCell style={{ fontSize: '15px'}}>{app.remarks}</TableCell>
                <TableCell style={{ fontSize: '15px'}}>
         <Button disabled={app.status !== 'completed'}>See Report</Button>
