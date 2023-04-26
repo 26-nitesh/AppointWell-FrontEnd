@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Paper } from '@material-ui/core';
-import { Alert, AlertTitle, Button, Card, CardContent, Dialog, FormHelperText, MenuItem, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
+import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Paper, Select } from '@material-ui/core';
+import { Alert, AlertTitle, Button, Card, CardContent, Dialog, FormHelperText, InputLabel, MenuItem, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
 import { getPolicyByOrg } from '../Service/PolicyService';
 import { makeStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -8,6 +8,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 function PolicyHome(props) {
   const [selectedOption, setSelectedOption] = useState('review');
+  
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
   };
@@ -15,6 +16,8 @@ function PolicyHome(props) {
 const changesetSelectedOption = (data) =>{
    setSelectedOption('review')
 }
+
+
   return (
     <div>
       <Typography>
@@ -132,39 +135,55 @@ function CreatePolicy(props) {
   }
   const [errorMessage, setErrorMessage] = useState(null);
   const [sucessMessage, setSucessMessage] = useState(null);
+  const PolicyValidation = yup.object().shape({
+    orgEmail: yup.string().email().required("Required!"),
+    policyName: yup.string().required("Required!"),
+    otherOption: yup.string().when(["policyName", "other"], {
+      is: (policyName, other) => policyName === "other" && other,
+      then: yup.string().required("Required!"),
+    }).required("required"),
+    value: yup.string().required("Required!"),
+    frequency: yup.string().required("Required!"),
+  });
+const [formValues, setFormValues] = useState(null);
+const policyFormik = useFormik({
+  initialValues: {
+    orgEmail: props.orgEmail,
+    policyName: "",
+    otherOption: "",
+    value: "",
+    frequency: "",
+  },
+  validationSchema: PolicyValidation,
+  onSubmit: (values) => {
+    console.log(values);
+    setFormValues(values);
+    policyFormik.resetForm();
+  },
+});
+const [selectedOptionForPolicyType, setSelectedOptionForPolicyType] = useState('');
+const [otherOption, setOtherOption] = useState('');
 
-  const PolicyValidation = yup.object({
-    orgEmail: yup.string().email().required("required !!"),
-    policyName: yup.string().required("required !!"),
-    value: yup.string().required("required !!"),
-    frequency: yup.string().required("required !!")
-  })
-  const policyFormik = useFormik(
-    {
-         initialValues:{
-          orgEmail:props.orgEmail,
-          policyName:"",
-           value:"",
-           frequency:""
+const handleOptionChangeForPolicyType = (event) => {
+  const selected = event.target.value;
+  setSelectedOptionForPolicyType(selected);
+  if (selected === 'other') {
+    setOtherOption('');
+  }
+};
 
-         },
-         validationSchema:PolicyValidation,
-         onSubmit: async (values)=>{
-          console.log(values);
-          policyFormik.resetForm();
+const handleOtherOptionChange = (event) => {
+  setOtherOption(event.target.value);
+};
 
-         }
-    }
-
-)
 
   return <div>
     <Dialog open={openDialog} onClose={handleDialogClose}>
-      <Card className={classes.card}>
+      <Card className={classes.card} style={{minHeight:580}}>
        <CardContent>
        <Typography variant="h5" component="h2" style={{marginBottom:'12px'}} className={classes.title}>
             Add your policies
-          </Typography>
+          </Typography><br/>
        <form className={classes.form} onSubmit={policyFormik.handleSubmit}>
           {errorMessage && (
         <Alert severity="error">
@@ -178,12 +197,41 @@ function CreatePolicy(props) {
           {sucessMessage}
         </Alert>
       )}
+     
       <TextField label="Organisation Email" type="email" name='orgEmail' value={policyFormik.values.orgEmail} />
-          <TextField label="policy Name" type="text" name='policyName' value={policyFormik.values.policyName} error={policyFormik.touched.policyName && Boolean(!policyFormik.errors.policyName)} onChange={policyFormik.handleChange}  />
-          <FormHelperText error>{policyFormik.errors.policyName}</FormHelperText>
-            <TextField label="Policy Value" type="text" name='value' value={policyFormik.values.value} error={policyFormik.touched.value && Boolean(!policyFormik.errors.value)} onChange={policyFormik.handleChange} />
+      <FormControl fullWidth>
+        <InputLabel>Policy Name *</InputLabel>
+        <Select  name="policyName" value={policyFormik.values.policyName} onChange={(event) => {
+            policyFormik.handleChange(event);
+            // clear otherOption if policyName changes
+            if (event.target.value !== "other") {
+              policyFormik.setFieldValue("otherOption", "");
+            }
+          }} >
+          <MenuItem value="minAge">Minimum Age</MenuItem>
+          <MenuItem value="minServiceMonth">Minimum Service Months</MenuItem>
+          <MenuItem value="AgeGreaterThan">Age Greater Than Policy</MenuItem>
+          <MenuItem value="Default">Default (Applicable to All)</MenuItem>
+          <MenuItem value="other">Other</MenuItem>
+        </Select>
+      </FormControl>
+      {policyFormik.values.policyName === "other" && (
+          <>
+          <TextField label="Other Name *"
+           type="text" name='otherOption' 
+           value={policyFormik.values.otherOption}
+              onChange={policyFormik.handleChange}
+          />
+           {policyFormik.errors.otherOption &&
+              policyFormik.touched.otherOption && (
+                <FormHelperText error>{policyFormik.errors.otherOption}</FormHelperText>
+              )}
+          </>
+        )}
+
+            <TextField label="Policy Value *" type="text" name='value' value={policyFormik.values.value} error={policyFormik.touched.value && Boolean(!policyFormik.errors.value)} onChange={policyFormik.handleChange} />
             <FormHelperText error>{policyFormik.errors.value}</FormHelperText>
-            <TextField label="Interval between two Checkup" type="text" name='frequency' value={policyFormik.values.frequency} error={policyFormik.touched.frequency && Boolean(!policyFormik.errors.frequency)} onChange={policyFormik.handleChange} />
+            <TextField label="Interval between two Checkup *" type="text" name='frequency' value={policyFormik.values.frequency} error={policyFormik.touched.frequency && Boolean(!policyFormik.errors.frequency)} onChange={policyFormik.handleChange} />
             <FormHelperText error>{policyFormik.errors.frequency}</FormHelperText>
             <Button variant="contained" color="primary" type="submit">
               Add
