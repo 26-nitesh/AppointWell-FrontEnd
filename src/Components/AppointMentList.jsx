@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
       card: {
         minWidth: 400,
         maxWidth: 700,
-        minHeight:550,
+        minHeight:600,
         backgroundColor: theme.palette.background.paper,
         boxShadow: theme.shadows[4],
         [theme.breakpoints.up('md')]: {
@@ -379,10 +379,10 @@ const handleEmployeeClick = async(email) =>{
               </Table>
               </TableContainer>
           </CardContent>
-          </Card>
           <DialogActions>
           <Button variant="contained" onClick={handleDialogClose} >OK</Button>
           </DialogActions>
+          </Card>
         </Dialog>}
       </div>
     </TableCell>
