@@ -69,7 +69,7 @@ function ReviewPolicy(props) {
         setpolicyList(policies)
         }
         fetchData();
-      }, []);
+      }, [props.orgEmail]);
   return (
     <div>
            <TableContainer component={Paper} style={{ marginTop: '30px', width: '60%' ,margin: 'auto' }}>
@@ -78,7 +78,7 @@ function ReviewPolicy(props) {
             <TableRow className={classes.tableHead}>
               <TableCell sx={{ fontWeight: 'bold' ,fontSize: '15px' }}>Policy Name</TableCell>
               <TableCell sx={{ fontWeight: 'bold' ,fontSize: '15px' }}>Value</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' ,fontSize: '15px' }}>Frequency/year</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' ,fontSize: '15px' }}>Min gap between 2 checkups</TableCell>
               <TableCell></TableCell>
               </TableRow>
               </TableHead>

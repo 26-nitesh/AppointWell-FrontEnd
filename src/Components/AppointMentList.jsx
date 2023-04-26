@@ -1,5 +1,5 @@
-import { TableHead } from "@material-ui/core";
-import { Button, ButtonBase, Dialog, DialogActions, DialogTitle, Paper,TablePagination, Table, TableBody, TableCell, TableContainer, TableRow, TextField, Typography, CircularProgress } from "@mui/material";
+import { CardContent, TableHead } from "@material-ui/core";
+import { Button, ButtonBase, Dialog, DialogActions, DialogTitle, Paper,TablePagination, Table, TableBody, TableCell, TableContainer, TableRow, TextField, Typography, CircularProgress, Card } from "@mui/material";
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useState } from "react";
 import { getAppointMentByHospital, updateAppointmnet } from "../Service/commonService";
@@ -7,12 +7,22 @@ import ProcessReport from "./ProcessReport";
 import { updateClaimAmount } from "../Service/reportService";
 import { getAddInfoDetailsToViewHospital, updateLastAppDateForEmployee } from "../Service/EmployeeService";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     table: {
         // minWidth: 900,
         
         '& tbody tr:hover': {
           backgroundColor: '#f6fff2',
+        },
+      },
+      card: {
+        minWidth: 400,
+        maxWidth: 700,
+        minHeight:550,
+        backgroundColor: theme.palette.background.paper,
+        boxShadow: theme.shadows[4],
+        [theme.breakpoints.up('md')]: {
+          padding: theme.spacing(4),
         },
       },
       tableHead: {
@@ -33,7 +43,7 @@ const useStyles = makeStyles({
         // marginBottom: '20px',
       },
      
-});
+}));
 
 
 const AppointMentList = (props) =>{
@@ -61,6 +71,7 @@ const AppointMentList = (props) =>{
     const[isLoading, setLoading] = useState(false);
     const[selectedEmpEmail,setSelectedEmpEmail] = useState(null)
     const [employeeAddInfo,setEmployeeAddInfo] = useState(null)
+    const [ viewMore , setViewMore]  = useState(false);
     React.useEffect(()=>{
         async function fetchData() {
           const response = await  getAppointMentByHospital(props.data,false);
@@ -79,9 +90,11 @@ const AppointMentList = (props) =>{
         setAppIdForClaim(appId);
         setSelectedEmpForClaim(empEmail)
         setOpenClaimDialog(true)
+        setViewMore(false);
         setReload(true)
       }
     const approveAppointment = async(empEmail) =>{//
+      setViewMore(false);
       setSelectedEmpNew(empEmail)
       setLoading(true)
    const updated =  await updateAppointmnet(empEmail,props.data,false,true,'appointment approved','valid');
@@ -99,6 +112,7 @@ const AppointMentList = (props) =>{
              setReload(true)
              setInactive(true)
              SetOpenDialogForReject(false)
+             setViewMore(false);
          }
 
 
@@ -107,6 +121,7 @@ const AppointMentList = (props) =>{
             setSelectedEmp(empEmail)
             setReload(true)
             setopenDialog(true)
+            setViewMore(false);
          }
          const handleOpenDialogForReject = (empEmail) =>{//handleOpenDialogForReject
             setSelectedEmpForReject(empEmail)
@@ -115,6 +130,7 @@ const AppointMentList = (props) =>{
             SetOpenDialogForReject(true);
             setSelectedEmpNew(empEmail)
             setReload(true)
+            setViewMore(false);
          }
    const handleUpdateRemarks = async() =>{
     
@@ -131,6 +147,7 @@ const AppointMentList = (props) =>{
     SetOpenDialogForReject(false)
     // setReload(false)
     setOpenReportDialog(false);
+    setViewMore(false)
     setOpenClaimDialog(false)
     // setReload(true)
 }
@@ -158,6 +175,10 @@ const handleClaimSubmit = async() =>{
 const res = await updateClaimAmount(enteredAmount,appIdForClaim);
 setOpenClaimDialog(false);
 setReload(true)
+}
+
+const handleVieWMore = () =>{
+  setViewMore(true);
 }
 
 const handleEmployeeClick = async(email) =>{
@@ -262,7 +283,6 @@ const handleEmployeeClick = async(email) =>{
         </DialogActions>                
               </Dialog>}
 
-
               {createReportForSelectedEmployee === appointment.employeeEmail && <Dialog open={openReportDialog} onClose={handleDialogClose}>
              <ProcessReport data = {appointment}></ProcessReport>
               </Dialog>}
@@ -318,10 +338,56 @@ const handleEmployeeClick = async(email) =>{
         </Typography>
         <Typography variant="subtitle1" style={{ color: '#666666', marginTop: '8px' }}>
           <strong>Address:</strong> {employeeAddInfo.addLine1}  {employeeAddInfo.city}  {employeeAddInfo.zip}
+        </Typography><br/>
+        <Button variant="contained" style={{textTransform:'none'}} onClick={handleVieWMore}>view more</Button>
+        {viewMore && <Dialog open={viewMore} onClose={handleDialogClose}>
+        <Card className={classes.card}>
+        <Typography variant="h5" style={{alignSelf:'center'}}>Profile</Typography>
+        <CardContent>
+        <Typography variant="subtitle1" style={{ color: '#666666'  }}>
+          <strong>Name:</strong> {employeeAddInfo.empName}<br/>
+          <strong>Company Name:</strong> {employeeAddInfo.organisationName}<br/>
+          <strong>Company Email:</strong> {employeeAddInfo.organisationEmail}<br/>
+          {/* <strong>Joining Date:</strong> {employeeAddInfo.dateOfJoining}<br/> */}
+          <strong>Service Month :</strong> {employeeAddInfo.totalServiceMonths}<br/>
+          {/* <strong>DOB:</strong> {employeeAddInfo.dob}  <br/>   */}
+          <strong>Age :  {employeeAddInfo.age}</strong>  <br/>
+          <strong>Exposure Type:</strong> {employeeAddInfo.hazardousExposure}<br/>
+          <strong>Last CheckupDate:</strong> {employeeAddInfo.lastCheckupDate}<br/>
+
         </Typography>
+        <TableContainer component={Paper} style={{width: '100%' ,margin: 'auto',marginTop:'10px' }}>
+        <Table className={classes.table}>
+          <TableHead>
+            <TableRow className={classes.tableHead}>
+              <TableCell sx={{ fontWeight: 'bold' ,fontSize: '15px' }}>Policy Name</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' ,fontSize: '15px' }}>Value</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' ,fontSize: '15px' }}>Min gap between 2 checkups</TableCell>
+              </TableRow>
+              </TableHead>
+          <TableBody>
+          {employeeAddInfo.policies.map((policy)=>(
+        <>
+        <TableRow key={policy.policyId} style={{height:'5px', whiteSpace: 'nowrap'}}>
+                <TableCell style={{ fontWeight: 'bold', fontSize: '15px'}}>{policy.policyName}</TableCell>
+                <TableCell style={{  fontSize: '15px' }}>{policy.value}</TableCell>
+                <TableCell style={{  fontSize: '15px' }}>{policy.frequency}</TableCell>
+                </TableRow>
+                </>
+          ))}
+          </TableBody>
+              </Table>
+              </TableContainer>
+          </CardContent>
+          </Card>
+          <DialogActions>
+          <Button variant="contained" onClick={handleDialogClose} >OK</Button>
+          </DialogActions>
+        </Dialog>}
       </div>
     </TableCell>
     </TableRow>}
+ 
         </>
           ))}
           </TableBody>

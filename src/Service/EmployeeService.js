@@ -1,5 +1,6 @@
 import axios from "axios"
 import { BASE_URI_APPOINTMENT, BASE_URI_COMPANY, BASE_URI_EMPLOYEE, BASE_URI_REPORT, getEmp, getHosp, getOrg } from "./commonService";
+import { getPolicyByOrg } from "./PolicyService";
 
 export const getAppointmentsByEmployee = async(email) =>{
     // http://localhost:9598/appointment/api/getByEmp/ww
@@ -65,8 +66,15 @@ const addInfo = {};
 if(empO.data.HttpStatus===200){
  const emp = empO.data.data;
   addInfo.empName=emp.empName;
+  addInfo.dob=emp.dob;
+  addInfo.age=await getAge(emp.dob);
   addInfo.dateOfJoining=emp.dateOfJoining;
-  addInfo.hazardousExposure=emp.hazardousExposure;
+  addInfo.totalServiceMonths = await getMonthOfService(emp.dateOfJoining)
+  if(emp.hazardousExposure){
+    addInfo.hazardousExposure='Hazardous';
+  }else{
+    addInfo.hazardousExposure='Normal';
+  }
   addInfo.lastCheckupDate=emp.lastCheckupDate;
   addInfo.addLine1=emp.addLine1
 addInfo.city=emp.city
@@ -79,9 +87,77 @@ addInfo.zip=emp.zip;
 addInfo.organisationName = org.organisationName;
 addInfo.organisationEmail=org.organisationEmail;
  }
-  // console.log(addInfo);
+ const policyO = await getPolicyByOrg(emp.orgEmail);
+
+ if(policyO!=null){
+  addInfo.policies=policyO
+ }
+ console.log(addInfo);
   return addInfo;
 }else{
   return null;
 }
+}
+
+export const getAge = async (dob1)=>{
+
+  const dob = new Date(dob1);
+
+const today = new Date();
+
+let age = today.getFullYear() - dob.getFullYear();
+
+let monthDiff = today.getMonth() - dob.getMonth();
+let dayDiff = today.getDate() - dob.getDate();
+
+if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+    age--;
+    monthDiff += 12;
+    if (dayDiff < 0) {
+        monthDiff--;
+        dayDiff += new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+    }
+}
+
+return   `${age} years, ${monthDiff} months, ${dayDiff} days`; // Output: 28 years, 3 months, 18 days
+
+  // return '45';
+}
+
+export const getMonthDiff = async (dob1)=>{
+
+  const dob = new Date(dob1);
+
+const today = new Date();
+
+let age = today.getFullYear() - dob.getFullYear();
+
+let monthDiff = today.getMonth() - dob.getMonth();
+let dayDiff = today.getDate() - dob.getDate();
+
+if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+    age--;
+    monthDiff += 12;
+    if (dayDiff < 0) {
+        monthDiff--;
+        dayDiff += new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+    }
+}
+
+return   `${age} years, ${monthDiff} months`; 
+}
+
+export const getMonthOfService= async(doj1)=>{
+
+const dob = new Date(doj1);
+
+const today = new Date();
+let age = (today.getMonth() - dob.getMonth()) + 
+          ((today.getFullYear() - dob.getFullYear()) * 12);
+if (today.getDate() < dob.getDate()) {
+    age--;
+}
+
+return `${age} months`; 
+
 }
