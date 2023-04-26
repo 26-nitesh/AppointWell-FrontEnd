@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Paper, Select } from '@material-ui/core';
 import { Alert, AlertTitle, Button, Card, CardContent, Dialog, FormHelperText, InputLabel, MenuItem, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
-import { createPolicy, getPolicyByOrg } from '../Service/PolicyService';
+import { DeletePolicy, createPolicy, getPolicyByOrg } from '../Service/PolicyService';
 import { makeStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useFormik } from 'formik';
@@ -86,22 +86,48 @@ const useStyles = makeStyles((theme) => ({
 function ReviewPolicy(props) {
     const classes = useStyles();
     const [policyList, setpolicyList] = useState([]);
-
+    const [errorMessage, setErrorMessage] = useState(null);
+    const [sucessMessage, setSucessMessage] = useState(null);
+    const[reload,setReload] = useState(false);
     React.useEffect(() => {
         async function fetchData() {
+          console.log("called");
    const policies = await getPolicyByOrg(props.orgEmail);
         // console.log(props.orgEmail);
         setpolicyList(policies)
         }
         fetchData();
-      }, [props.orgEmail]);
+      }, [reload]);
 
-      const handleDeletePolicy = (policy)=>{
-        console.log("delete");
+      const handleDeletePolicy = async(policy)=>{
+           const deleteRes = await DeletePolicy(policy.policyId);
+          //  log
+          setReload((prev) => !prev);
+       if(deleteRes.data.HttpStatus===200){
+            setSucessMessage(deleteRes.data.message)
+            setErrorMessage(null)
+       }else{
+        setSucessMessage(null)
+        setErrorMessage("error occured")
+       }
       }
   return (
     <div>
+    <>
+  
            <TableContainer component={Paper} style={{ marginTop: '30px', width: '60%' ,margin: 'auto' }}>
+           {errorMessage && (
+        <Alert severity="error">
+          <AlertTitle>Error</AlertTitle>
+          {errorMessage}
+        </Alert>
+      )}
+      {sucessMessage && (
+        <Alert severity="success">
+          <AlertTitle>success</AlertTitle>
+          {sucessMessage}
+        </Alert>
+      )}
         <Table className={classes.table}>
           <TableHead>
             <TableRow className={classes.tableHead}>
@@ -126,6 +152,7 @@ function ReviewPolicy(props) {
           </TableBody>
               </Table>
               </TableContainer>
+              </>
   </div>
   )
 }
@@ -227,9 +254,9 @@ const handleOtherOptionChange = (event) => {
   //   // handleDropdownSelection(event.target.value);
   // }}
    >
-          <MenuItem value="minAge">Minimum Age</MenuItem>
-          <MenuItem value="minServiceMonth">Minimum Service Months</MenuItem>
-          <MenuItem value="AgeGreaterThan">Age Greater Than Policy</MenuItem>
+          <MenuItem value="Minimum Age">Minimum Age</MenuItem>
+          <MenuItem value="Minimum Service Month">Minimum Service Months</MenuItem>
+          <MenuItem value="Hazardous Expousre">Hazardous Exposure</MenuItem>
           <MenuItem value="Default">Default (Applicable to All)</MenuItem>
           <MenuItem value="other">Other</MenuItem>
         </Select>

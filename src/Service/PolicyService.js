@@ -36,3 +36,13 @@ return policy;
     return err.response
  }   
 }
+
+export const DeletePolicy =async (policyId) =>{
+ 
+try{
+    const res = await axios.delete(BASE_URI_POLICY+'/deleteById/'+policyId);
+    return res;
+}catch(err){
+    return err.response
+}
+}
