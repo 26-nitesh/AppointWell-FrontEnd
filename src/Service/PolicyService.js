@@ -17,3 +17,22 @@ else{
     return null
 }
 }
+
+export const createPolicy = async(values) =>{
+    console.log("coming");
+    let policyNameI = values.policyName;
+    if(policyNameI==='other'){
+        policyNameI=values.otherOption;
+    }
+
+    let input = {orgEmail:values.orgEmail,policyName: policyNameI ,value:values.value,frequency:values.frequency}
+    // console.log(values);
+ try{
+    const policy = await axios.post(BASE_URI_POLICY+'/create-policy',input)
+    // console.log(policy);
+return policy;
+ }catch(err){
+    // console.log(err);
+    return err.response
+ }   
+}

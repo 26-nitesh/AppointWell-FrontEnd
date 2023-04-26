@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Paper, Select } from '@material-ui/core';
 import { Alert, AlertTitle, Button, Card, CardContent, Dialog, FormHelperText, InputLabel, MenuItem, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
-import { getPolicyByOrg } from '../Service/PolicyService';
+import { createPolicy, getPolicyByOrg } from '../Service/PolicyService';
 import { makeStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useFormik } from 'formik';
@@ -95,6 +95,10 @@ function ReviewPolicy(props) {
         }
         fetchData();
       }, [props.orgEmail]);
+
+      const handleDeletePolicy = (policy)=>{
+        console.log("delete");
+      }
   return (
     <div>
            <TableContainer component={Paper} style={{ marginTop: '30px', width: '60%' ,margin: 'auto' }}>
@@ -114,7 +118,8 @@ function ReviewPolicy(props) {
                 <TableCell style={{ fontWeight: 'bold', fontSize: '15px'}}>{policy.policyName}</TableCell>
                 <TableCell style={{  fontSize: '15px' }}>{policy.value}</TableCell>
                 <TableCell style={{  fontSize: '15px' }}>{policy.frequency}</TableCell>
-                <TableCell> <DeleteIcon sx={{ color: 'red' }} /></TableCell>
+                <TableCell> <Button onClick={()=>{handleDeletePolicy(policy)}}><DeleteIcon sx={{ color: 'red' }} /></Button></TableCell>
+                {/* <TableCell>{policy.policyId}</TableCell> */}
                 </TableRow>
                 </>
           ))}
@@ -141,7 +146,7 @@ function CreatePolicy(props) {
     otherOption: yup.string().when(["policyName", "other"], {
       is: (policyName, other) => policyName === "other" && other,
       then: yup.string().required("Required!"),
-    }).required("required"),
+    }),
     value: yup.string().required("Required!"),
     frequency: yup.string().required("Required!"),
   });
@@ -155,10 +160,23 @@ const policyFormik = useFormik({
     frequency: "",
   },
   validationSchema: PolicyValidation,
-  onSubmit: (values) => {
-    console.log(values);
+  onSubmit: async(values) => {
+
+    const policyResponse = await createPolicy(values);
+    if(policyResponse.data.HttpStatus===400){
+      setSucessMessage(null)
+      setErrorMessage(policyResponse.data.message)
+      policyFormik.resetForm();
+
+    }else  if(policyResponse.data.HttpStatus===201){
+      setSucessMessage("Policy added suscessfully")
+      setErrorMessage(null);
+    }else{
+      setSucessMessage(null)
+      setErrorMessage("Error occured")
+    }
+    // console.log(policyResponse);
     setFormValues(values);
-    policyFormik.resetForm();
   },
 });
 const [selectedOptionForPolicyType, setSelectedOptionForPolicyType] = useState('');
@@ -166,9 +184,10 @@ const [otherOption, setOtherOption] = useState('');
 
 const handleOptionChangeForPolicyType = (event) => {
   const selected = event.target.value;
+  console.log(selected);
   setSelectedOptionForPolicyType(selected);
-  if (selected === 'other') {
-    setOtherOption('');
+  if (selected === "other") {
+    setOtherOption("");
   }
 };
 
@@ -179,7 +198,7 @@ const handleOtherOptionChange = (event) => {
 
   return <div>
     <Dialog open={openDialog} onClose={handleDialogClose}>
-      <Card className={classes.card} style={{minHeight:580}}>
+      <Card className={classes.card} style={{minHeight:680}}>
        <CardContent>
        <Typography variant="h5" component="h2" style={{marginBottom:'12px'}} className={classes.title}>
             Add your policies
@@ -201,13 +220,13 @@ const handleOtherOptionChange = (event) => {
       <TextField label="Organisation Email" type="email" name='orgEmail' value={policyFormik.values.orgEmail} />
       <FormControl fullWidth>
         <InputLabel>Policy Name *</InputLabel>
-        <Select  name="policyName" value={policyFormik.values.policyName} onChange={(event) => {
-            policyFormik.handleChange(event);
-            // clear otherOption if policyName changes
-            if (event.target.value !== "other") {
-              policyFormik.setFieldValue("otherOption", "");
-            }
-          }} >
+        <Select  name="policyName" value={policyFormik.values.policyName} onChange={
+    policyFormik.handleChange}
+  //   handleOptionChangeForPolicyType(event);
+  //   // call your function to handle the action
+  //   // handleDropdownSelection(event.target.value);
+  // }}
+   >
           <MenuItem value="minAge">Minimum Age</MenuItem>
           <MenuItem value="minServiceMonth">Minimum Service Months</MenuItem>
           <MenuItem value="AgeGreaterThan">Age Greater Than Policy</MenuItem>
