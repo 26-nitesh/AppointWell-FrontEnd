@@ -52,11 +52,11 @@ const EmpViewAppointMent = (props) =>{
           <TableHead>
             <TableRow className={classes.tableHead} style={{whiteSpace: 'nowrap'}}>
               <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px' }}>AppointMent ID</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px' }}>hospital</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px' }}>Hospital</TableCell>
               <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px' }}>Booking Date</TableCell>
               <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px' }}>Appointment Date</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px' }}>status</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px' }}>remarks</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px' }}>Status</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px' }}>Remarks</TableCell>
               <TableCell></TableCell>
               </TableRow>
               </TableHead>
@@ -71,7 +71,7 @@ const EmpViewAppointMent = (props) =>{
               <TableCell style={{ fontSize: '15px'}}>{app.hospitalEmail}</TableCell>
               <TableCell style={{ fontSize: '15px'}}>{app.bookingDate}</TableCell>
               <TableCell style={{ fontSize: '15px'}}>{app.appointmentDate}</TableCell>
-              <TableCell style={{ fontSize: '15px', color: app.status === 'completed' ? 'green' : app.status === 'rejected' ? 'red' : 'black' }}>{app.status}</TableCell>
+              <TableCell style={{ fontWeight: 'bold', fontSize: '15px', color: app.status === 'completed' ? 'green' : app.status === 'rejected' ? 'red' : 'black' }}>{app.status}</TableCell>
                <TableCell style={{ fontSize: '15px'}}>{app.remarks}</TableCell>
                <TableCell style={{ fontSize: '15px'}}>
         <Button disabled={app.status !== 'completed'}>See Report</Button>

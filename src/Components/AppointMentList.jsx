@@ -79,6 +79,8 @@ const AppointMentList = (props) =>{
               const response = await getFinalResponseCheckingAfetrEmployeeExistOrNot(responseO);
                 setAppList(response)
                 setReload(false)
+               }else if(responseO==null || responseO==undefined){
+                // setNotFound(true);
                }
                console.log(responseO==undefined);
         }
@@ -192,7 +194,8 @@ const handleEmployeeClick = async(email) =>{
     }
 }
     return(
-      isLoading? <div className={classes.listContainer}>
+      isLoading? 
+      <div className={classes.listContainer}>
       <CircularProgress />
   </div>:
         <>
@@ -223,14 +226,14 @@ const handleEmployeeClick = async(email) =>{
               <TableCell>   <Button
           variant="text"
           disabled={appointment.status==='claim submitted'||appointment.status === 'report submitted'||appointment.status === 'appointment approved'|| (appointment.status === 'appointment approved' || appointment.status === 'rejected' ) && selectedEmpNew===appointment.employeeEmail}
-          style={{ textTransform: 'none' }}
+          style={{ textTransform: 'none', fontWeight: 'bold',color:'green' }}
           onClick={() => approveAppointment(appointment.employeeEmail)}
         >
           approve
         </Button></TableCell>
               <TableCell style={{  fontSize: '15px' }}><Button variant="text"
                 disabled={appointment.status==='claim submitted'||appointment.status === 'report submitted'|| appointment.status === 'appointment approved' || (appointment.status === 'appointment approved' || appointment.status === 'rejected' ) && selectedEmpNew===appointment.employeeEmail}
-               style={{textTransform:'none',color:'red'}} 
+               style={{textTransform:'none',fontWeight: 'bold',color:'red'}} 
                 onClick={() => handleOpenDialogForReject(appointment.employeeEmail)}//rejectAppointMent
                 >
                 reject</Button>

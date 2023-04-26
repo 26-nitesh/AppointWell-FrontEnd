@@ -70,6 +70,9 @@ const EmployeeList  =  (props) =>{
    }   
 
    if(isLoading){
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 5000); 
    return(
     <div className={classes.listContainer}>
                     <CircularProgress />
