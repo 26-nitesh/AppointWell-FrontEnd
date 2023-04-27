@@ -59,6 +59,7 @@ const ClaimDetails = (props) =>{
           setOpenRemarksDialog(true)
       }
       const handleApproveClaim = async(appId) =>{
+        setReload(false)
         console.log(appId);
         setSelectedAppIdForApprove(appId);
       const res =  await updateAppointmnetByStatus(appId,'claim approved');
