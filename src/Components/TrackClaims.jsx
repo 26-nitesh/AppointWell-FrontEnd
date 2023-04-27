@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import { trackClaimRecords } from "../Service/ClaimService";
-import { Alert, AlertTitle, Button, Dialog, Paper, Table, TableBody,TablePagination, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+
+import { Alert, AlertTitle, Button, Dialog, Paper, Table, TableBody,TablePagination, TableCell, TableContainer, TableHead, TableRow, Typography, Select, MenuItem, Menu } from "@mui/material";
 
 const useStyles = makeStyles({
   table: {
@@ -33,6 +35,9 @@ const useStyles = makeStyles({
 
 const TrackClaims = (props)=>{
     const [claims, setClaims] = useState([]);
+    const [filteredClaims, setFilteredClaims] = useState([]);
+    const [statusFilter, setStatusFilter] = useState(""); // State variable for selected claim status filter
+    const [anchorEl, setAnchorEl] = useState(null); //
     const classes = useStyles();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -40,9 +45,36 @@ const TrackClaims = (props)=>{
         async function fetchData() {
       const claims =   await trackClaimRecords(props.hospEmail);
       setClaims(claims);
+      setFilteredClaims(claims);
         }
         fetchData();
       }, []);  
+
+        // Function to handle opening the menu
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  // Function to handle closing the menu
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  // Function to handle selecting a filter option
+  const handleStatusFilter = (status) => {
+    setStatusFilter(status);
+    handleMenuClose(); // Close the menu after selecting an option
+
+    if (status === "") {
+      setFilteredClaims(claims); // If no status is selected, show all claims
+    } else {
+      const filtered = claims.filter((claim) => claim.status === status); // Filter claims based on selected status
+      setFilteredClaims(filtered);
+    }
+
+    setPage(0); // Reset the page when applying a filter
+  };
+
     return(
         <>
               <div className={classes.listContainer}>
@@ -58,15 +90,35 @@ const TrackClaims = (props)=>{
               <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px' }}>Agency</TableCell>
               <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px' }}>Employee Email</TableCell>
               <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px' }}>Claim date</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px' }}>Status</TableCell>
+              <TableCell sx={{ fontWeight: 'bold', fontSize: '18px' }}>
+                Status
+                <Button
+                  aria-controls="status-menu"
+                  aria-haspopup="true"
+                  onClick={handleMenuOpen}
+                  endIcon={<ArrowDropDownIcon />}
+                >
+                  
+                </Button>
+                <Menu
+                  id="status-menu"
+                  anchorEl={anchorEl}
+                  open={Boolean(anchorEl)}
+                  onClose={handleMenuClose}
+                >
+                  <MenuItem onClick={() => handleStatusFilter("")}>All</MenuItem>
+                  <MenuItem onClick={() => handleStatusFilter("claim approved")}>Claim Approved</MenuItem>
+                  <MenuItem onClick={() => handleStatusFilter("claim rejected")}>Claim Rejected</MenuItem>
+                </Menu>
+              </TableCell>
               <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px' }}>Remarks</TableCell>
               <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px'}}>Amount</TableCell> <TableCell></TableCell>
               </TableRow>
               </TableHead>
               <TableBody>
               {  (rowsPerPage > 0
-                    ? claims.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    : claims
+                    ? filteredClaims.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    : filteredClaims
                 ).map((claim)=>(
                 <>
                 <TableRow key={claim.appintmentId} style={{height:'5px', whiteSpace: 'nowrap'}}>
