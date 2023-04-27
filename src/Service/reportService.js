@@ -1,10 +1,25 @@
-import axios, { Axios } from "axios"
+import axios, { Axios } from "axios"  // data.append('name', formData.name);
+    // data.append('description', formData.description);
 import { BASE_URI_APPOINTMENT, BASE_URI_REPORT } from "./commonService"
 
 export const  createNewReport = async (values) =>{
 
     try{
-const report = await axios.post(BASE_URI_REPORT+'/create-report',values);
+      const data = new FormData();
+    data.append('file', values.file);
+    data.append('appointmentId',values.appointmentId)
+    data.append('reportDetails',values.reportDetails);
+    data.append('appointmentDate',values.appointmentDate);
+    data.append('remarks',values.remarks);
+
+  
+
+// const report = await axios.post(BASE_URI_REPORT+'/create-report',values);
+const report = await axios.post(BASE_URI_REPORT+'/create-report', data, {
+  headers: {
+    'Content-Type': 'multipart/form-data',
+  },
+});
 return report;
     }catch(err){
   return err.response;
@@ -13,7 +28,18 @@ return report;
 export const  updateReport = async (values) =>{
 
     try{
-const report = await axios.put(BASE_URI_REPORT+'/update-report',values);
+      const data = new FormData();
+      data.append('file', values.file);
+      data.append('appointmentId',values.appointmentId)
+      data.append('reportDetails',values.reportDetails);
+      data.append('appointmentDate',values.appointmentDate);
+      data.append('remarks',values.remarks);
+// const report = await axios.put(BASE_URI_REPORT+'/update-report',values);
+const report = await axios.put(BASE_URI_REPORT+'/update-report', data, {
+  headers: {
+    'Content-Type': 'multipart/form-data',
+  },
+});
 return report;
     }catch(err){
   return err.response;

@@ -1,15 +1,25 @@
 import React, { useState } from "react";
 import { getAppointmentsByEmployee } from "../Service/EmployeeService";
-import { Alert, AlertTitle, Button, Dialog, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Alert, AlertTitle, Button, Card, Dialog, DialogActions, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { makeStyles } from '@material-ui/core/styles';
 import { TablePagination } from "@material-ui/core";
 import { getReportById } from "../Service/reportService";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   table: {
       minWidth: 650,
       '& tbody tr:hover': {
         backgroundColor: '#f6fff2',
+      },
+    },
+    card: {
+      minWidth: 400,
+      maxWidth: 700,
+      // minHeight:400,
+      backgroundColor: theme.palette.background.paper,
+      boxShadow: theme.shadows[4],
+      [theme.breakpoints.up('md')]: {
+        padding: theme.spacing(4),
       },
     },
     tableHead: {
@@ -30,7 +40,7 @@ const useStyles = makeStyles({
       marginBottom: '20px',
     },
    
-});
+}));
 
 const EmpViewAppointMent = (props) =>{
   const classes = useStyles();
@@ -66,6 +76,30 @@ setOpenReportDialog(false)
         // console.log("view Report");
         // console.log(report);
       }
+
+      const handleDownloadReport = () => {
+        const binaryData = reportGenerated.reportFileData; // Assuming the binary data is already available as a string
+      
+        // Decode the Base64-encoded string to obtain the binary data
+        const decodedData = atob(binaryData);
+      
+        const uint8Array = new Uint8Array(decodedData.length);
+        for (let i = 0; i < decodedData.length; i++) {
+          uint8Array[i] = decodedData.charCodeAt(i);
+        }
+      
+        const blob = new Blob([uint8Array], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+      
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = reportGenerated.appointmentId+'_checkup_report.pdf';
+        link.click();
+      
+        URL.revokeObjectURL(url);
+      };
+      
+
     return(
         <>
         <TableContainer component={Paper} style={{ marginTop: '30px' ,margin: 'auto', }}>
@@ -97,7 +131,32 @@ setOpenReportDialog(false)
                <TableCell style={{ fontSize: '15px'}}>
         <Button disabled={app.status !== 'completed'} onClick={()=>{handleSeeReport(app.appintmentId)}}>See Report</Button>
       </TableCell>
-      {selectedAppId===app.appintmentId && <Dialog open={openReportDialog} onClose={handleDialogClose}> {reportGenerated.reportDetails}</Dialog>}
+      {selectedAppId===app.appintmentId &&
+       <Dialog open={openReportDialog} onClose={handleDialogClose}> 
+       <Card  className={classes.card}>
+       <Typography variant="subtitle1" style={{ color: '#666666' }}>
+          <strong>Appintment Id:</strong>  {reportGenerated.reportDetails}
+        </Typography>
+
+        <Typography variant="subtitle1"  style={{ color: '#666666' }}>
+          <strong>Date of Appintment :</strong>  {reportGenerated.appointmentDate}
+        </Typography>
+
+        <Typography variant="subtitle1"  style={{ color: '#666666' }}>
+          <strong>Details :</strong>  {reportGenerated.reportDetails}
+        </Typography>
+        <Typography variant="subtitle1"  style={{ color: '#666666' }}>
+          <strong>Remarks :</strong>  {reportGenerated.remarks}
+        </Typography>
+
+        <DialogActions>
+<Button variant="contained" style={{backgroundColor:'#00087d',textTransform:'none'}} onClick={handleDownloadReport}>Download Report</Button>
+<Button variant="contained" style={{backgroundColor:'#e8021d',textTransform:'none'}} onClick={handleDialogClose}>Cancel</Button>
+
+
+</DialogActions>
+       </Card>
+      </Dialog>}
                 {/* <TableCell style={{  fontSize: '15px'}}>{claim.claimDate}</TableCell>  */}
                 </TableRow>
                 </>

@@ -54,13 +54,13 @@ const TrackClaims = (props)=>{
         <Table className={classes.table}>
           <TableHead>
             <TableRow className={classes.tableHead} style={{whiteSpace: 'nowrap'}}>
-            <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px' }}>appointment Id</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px' }}>agency Email</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px' }}>employee Email</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px' }}>claim date</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px' }}>status</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px' }}>remarks</TableCell>
-              <TableCell>Amount</TableCell> <TableCell></TableCell>
+            <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px' }}>#Id</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px' }}>Agency</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px' }}>Employee Email</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px' }}>Claim date</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px' }}>Status</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px' }}>Remarks</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px'}}>Amount</TableCell> <TableCell></TableCell>
               </TableRow>
               </TableHead>
               <TableBody>

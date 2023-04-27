@@ -74,6 +74,7 @@ const handleUpdateAppointment = async() =>{
     reportDetails: yup.string(),
     appointmentDate: yup.date(),
     remarks: yup.string(),
+    file: yup.mixed().required("Required!"),
   })
   const reportFormik = useFormik(
     {
@@ -81,7 +82,8 @@ const handleUpdateAppointment = async() =>{
           appointmentId:props.data.appintmentId,
           reportDetails:"",
           appointmentDate:props.data.appointmentDate,
-          remarks:""
+          remarks:"",
+          file:null,
 
          },
          validationSchema:reportValidation,
@@ -135,7 +137,13 @@ const handleUpdateAppointment = async() =>{
 
             <TextField label="appointment Date" type="date" name='appointmentDate' value={reportFormik.values.appointmentDate}/>
             <TextField label="Remarks" type="text" name='remarks' value={reportFormik.values.remarks} error={reportFormik.touched.remarks && Boolean(!reportFormik.errors.remarks)} onChange={reportFormik.handleChange} />
-           
+            <TextField
+  type="file"
+  name="file"
+  onChange={(event) => {
+    reportFormik.setFieldValue("file", event.currentTarget.files[0]);
+  }}
+/>
             <Button variant="contained" color="primary" type="submit">
               Submit
             </Button>
