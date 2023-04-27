@@ -1,14 +1,24 @@
 import React, { useState } from "react";
 import {  getOrg, findAgencyByEmail, getAllAgencies, updateOrg, updateOrgWithAgency, getHosp, updateHospWithAgency, addAgecy } from "../Service/commonService";
-import { Alert, AlertTitle, Button, Dialog, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from "@mui/material";
+import { Alert, AlertTitle, Button, Card, Dialog, DialogActions, DialogContent, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from "@mui/material";
 import { makeStyles } from '@material-ui/core/styles';
 import { checkAddAgencyAllowed } from "../Service/AgencyService";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     table: {
         minWidth: 650,
         '& tbody tr:hover': {
           backgroundColor: '#f6fff2',
+        },
+      },
+      card: {
+        minWidth: 300,
+        maxWidth: 700,
+        // minHeight:400,
+        backgroundColor: theme.palette.background.paper,
+        boxShadow: theme.shadows[4],
+        [theme.breakpoints.up('md')]: {
+          padding: theme.spacing(4),
         },
       },
       tableHead: {
@@ -29,7 +39,7 @@ const useStyles = makeStyles({
         marginBottom: '20px',
       },
      
-});
+}));
 
 const AgencyList = (props) => {
   const [agencies, setAgencies] = useState([]);
@@ -39,6 +49,7 @@ const AgencyList = (props) => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [sucessMessage, setSucessMessage] = useState(null);
   const [page, setPage] = useState(0);
+  const [errMsgNotAllowed,setErrMsgNotAllowed] = useState(null);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const classes = useStyles();
   React.useEffect(() => {
@@ -85,7 +96,9 @@ const AgencyList = (props) => {
               }
            //    console.log(res)
         }else{
-          alert("Ovverrding agency is not allowed at this moment because there are some ongoing transactions")
+          setopenDialog(true)
+          setErrMsgNotAllowed("Changing agency is not allowed at this moment as there are some ongoing transactions")
+          // alert("Changing agency is not allowed at this moment because there are some ongoing transactions")
         }
         }
       }else if(props.type==='hospital'){
@@ -113,11 +126,20 @@ const AgencyList = (props) => {
   return (
     <>
   <Dialog open={openDialog} onClose={handleCloseDialog}>
-  {errorMessage && (
+<Card className={classes.card}>
+{errorMessage && (
         <Alert severity="error">
           <AlertTitle>Error</AlertTitle>
           {errorMessage}
         </Alert>
+      )}
+      {errMsgNotAllowed && (
+        <>
+        <Alert severity="error">
+          <AlertTitle>Error</AlertTitle>
+        </Alert>
+        <DialogContent>{errMsgNotAllowed}</DialogContent>
+        </>
       )}
       {sucessMessage && (
         <Alert severity="success">
@@ -125,6 +147,10 @@ const AgencyList = (props) => {
           {sucessMessage}
         </Alert>
       )}
+      <DialogActions>
+      <Button variant="contained" style={{textTransform:'none'}} onClick={handleCloseDialog}>OK</Button>
+      </DialogActions>
+</Card>
   </Dialog>
       <div className={classes.listContainer}>
         <Typography variant="subtitle1" className={classes.listTitle} style={{fontSize:'32px'}}>
