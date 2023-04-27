@@ -74,7 +74,7 @@ const TrackClaims = (props)=>{
                 <TableCell style={{ fontWeight: 'bold', fontSize: '15px'}}><Button variant="text"  sx={{ textTransform: 'none' }} >{claim.agencyEmail}</Button></TableCell>
                 <TableCell style={{ fontWeight: 'bold', fontSize: '15px'}}>{claim.employeeEmail}</TableCell>
                 <TableCell style={{  fontSize: '15px'}}>{claim.claimDate}</TableCell> 
-                <TableCell style={{  fontSize: '15px'}}>{claim.status}</TableCell> 
+                <TableCell style={{  fontSize: '15px',fontWeight:'bold',color: claim.status === 'claim approved' ? 'green' : claim.status === 'claim rejected' ? 'red' : 'black' }}>{claim.status}</TableCell> 
                 <TableCell style={{  fontSize: '15px'}}>{claim.claimRemarks}</TableCell> 
                 <TableCell style={{ fontWeight: 'bold', fontSize: '15px'}}>₹ {claim.amount}</TableCell>
                 <TableCell>   <Button
