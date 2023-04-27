@@ -135,7 +135,7 @@ setOpenReportDialog(false)
        <Dialog open={openReportDialog} onClose={handleDialogClose}> 
        <Card  className={classes.card}>
        <Typography variant="subtitle1" style={{ color: '#666666' }}>
-          <strong>Appintment Id:</strong>  {reportGenerated.reportDetails}
+          <strong>Appintment Id:</strong>  {reportGenerated.appointmentId}
         </Typography>
 
         <Typography variant="subtitle1"  style={{ color: '#666666' }}>
