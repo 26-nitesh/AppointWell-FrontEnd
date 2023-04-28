@@ -61,7 +61,7 @@ const EmpViewAppointMent = (props) =>{
     React.useEffect(()=>{
         async function fetchData() {
       const apps =   await getAppointmentsByEmployee(props.email);
-      console.log(apps);
+      // console.log(apps);
         if(apps!=null)
         setAppointments(apps);
         }
@@ -85,6 +85,9 @@ setOpenReportDialog(false)
         // console.log(report);
       }
 
+      const handlePrint = () =>{
+        window.print();
+      }
       const handleDownloadReport = () => {
         const binaryData = reportGenerated.reportFileData; // Assuming the binary data is already available as a string
       
@@ -153,13 +156,24 @@ setOpenReportDialog(false)
         </Typography>
 
         <Typography variant="subtitle1"  style={{ color: '#666666' }}>
+          <strong>Hospital :</strong>  {reportGenerated.appData.hospitalEmail}
+        </Typography>
+        <Typography variant="subtitle1"  style={{ color: '#666666' }}>
           <strong>Details :</strong>  {reportGenerated.reportDetails}
         </Typography>
         <Typography variant="subtitle1"  style={{ color: '#666666' }}>
           <strong>Remarks :</strong>  {reportGenerated.remarks}
         </Typography>
+        <Typography variant="subtitle1"  style={{ color: '#666666' }}>
+          <strong>Amount :</strong>  {reportGenerated.appData.amount}
+        </Typography>
+        {/* <Typography variant="subtitle1"  style={{ color: '#666666' }}>
+          <strong>Claim status :</strong>  {reportGenerated.appData.status}
+        </Typography> */}
+
 
         <DialogActions>
+ {/* <Button onClick={handlePrint}>print</Button>        */}
 <Button variant="contained" style={{backgroundColor:'#00087d',textTransform:'none'}} onClick={handleDownloadReport}>Download Report</Button>
 <Button variant="contained" style={{backgroundColor:'#e8021d',textTransform:'none'}} onClick={handleDialogClose}>Cancel</Button>
 
