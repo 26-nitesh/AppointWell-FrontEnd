@@ -37,7 +37,16 @@ const OrgHome = (props) => {
   const classes = useStyles();
   const hour = new Date().getHours();
   const [orgDetails , setOrgDetails] = React.useState('')
-  const welcomeMessage = `Good ${hour < 12 ? 'morning' : 'evening'}`;
+let welcomeMessage='';
+
+if (hour < 12) {
+  welcomeMessage = 'Good Morning';
+} else if (hour >= 12 && hour < 18) {
+  welcomeMessage = 'Good Afternoon';
+} else {
+  welcomeMessage = 'Good Evening';
+}
+  // const welcomeMessage = `Good ${hour < 12 ? 'morning' : 'evening'}`;
 
   React.useEffect(()=>{
     async function fetchData() {

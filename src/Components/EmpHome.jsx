@@ -37,8 +37,17 @@ const EmployeeHome = (props) => {
   const classes = useStyles();
   const hour = new Date().getHours();
   const [empDetails , setEmpDetails] = React.useState('')
-  const welcomeMessage = `Good ${hour < 12 ? 'morning' : 'evening'}`;
+  // const welcomeMessage = `Good ${hour < 12 ? 'morning' : 'evening'}`;
 
+  let welcomeMessage='';
+
+if (hour < 12) {
+  welcomeMessage = 'Good Morning';
+} else if (hour >= 12 && hour < 18) {
+  welcomeMessage = 'Good Afternoon';
+} else {
+  welcomeMessage = 'Good Evening';
+}
   React.useEffect(()=>{
     async function fetchData() {
       const response = await getEmp(props.empEmail)

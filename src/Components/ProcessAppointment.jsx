@@ -102,7 +102,7 @@ const handleSaveAppointment = async()=>{
         setopenDialogForResponse(true)
 
     }
-    console.log(response);
+    // console.log(response);
     // setopenDialog(false)
 }
 const handleHospitalClick = async(email) =>{
