@@ -6,8 +6,16 @@ import Register from './Register';
 import { Route, Routes, useNavigate } from 'react-router';
 import Soon from './Soon';
 import { BrowserRouter } from 'react-router-dom';
+import logo from '../logo.png';
 
 const useStyles = makeStyles((theme) => ({
+  logo: {
+    marginRight: theme.spacing(2),
+    height: 70, 
+    // width: 80,
+    // borderRadius: '100%', 
+    objectFit: 'cover',
+  },
   root: {
     flexGrow: 1,
     height: '10',
@@ -19,13 +27,15 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+    color: '#ffffff',
   },
   appBar: {
     position: 'fixed',
     top: 0,
     zIndex: theme.zIndex.appBar,
-    background: `linear-gradient(to right, #1565c0, #1565c0)`
-    //  backgroundColor:'#f2f2f2'
+    background: `linear-gradient(to right, #1565c0, #1565c0)`,
+    //  backgroundColor:'#f2f2f2',
+     boxShadow:'none',
     // background:'#c4d6ff',
   },
   navButton: {
@@ -77,8 +87,9 @@ export default function NavBar() {
     setLoginType(event.target.value);
   };
 const handleLogOut = ()=>{
-
+localStorage.removeItem('type')
   setIsLogedIn(false);
+  localStorage.removeItem("isLoggedIn")
   navigate('/');
 }
 
@@ -86,14 +97,15 @@ const handleLogOut = ()=>{
     <div className={classes.root}>
       <AppBar position="static" className={classes.appBar}>
         <Toolbar>
+        <img src={logo} alt="Logo" className={classes.logo} />
           <Typography variant="h6" className={classes.title}>
-            Ford Health Checkup
+            {/* Appoint Well */}
           </Typography>
           {/* <Button className={classes.navButton} color="inherit">
             Want to know more?
           </Button> */}
           {
-            isLogedIn ? <Button className={classes.navButton} color="inherit" onClick={handleLogOut}>
+            (isLogedIn ||localStorage.getItem("isLoggedIn")==='true')? <Button className={classes.navButton} color="inherit" onClick={handleLogOut}>
             LogOut
           </Button>
           :

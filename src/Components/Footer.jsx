@@ -30,9 +30,9 @@ export default function Footer() {
       <Container maxWidth="lg">
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
-            <Typography variant="h6">About Us</Typography>
+            <Typography variant="h6"></Typography>
             <Typography variant="body1">
-              We are a healthcare company committed to providing the best quality care to our patients.
+            © 2023 AppointWell. All rights reserved.
             </Typography>
           </Grid>
           <Grid item xs={12} sm={6}>

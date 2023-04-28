@@ -4,6 +4,7 @@ import { Alert, AlertTitle, Button, Card, Dialog, DialogActions, Paper, Table, T
 import { makeStyles } from '@material-ui/core/styles';
 import { TablePagination } from "@material-ui/core";
 import { getReportById } from "../Service/reportService";
+import logo from '../logo.png';
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -11,6 +12,13 @@ const useStyles = makeStyles((theme) => ({
       '& tbody tr:hover': {
         backgroundColor: '#f6fff2',
       },
+    },
+    logo: {
+      marginRight: theme.spacing(2),
+      height: 70, 
+      // width: 80,
+      // borderRadius: '100%', 
+      objectFit: 'cover',
     },
     card: {
       minWidth: 400,
@@ -134,12 +142,14 @@ setOpenReportDialog(false)
       {selectedAppId===app.appintmentId &&
        <Dialog open={openReportDialog} onClose={handleDialogClose}> 
        <Card  className={classes.card}>
+       <img src={logo} alt="Logo" className={classes.logo} />
+
        <Typography variant="subtitle1" style={{ color: '#666666' }}>
-          <strong>Appintment Id:</strong>  {reportGenerated.appointmentId}
+          <strong>Appointment Id:</strong>  {reportGenerated.appointmentId}
         </Typography>
 
         <Typography variant="subtitle1"  style={{ color: '#666666' }}>
-          <strong>Date of Appintment :</strong>  {reportGenerated.appointmentDate}
+          <strong>Date of Appointment :</strong>  {reportGenerated.appointmentDate}
         </Typography>
 
         <Typography variant="subtitle1"  style={{ color: '#666666' }}>

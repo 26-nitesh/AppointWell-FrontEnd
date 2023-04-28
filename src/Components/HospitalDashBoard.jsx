@@ -88,6 +88,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function HospitalDashboard(props) {
+ 
   const classes = useStyles();
   const location = useLocation();
   const emailOP = location.state.email;

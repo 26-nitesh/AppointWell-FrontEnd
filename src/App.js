@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Router, Routes } from 'react-router-dom';
+import { BrowserRouter, Link, Route, Router, Routes, useNavigate } from 'react-router-dom';
 import Footer from './Components/Footer';
 import Home from './Components/Home';
 import Login from './Components/Login';
@@ -8,6 +8,9 @@ import OrgDashboard from './Components/OrgDashBoard';
 import EmpDashBoard from './Components/EmpDashBoard';
 import HospitalDashboard from './Components/HospitalDashBoard';
 import AgencyDashBoard from './Components/AgencyDashBoard';
+
+import {  Navigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
 
 function App() {
 if(2>3){
@@ -44,11 +47,11 @@ if(2>3){
           </Routes>
           <Footer />
         </BrowserRouter>
-      </>
+          </>
           </>
         )
       }
-}
+    }
 
 
 export default App;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { createAppointMent, getAllHospitalsForOrg } from '../Service/commonService';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
+import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
 import { TablePagination } from '@material-ui/core';
 import { findHospitalByEmail } from '../Service/EmployeeService';
 
@@ -104,8 +104,8 @@ const handleHospitalClick = async(email) =>{
 }
     return(
         <>
-        {/* {sucessMessage && <MyAlert severity="success" message={sucessMessage}/>}
-        {errorMessage && <MyAlert severity="error" message={errorMessage}/>} */}
+        {/* {sucessMessage && <Alert severity="success" message={sucessMessage}/>}
+        {errorMessage && <Alert severity="error" message={errorMessage}/>} */}
           <div className={classes.listContainer}>
         <Typography variant="subtitle1" className={classes.listTitle} style={{fontSize:'32px'}}>
           List of Available Hospitals
@@ -162,7 +162,7 @@ const handleHospitalClick = async(email) =>{
         {/* </DialogContent> */}
         <DialogActions>
           <Button onClick={handleDialogClose} >Cancel</Button>
-          <Button onClick={handleSaveAppointment}>Confirm</Button>
+          <Button  onClick={handleSaveAppointment}>Confirm</Button>
         </DialogActions>
               </Dialog>}
                 </>

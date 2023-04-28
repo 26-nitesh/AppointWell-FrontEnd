@@ -257,7 +257,7 @@ const handleOtherOptionChange = (event) => {
           <MenuItem value="Minimum Age">Minimum Age</MenuItem>
           <MenuItem value="Minimum Service Month">Minimum Service Months</MenuItem>
           <MenuItem value="Hazardous Expousre">Hazardous Exposure</MenuItem>
-          <MenuItem value="Default">Default (Applicable to All)</MenuItem>
+          <MenuItem value="Default (Applicable to All)">Default (Applicable to All)</MenuItem>
           <MenuItem value="other">Other</MenuItem>
         </Select>
       </FormControl>

@@ -67,19 +67,28 @@ export default function Login(props) {
          onSubmit:async(values)=>{
           try{
            const data =   await login(values);
-           if(parseInt(data.data.HttpStatus)===parseInt(200)){
+            if(parseInt(data.data.HttpStatus)===parseInt(200)){
+            localStorage.setItem('isLoggedIn',"true");
              setErrorMessage(null);
             //  console.log(data.data.data.email);
-            if(values.loginAs==='organisation')
+            if(values.loginAs==='organisation'){
+              localStorage.setItem("type",'org');
              navigate('/company/dashboard',{ state: { email: data.data.data.email } });
-            else if(values.loginAs==='employee')
+            }
+            else if(values.loginAs==='employee'){
+              localStorage.setItem("type",'employee');
             navigate('/employee/dashboard',{ state: { email: data.data.data.email } });
-            else if(values.loginAs==='agency')
+            }
+            else if(values.loginAs==='agency'){
+              localStorage.setItem("type",'agency');
             navigate('/agency/dashboard',{ state: { email: data.data.data.email } });
-            else if(values.loginAs==='hospital')
+            }
+            else if(values.loginAs==='hospital'){
+              localStorage.setItem("type",'hospital');
             navigate('/hospital/dashboard',{ state: { email: data.data.data.email } });
-                 props.loginPopUpAfterLogin(false)
-                 
+              
+            }
+            props.loginPopUpAfterLogin(false)  
            }else{
              setErrorMessage(data.data.message);
            }
