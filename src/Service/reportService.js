@@ -59,13 +59,25 @@ export const  getReportById = async(appId) =>{
   
 try{
   const report = await axios.get(BASE_URI_REPORT+'/get/'+appId);
+ if(report.data.HttpStatus===200){
+  let dataTosend=report.data.data
   const app= await axios.get(BASE_URI_APPOINTMENT+'/getById/'+appId)
-report.data.data.appData=app.data.data;
+  if(app.data.HttpStatus===200){
+    let appData = app.data.data
+    dataTosend.hospitalEmail=appData.hospitalEmail;
+    dataTosend.amount=appData.amount
+// console.log(dataTosend);
+    // console.log(appData);
+  }
+// report.data.data.appData=app.data.data;
 // console.log(app.data.data);
-// console.log(report.data.data);
-  return report.data
+// console.log(report.data);
+  return dataTosend
+}else{
+  return null
+}
 }catch(err){
-  return err.response
+  return null
 }
 
  

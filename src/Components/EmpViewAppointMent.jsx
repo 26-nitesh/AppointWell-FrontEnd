@@ -76,9 +76,10 @@ setOpenReportDialog(false)
         setSelectedAppId(appId)
       const report = await  getReportById(appId)
       // console.log(report);
-      if(report.HttpStatus===200){
+      if(report!=null){
         // console.log(report.data.reportDetails          );
-        setReportGenerated(report.data);
+        setReportGenerated(report);
+        // console.log(reportGenerated.appData.hospitalEmail);
         setOpenReportDialog(true);
       }
         // console.log("view Report");
@@ -156,7 +157,7 @@ setOpenReportDialog(false)
         </Typography>
 
         <Typography variant="subtitle1"  style={{ color: '#666666' }}>
-          <strong>Hospital :</strong>  {reportGenerated.appData.hospitalEmail}
+          <strong>Hospital :</strong>  {reportGenerated.hospitalEmail}
         </Typography>
         <Typography variant="subtitle1"  style={{ color: '#666666' }}>
           <strong>Details :</strong>  {reportGenerated.reportDetails}
@@ -165,7 +166,7 @@ setOpenReportDialog(false)
           <strong>Remarks :</strong>  {reportGenerated.remarks}
         </Typography>
         <Typography variant="subtitle1"  style={{ color: '#666666' }}>
-          <strong>Amount :</strong>  {reportGenerated.appData.amount}
+          <strong>Amount :</strong>  {reportGenerated.amount}
         </Typography>
         {/* <Typography variant="subtitle1"  style={{ color: '#666666' }}>
           <strong>Claim status :</strong>  {reportGenerated.appData.status}
