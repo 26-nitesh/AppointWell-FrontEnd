@@ -84,6 +84,7 @@ const AgencyList = (props) => {
           //    console.log(empRes.data.data);
           // check here if with the existing agency is there transaction pending return true if eligible
         const flag =   await checkAddAgencyAllowed(empRes.data.data);
+        console.log(flag);
         if(flag){
           let json =  empRes.data.data
           json.insuranceAgencyEmail=email;
@@ -91,12 +92,18 @@ const AgencyList = (props) => {
               setopenDialog(true);
               if(res.data.HttpStatus==200){
                setSucessMessage("Agency Added SueesFully");
+               setErrorMessage(null)
+               setErrMsgNotAllowed(null)
               }else{
+                setSucessMessage(null)
                    setErrorMessage(res.data.message);
+                   setErrMsgNotAllowed(null)
               }
            //    console.log(res)
         }else{
           setopenDialog(true)
+          setSucessMessage(null)
+          setErrorMessage(null);
           setErrMsgNotAllowed("Changing agency is not allowed at this moment as there are some ongoing transactions")
           // alert("Changing agency is not allowed at this moment because there are some ongoing transactions")
         }
@@ -127,26 +134,25 @@ const AgencyList = (props) => {
     <>
   <Dialog open={openDialog} onClose={handleCloseDialog}>
 <Card className={classes.card}>
-{errorMessage && (
+{errorMessage ? (
         <Alert severity="error">
           <AlertTitle>Error</AlertTitle>
           {errorMessage}
         </Alert>
-      )}
-      {errMsgNotAllowed && (
+      ): errMsgNotAllowed ? (
         <>
         <Alert severity="error">
           <AlertTitle>Error</AlertTitle>
         </Alert>
         <DialogContent>{errMsgNotAllowed}</DialogContent>
         </>
-      )}
-      {sucessMessage && (
+      ):
+      sucessMessage ? (
         <Alert severity="success">
           <AlertTitle>success</AlertTitle>
           {sucessMessage}
         </Alert>
-      )}
+      ):<></>}
       <DialogActions>
       <Button variant="contained" style={{textTransform:'none'}} onClick={handleCloseDialog}>OK</Button>
       </DialogActions>
