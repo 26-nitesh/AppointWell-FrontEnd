@@ -1,17 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { createAppointMent, getAllHospitalsForOrg } from '../Service/commonService';
 import { makeStyles } from '@material-ui/core/styles';
-import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
+import { Alert, Button, Card, Dialog, DialogActions, DialogContent, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
 import { TablePagination } from '@material-ui/core';
 import { findHospitalByEmail } from '../Service/EmployeeService';
 
 
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     table: {
         minWidth: 650,
         '& tbody tr:hover': {
           backgroundColor: '#f6fff2',
+        },
+      },
+      card: {
+        minWidth: 400,
+        maxWidth: 700,
+        // minHeight:400,
+        backgroundColor: theme.palette.background.paper,
+        boxShadow: theme.shadows[4],
+        [theme.breakpoints.up('md')]: {
+          padding: theme.spacing(4),
         },
       },
       tableHead: {
@@ -32,7 +42,7 @@ const useStyles = makeStyles({
         marginBottom: '20px',
       },
 
-})
+}));
 
 
 const ProcessAppointment = (props) =>{
@@ -47,6 +57,7 @@ const ProcessAppointment = (props) =>{
     const [hospitalForAddInfo, setHospitalForAddInfo] = useState(null);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
+    const[openDialogForResponse,setopenDialogForResponse] = useState(false)
     React.useEffect(()=>{
         async function getAllHospitals() {
 
@@ -74,18 +85,22 @@ const handleDateChange = (event) => {
 
 const handleDialogClose = ()=>{
     setopenDialog(false)
+    setopenDialogForResponse(false)
 }
 const handleSaveAppointment = async()=>{
     setopenDialog(false)
     const response = await createAppointMent(props.email,selectedHosp,selectedDate);
     if(response.status==='200'){
-        alert(response.message)
+        // alert(response.message)
         setErrorMessage(null);
         setSucessMessage(response.message);
+        setopenDialogForResponse(true)
+
     }else {
-        alert(response.message)
         setSucessMessage(null)
         setErrorMessage(response.message);
+        setopenDialogForResponse(true)
+
     }
     console.log(response);
     // setopenDialog(false)
@@ -104,8 +119,17 @@ const handleHospitalClick = async(email) =>{
 }
     return(
         <>
-        {/* {sucessMessage && <Alert severity="success" message={sucessMessage}/>}
-        {errorMessage && <Alert severity="error" message={errorMessage}/>} */}
+       <Dialog open={openDialogForResponse} onClose={handleDialogClose}>
+       <Card  className={classes.card}>
+        {sucessMessage &&(
+          <Alert severity="success">Hurrah ! Appointment booked</Alert> )}
+        {errorMessage && (
+        <Alert severity="error">You Already have an on going transaction</Alert>)}
+        <DialogActions>
+          <Button variant='contained' onClick={handleDialogClose}>OK </Button>
+        </DialogActions>
+       </Card>
+       </Dialog>
           <div className={classes.listContainer}>
         <Typography variant="subtitle1" className={classes.listTitle} style={{fontSize:'32px'}}>
           List of Available Hospitals
