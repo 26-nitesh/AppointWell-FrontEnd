@@ -1,0 +1,778 @@
+{
+    "_id" : "ac323a44-f986-4ca8-80e1-b8b9eb152c93",
+    "requestId" : "62",
+    "version" : "1",
+    "provider" : {
+        "createdDate" : "2023-04-28T07:43:45.687Z",
+        "modifiedDate" : "2023-04-28T07:43:45.687Z",
+        "ApplicationData" : [ 
+            {
+                "sectionName" : "Identifying Information",
+                "groups" : [ 
+                    {
+                        "groupName" : "Medicaid Payment",
+                        "fields" : [ 
+                            {
+                                "name" : "Will you receive payment directly from Medicaid that will be reported to the IRS under your SSN?",
+                                "value" : "No"
+                            }
+                        ]
+                    }, 
+                    {
+                        "groupName" : "Requested Enrollment Date",
+                        "fields" : [ 
+                            {
+                                "name" : "Select Requested Enrollment Date",
+                                "value" : "Sat Apr 22 00:00:00 UTC 2023"
+                            }, 
+                            {
+                                "name" : "Reason Code",
+                                "value" : "Retroactive - DSS Administrative"
+                            }
+                        ]
+                    }, 
+                    {
+                        "groupName" : "General Information",
+                        "fields" : [ 
+                            {
+                                "name" : "Title",
+                                "value" : "Dr."
+                            }, 
+                            {
+                                "name" : "First Name",
+                                "value" : "ohkk"
+                            }, 
+                            {
+                                "name" : "Middle Name",
+                                "value" : "mnn"
+                            }, 
+                            {
+                                "name" : "Last Name",
+                                "value" : "hjhjhj"
+                            }, 
+                            {
+                                "name" : "Preferred First Name",
+                                "value" : "ohkk"
+                            }, 
+                            {
+                                "name" : "Preferred Last Name",
+                                "value" : "hjhjhj"
+                            }, 
+                            {
+                                "name" : "Gender",
+                                "value" : "Male"
+                            }, 
+                            {
+                                "name" : "Date of Birth",
+                                "value" : "Sat Apr 29 00:00:00 UTC 2023"
+                            }, 
+                            {
+                                "name" : "SSN",
+                                "value" : "878-78-7878"
+                            }, 
+                            {
+                                "name" : "Can Provider's gender be shared on the \"Provider Search\" tool to the General public?",
+                                "value" : "No"
+                            }, 
+                            {
+                                "name" : "Application Contact Email",
+                                "value" : "app@dfghj.bip"
+                            }
+                        ]
+                    }, 
+                    {
+                        "groupName" : "Tax Information",
+                        "fields" : [ 
+                            {
+                                "name" : "Are you 1099 tax exempt?",
+                                "value" : "No"
+                            }, 
+                            {
+                                "name" : "What type of business are you?",
+                                "value" : "Individual Practice"
+                            }
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "sectionName" : "Provider Identifiers",
+                "groups" : [ 
+                    {
+                        "groupName" : "Provider Identifiers",
+                        "fields" : [ 
+                            {
+                                "name" : "Do you have an NPI?",
+                                "value" : "Yes"
+                            }, 
+                            {
+                                "name" : "NPI Number",
+                                "value" : "1881009496"
+                            }
+                        ]
+                    }, 
+                    {
+                        "groupName" : "Other Medicaid State",
+                        "fields" : [ 
+                            {
+                                "name" : "If you are an out-of-state provider, are you currently enrolled in Medicaid or CHIP in your home state?",
+                                "value" : "No"
+                            }
+                        ]
+                    }, 
+                    {
+                        "groupName" : "Additional Information",
+                        "fields" : [ 
+                            {
+                                "name" : "Are you a Teaching Provider?",
+                                "value" : "No"
+                            }, 
+                            {
+                                "name" : "Are you a Treating Provider?",
+                                "value" : "No"
+                            }, 
+                            {
+                                "name" : "Language Supported (Select all that apply",
+                                "value" : "English"
+                            }
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "sectionName" : "Ownership",
+                "groups" : [ 
+                    {
+                        "groupName" : "Ownership",
+                        "fields" : [ 
+                            {
+                                "name" : "1. Have you ever had ownership in any entity that has billed or is currently billing Medicare, any State Medicaid Agency, or another public health program in any state?",
+                                "value" : "No"
+                            }, 
+                            {
+                                "name" : "2. Have you ever managed, directed, or controlled any entity that has billed or is currently billing Medicare, any State Medicaid Agency, or another public health program in any state?",
+                                "value" : "No"
+                            }, 
+                            {
+                                "name" : "3. Does any person or entity have a 5% or more interest in any mortgage, deed of trust, note, or other obligation secured by the enrolling provider where that interest equals at least 5% of the value of the property or assets of the enrolling provider?",
+                                "value" : "No"
+                            }, 
+                            {
+                                "name" : "5. Do any immediate family members of the provider or owner(s have ownership of 5% or greater in a subcontractor to your business or practice within any state?",
+                                "value" : "No"
+                            }
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "sectionName" : "Exclusion/Sanction Information",
+                "groups" : [ 
+                    {
+                        "groupName" : "A. Has the provider or any person with an ownership or controlling interest in the provider ever been convicted of crimes, including any form of suspended sentence, record expungement or pending appeals, in one or more of the following related areas:",
+                        "fields" : [ 
+                            {
+                                "name" : "1. Fraud, theft, embezzlement, extortion, income tax evasion, or insurance fraud",
+                                "value" : "No"
+                            }, 
+                            {
+                                "name" : "2. Financial misconduct tied to delivery of health care not otherwise noted or breach of fiduciary responsibility",
+                                "value" : "No"
+                            }, 
+                            {
+                                "name" : "3. Perjury",
+                                "value" : "No"
+                            }, 
+                            {
+                                "name" : "4. Abuse or neglect of a patient, child, or elderly adult",
+                                "value" : "No"
+                            }, 
+                            {
+                                "name" : "5. Obstruction of a criminal investigation",
+                                "value" : "No"
+                            }, 
+                            {
+                                "name" : "6. Unlawful manufacture, distribution, prescription, or dispensing of any controlled substances",
+                                "value" : "No"
+                            }, 
+                            {
+                                "name" : "7. Health care related crime, not otherwise listed",
+                                "value" : "No"
+                            }
+                        ]
+                    }, 
+                    {
+                        "groupName" : "B. Has the provider or any person with an ownership or controlling interest in the provider ever had the following situations apply:",
+                        "fields" : [ 
+                            {
+                                "name" : "1. Failed to grant immediate access and/or provide payment information",
+                                "value" : "No"
+                            }, 
+                            {
+                                "name" : "2. Failed to provide disclosure information",
+                                "value" : "No"
+                            }, 
+                            {
+                                "name" : "3. Revocation or suspension of a license to provide health care, including any license surrender while formal disciplinary actions were pending",
+                                "value" : "No"
+                            }, 
+                            {
+                                "name" : "4. Revocation or suspension of accreditation",
+                                "value" : "No"
+                            }, 
+                            {
+                                "name" : "5. Suspension, exclusion, debarment, or sanction from participation by a Federal or State health care program or procurement program",
+                                "value" : "No"
+                            }, 
+                            {
+                                "name" : "6. Current payment suspension with Medicare or another State Medicaid agency",
+                                "value" : "No"
+                            }, 
+                            {
+                                "name" : "7. Judgment under the False Claims Act",
+                                "value" : "No"
+                            }, 
+                            {
+                                "name" : "8. Current overpayment with Medicare or another State Medicaid agency exceeding $1,500",
+                                "value" : "No"
+                            }
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "sectionName" : "Upload Documents",
+                "groups" : [ 
+                    {
+                        "groupName" : "",
+                        "fields" : [ 
+                            {
+                                "name" : "Additional Documents(Optional",
+                                "value" : "84_1616_entity_screening_proof_document.pdf"
+                            }
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "sectionName" : "Program Participation",
+                "groups" : [ 
+                    {
+                        "groupName" : "program participation",
+                        "fields" : [ 
+                            [ 
+                                {
+                                    "name" : "runtimeId",
+                                    "value" : "607326d7-f7b2-43f8-890c-605e4a03199a"
+                                }, 
+                                {
+                                    "name" : "mailId",
+                                    "value" : "servicing@gmail.com"
+                                }, 
+                                {
+                                    "name" : "createdDate",
+                                    "value" : "2023-04-24T11:30:44.226Z"
+                                }, 
+                                {
+                                    "name" : "modifiedDate",
+                                    "value" : "2023-04-24T11:30:44.226Z"
+                                }, 
+                                {
+                                    "name" : "pp",
+                                    "value" : "Primary Care Provider (PCP"
+                                }, 
+                                {
+                                    "name" : "specialty",
+                                    "value" : "Physician Assistant & Advanced Practice Nurse"
+                                }, 
+                                {
+                                    "name" : "taxonomy",
+                                    "value" : {
+                                        "_id" : "3b595e3f-2ef8-4ebf-8437-eec22ebff5ee",
+                                        "taxonomy" : "363LA2200X - Nurse Practitioner - Adult Health",
+                                        "effectiveStartDate" : "2023-04-24T00:00:00.000Z",
+                                        "licenseList" : [],
+                                        "isSNPIAllowed" : false,
+                                        "_class" : "com.hhstechgroup.hummingbird.services.BeaverPdfGenerationService$NewTaxonomyDetails"
+                                    }
+                                }, 
+                                {
+                                    "name" : "license",
+                                    "value" : {
+                                        "_id" : "6720e971-a3e8-4525-bdb1-727da65892fb",
+                                        "licenseNo" : "988789897",
+                                        "licenseType" : "Nurse Practitioner (NP/CNP",
+                                        "effectiveStartDate" : "2023-04-26T00:00:00.000Z",
+                                        "effectiveEndDate" : "2044-04-24T00:00:00.000Z",
+                                        "licenseAttachments" : [ 
+                                            {
+                                                "_id" : "a83cf7f50ef568976d96103b3a5bdfe7",
+                                                "name" : "102_17620_pharmacy_screening_proof_document.pdf",
+                                                "isAutoPopulated" : false
+                                            }
+                                        ],
+                                        "issuer" : "South Dakota",
+                                        "_class" : "com.hhstechgroup.hummingbird.services.BeaverPdfGenerationService$NewLicenseDetails"
+                                    }
+                                }
+                            ], 
+                            [ 
+                                {
+                                    "name" : "runtimeId",
+                                    "value" : "607326d7-f7b2-43f8-890c-605e4a03199a"
+                                }, 
+                                {
+                                    "name" : "mailId",
+                                    "value" : "servicing@gmail.com"
+                                }, 
+                                {
+                                    "name" : "createdDate",
+                                    "value" : "2023-04-24T11:31:50.611Z"
+                                }, 
+                                {
+                                    "name" : "modifiedDate",
+                                    "value" : "2023-04-24T11:31:50.611Z"
+                                }, 
+                                {
+                                    "name" : "pp",
+                                    "value" : "Medicaid/CHIP"
+                                }, 
+                                {
+                                    "name" : "specialty",
+                                    "value" : "Physician Assistant & Advanced Practice Nurse"
+                                }, 
+                                {
+                                    "name" : "taxonomy",
+                                    "value" : {
+                                        "_id" : "f00c0885-e26d-4c8d-8262-44c032636cee",
+                                        "taxonomy" : "363LC0200X - Nurse Practitioner - Critical Care",
+                                        "effectiveStartDate" : "2023-04-24T00:00:00.000Z",
+                                        "effectiveEndDate" : "2039-04-24T00:00:00.000Z",
+                                        "licenseList" : [],
+                                        "isSNPIAllowed" : false,
+                                        "_class" : "com.hhstechgroup.hummingbird.services.BeaverPdfGenerationService$NewTaxonomyDetails"
+                                    }
+                                }, 
+                                {
+                                    "name" : "license",
+                                    "value" : {
+                                        "_id" : "c0076f7f-d27c-4cf6-968c-bb63618b7bab",
+                                        "licenseNo" : "7978697",
+                                        "licenseType" : "Nurse Practitioner (NP/CNP",
+                                        "effectiveStartDate" : "2023-04-24T00:00:00.000Z",
+                                        "effectiveEndDate" : "2041-04-24T00:00:00.000Z",
+                                        "licenseAttachments" : [ 
+                                            {
+                                                "_id" : "a83cf7f50ef568976d96103b3a5cf5ac",
+                                                "name" : "102_17620_pharmacy_screening_proof_document.pdf",
+                                                "isAutoPopulated" : false
+                                            }
+                                        ],
+                                        "issuer" : "South Dakota",
+                                        "_class" : "com.hhstechgroup.hummingbird.services.BeaverPdfGenerationService$NewLicenseDetails"
+                                    }
+                                }
+                            ], 
+                            [ 
+                                {
+                                    "name" : "runtimeId",
+                                    "value" : "607326d7-f7b2-43f8-890c-605e4a03199a"
+                                }, 
+                                {
+                                    "name" : "mailId",
+                                    "value" : "servicing@gmail.com"
+                                }, 
+                                {
+                                    "name" : "createdDate",
+                                    "value" : "2023-04-26T09:38:05.559Z"
+                                }, 
+                                {
+                                    "name" : "modifiedDate",
+                                    "value" : "2023-04-26T09:38:05.559Z"
+                                }, 
+                                {
+                                    "name" : "pp",
+                                    "value" : "Primary Care Provider (PCP"
+                                }, 
+                                {
+                                    "name" : "specialty",
+                                    "value" : "Physician Assistant & Advanced Practice Nurse"
+                                }, 
+                                {
+                                    "name" : "taxonomy",
+                                    "value" : {
+                                        "_id" : "a3f2e6fd-1b23-4130-b2f1-79a0ac2e2606",
+                                        "taxonomy" : "363LP0200X - Nurse Practitioner - Pediatrics",
+                                        "effectiveStartDate" : "2023-04-26T00:00:00.000Z",
+                                        "licenseList" : [],
+                                        "isSNPIAllowed" : false,
+                                        "_class" : "com.hhstechgroup.hummingbird.services.BeaverPdfGenerationService$NewTaxonomyDetails"
+                                    }
+                                }, 
+                                {
+                                    "name" : "license",
+                                    "value" : {
+                                        "_id" : "e30824b4-154b-4afa-a546-3e3b5a766367",
+                                        "licenseNo" : "89898",
+                                        "licenseType" : "DEA",
+                                        "effectiveStartDate" : "2023-04-26T00:00:00.000Z",
+                                        "effectiveEndDate" : "2032-04-26T00:00:00.000Z",
+                                        "licenseAttachments" : [ 
+                                            {
+                                                "_id" : "ee51dde3716cd30a615ac9f5f06b3ce1",
+                                                "name" : "17_1559_individual_screening_proof_document_v5.pdf",
+                                                "isAutoPopulated" : false
+                                            }
+                                        ],
+                                        "issuer" : "Utah",
+                                        "_class" : "com.hhstechgroup.hummingbird.services.BeaverPdfGenerationService$NewLicenseDetails"
+                                    }
+                                }
+                            ]
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "sectionName" : "Affiliations",
+                "groups" : [ 
+                    {
+                        "groupName": "Affiliation with Group/Facility/PEM",
+                        "fields": [
+                          {
+                            "name": "providerExternalId",
+                            "value": "4000006"
+                          },
+                          {
+                            "name": "providerId",
+                            "value": "64391a4e698b597032a3b689"
+                          },
+                          {
+                            "name": "email",
+                            "value": "dyp.provider+a7@gmail.com"
+                          },
+                          {
+                            "name": "npi",
+                            "value": "1861082877"
+                          },
+                          {
+                            "name": "affiliationEffectiveDateStart",
+                            "value": "2023-04-14T00:00:00Z"
+                          },
+                          {
+                            "name": "type",
+                            "value": "INDIVIDUAL_TO_FACILITY"
+                          },
+                          {
+                            "name": "serviceLocations",
+                            "value": [
+                              [
+                                {
+                                  "name": "secondaryLocations",
+                                  "value": {
+                                    "runtimeId": "f6469dcf-4014-41ce-8937-47137d9ff979",
+                                    "id": "64392acf3a9732400608d598",
+                                    "sslSeqId": 20009,
+                                    "addressLine1": "1712 Pioneer Ave",
+                                    "addressLine2": "",
+                                    "city": "Cheyenne",
+                                    "state": "Wyoming",
+                                    "zip": "82001-4406",
+                                    "countyCode": "Laramie (56021)",
+                                    "county": "allCounty",
+                                    "addedDate": "2023-04-14T11:28:40Z",
+                                    "locationEffectiveStartDate": "2023-04-14T00:00:00Z",
+                                    "longitude": "-104.81863",
+                                    "latitude": "41.13343",
+                                    "programParticipation": {
+                                      "programParticipation": {
+                                        "pp": "Medicaid/CHIP",
+                                        "licenseType": "Optometry",
+                                        "specialty": "Vision",
+                                        "licenseNo": "5779",
+                                        "ppSeqId": 20007,
+                                        "taxonomyId": "152W00000X - Optometrist",
+                                        "affiliationTaxonomyEffectiveStartDate": "2023-04-14T00:00:00.000Z",
+                                        "issuer": "Wyoming",
+                                        "ppId": "6439063a3a9732400608d51d"
+                                      }
+                                    },
+                                    "taxonomyAnswers": {
+                                      "mannerOfServices": "Virtual_audio_only",
+                                      "onlyHomeLocation": "No"
+                                    }
+                                  }
+                                },{
+                                    "name":"test",
+                                    "value":"sa"
+                                }
+                              ]
+                            ]
+                          }
+                        ]
+                    },
+                      {
+                        "groupName": "Affiliation with Group/Facility/PEM",
+                        "fields": [
+                          {
+                            "name": "providerExternalId",
+                            "value": "4000007"
+                          },
+                          {
+                            "name": "providerId",
+                            "value": "64393037698b597032a3b695"
+                          },
+                          {
+                            "name": "email",
+                            "value": "dyp.provider+a8@gmail.com"
+                          },
+                          {
+                            "name": "npi",
+                            "value": "1538519301"
+                          },
+                          {
+                            "name": "affiliationEffectiveDateStart",
+                            "value": "2023-04-14T00:00:00Z"
+                          },
+                          {
+                            "name": "type",
+                            "value": "INDIVIDUAL_TO_FACILITY"
+                          },
+                          {
+                            "name": "serviceLocations",
+                            "value": [
+                              [
+                                {
+                                  "name": "secondaryLocations",
+                                  "value": {
+                                    "runtimeId": "f6469dcf-4014-41ce-8937-47137d9ff979",
+                                    "id": "643931e03a9732400608d601",
+                                    "sslSeqId": 20011,
+                                    "addressLine1": "1720 Logan Ave",
+                                    "addressLine2": "",
+                                    "city": "Cheyenne",
+                                    "state": "Wyoming",
+                                    "zip": "82001-5006",
+                                    "countyCode": "Laramie (56021)",
+                                    "county": "allCounty",
+                                    "addedDate": "2023-04-14T11:31:19Z",
+                                    "locationEffectiveStartDate": "2023-04-14T00:00:00Z",
+                                    "longitude": "-104.79723",
+                                    "latitude": "41.14112",
+                                    "programParticipation": {
+                                      "programParticipation": {
+                                        "pp": "Medicaid/CHIP",
+                                        "licenseType": "Optometry",
+                                        "specialty": "Vision",
+                                        "licenseNo": "5779",
+                                        "ppSeqId": 20007,
+                                        "taxonomyId": "152W00000X - Optometrist",
+                                        "affiliationTaxonomyEffectiveStartDate": "2023-04-14T00:00:00.000Z",
+                                        "issuer": "Wyoming",
+                                        "ppId": "6439063a3a9732400608d51d"
+                                      }
+                                    },
+                                    "taxonomyAnswers": {
+                                      "mannerOfServices": "Virtual_audio_only",
+                                      "onlyHomeLocation": "No"
+                                    }
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        ]
+                      },
+                    {
+                        "groupName" : "Affiliation with Group/Facility/PEM",
+                        "fields" : [ 
+                            {
+                                "name" : "providerExternalId",
+                                "value" : "4000006"
+                            }, 
+                            {
+                                "name" : "providerId",
+                                "value" : "64391a4e698b597032a3b689"
+                            }, 
+                            {
+                                "name" : "email",
+                                "value" : "dyp.provider+a7@gmail.com"
+                            }, 
+                            {
+                                "name" : "npi",
+                                "value" : "1861082877"
+                            }, 
+                            {
+                                "name" : "affiliationEffectiveDateStart",
+                                "value" : "2023-04-24T00:00:00.000Z"
+                            }, 
+                            {
+                                "name" : "type",
+                                "value" : "INDIVIDUAL_TO_FACILITY"
+                            }, 
+                            {
+                                "name" : "serviceLocations",
+                                "value" : [ 
+                                    [ 
+                                        {
+                                            "name" : "primary",
+                                            "value" : {
+                                                "_id" : "64392ab23a9732400608d596",
+                                                "runtimeId" : "607326d7-f7b2-43f8-890c-605e4a03199a",
+                                                "sslSeqId" : 20008,
+                                                "addressLine1" : "1712 Pioneer Ave",
+                                                "addressLine2" : "",
+                                                "city" : "Cheyenne",
+                                                "state" : "Wyoming",
+                                                "zip" : "82001-4406",
+                                                "countyCode" : "Laramie (56021",
+                                                "county" : "allCounty",
+                                                "addedDate" : "2023-04-24T11:32:44Z",
+                                                "locationEffectiveStartDate" : "2023-04-24T00:00:00.000Z",
+                                                "longitude" : "-104.81863",
+                                                "latitude" : "41.13343",
+                                                "programParticipation" : {
+                                                    "programParticipation" : {
+                                                        "pp" : "Primary Care Provider (PCP",
+                                                        "licenseType" : "Nurse Practitioner (NP/CNP",
+                                                        "specialty" : "Physician Assistant & Advanced Practice Nurse",
+                                                        "licenseNo" : "988789897",
+                                                        "ppSeqId" : 20051,
+                                                        "taxonomyId" : "363LA2200X - Nurse Practitioner - Adult Health",
+                                                        "affiliationTaxonomyEffectiveStartDate" : "2023-04-24T00:00:00.000Z",
+                                                        "issuer" : "South Dakota",
+                                                        "ppId" : "644668642ed5415aae7e0596"
+                                                    }
+                                                },
+                                                "taxonomyAnswers" : {
+                                                    "mannerOfServices" : "Virtual_audio_only",
+                                                    "onlyHomeLocation" : "No",
+                                                    "newPatient" : "Yes-OB Only"
+                                                },
+                                                "_class" : "com.hhstechgroup.hummingbird.models.ServiceAddress"
+                                            }
+                                        }
+                                    ]
+                                ]
+                            }
+                        ]
+                    },  
+                    {
+                        "groupName" : "Affiliation with Group/Facility/PEM",
+                        "fields" : [ 
+                            {
+                                "name" : "providerExternalId",
+                                "value" : "4000007"
+                            }, 
+                            {
+                                "name" : "providerId",
+                                "value" : "64393037698b597032a3b695"
+                            }, 
+                            {
+                                "name" : "email",
+                                "value" : "dyp.provider+a8@gmail.com"
+                            }, 
+                            {
+                                "name" : "npi",
+                                "value" : "1538519301"
+                            }, 
+                            {
+                                "name" : "affiliationEffectiveDateStart",
+                                "value" : "2023-04-26T00:00:00.000Z"
+                            }, 
+                            {
+                                "name" : "type",
+                                "value" : "INDIVIDUAL_TO_FACILITY"
+                            }, 
+                            {
+                                "name" : "serviceLocations",
+                                "value" : [ 
+                                    [ 
+                                        {
+                                            "name" : "secondaryLocations",
+                                            "value" : {
+                                                "_id" : "643931e03a9732400608d601",
+                                                "runtimeId" : "607326d7-f7b2-43f8-890c-605e4a03199a",
+                                                "sslSeqId" :20011,
+                                                "addressLine1" : "1720 Logan Ave",
+                                                "addressLine2" : "",
+                                                "city" : "Cheyenne",
+                                                "state" : "Wyoming",
+                                                "zip" : "82001-5006",
+                                                "countyCode" : "Laramie (56021",
+                                                "county" : "allCounty",
+                                                "addedDate" : "2023-04-26T09:39:53Z",
+                                                "locationEffectiveStartDate" : "2023-04-26T00:00:00.000Z",
+                                                "longitude" : "-104.79723",
+                                                "latitude" : "41.14112",
+                                                "programParticipation" : {
+                                                    "programParticipation" : {
+                                                        "pp" : "Primary Care Provider (PCP)",
+                                                        "licenseType" : "DEA",
+                                                        "specialty" : "Physician Assistant & Advanced Practice Nurse",
+                                                        "licenseNo" : "89898",
+                                                        "ppSeqId" : 20062,
+                                                        "taxonomyId" : "363LP0200X - Nurse Practitioner - Pediatrics",
+                                                        "affiliationTaxonomyEffectiveStartDate" : "2023-04-26T00:00:00.000Z",
+                                                        "issuer" : "Utah",
+                                                        "ppId" : "6448f0fd6121524c6421b520"
+                                                    }
+                                                },
+                                                "taxonomyAnswers" : {
+                                                    "onlyHomeLocation" : "No",
+                                                    "newPatient" : "Yes",
+                                                    "mannerOfServices" : "Virtual_audio_only"
+                                                },
+                                                "_class" : "com.hhstechgroup.hummingbird.models.ServiceAddress"
+                                            }
+                                        },    
+                                        {
+                                            "name" : "primary",
+                                            "value" : {
+                                                "_id" : "643931e03a9732400608d601",
+                                                "runtimeId" : "607326d7-f7b2-43f8-890c-605e4a03199a",
+                                                "sslSeqId" :20011,
+                                                "addressLine1" : "Adsa col road Ave",
+                                                "addressLine2" : "",
+                                                "city" : "Casper",
+                                                "state" : "Washington",
+                                                "zip" : "82001-5006",
+                                                "countyCode" : "Laramie (56021)",
+                                                "county" : "allCounty",
+                                                "addedDate" : "2023-04-26T09:39:53Z",
+                                                "locationEffectiveStartDate" : "2023-04-26T00:00:00.000Z",
+                                                "longitude" : "-104.79723",
+                                                "latitude" : "41.14112",
+                                                "programParticipation" : {
+                                                    "programParticipation" : {
+                                                        "pp" : "Primary Care Provider (PCP",
+                                                        "licenseType" : "DEA",
+                                                        "specialty" : "Physician Assistant & Advanced Practice Nurse",
+                                                        "licenseNo" : "89898",
+                                                        "ppSeqId" : 20062,
+                                                        "taxonomyId" : "363LP0200X - Nurse Practitioner - Pediatrics",
+                                                        "affiliationTaxonomyEffectiveStartDate" : "2023-04-26T00:00:00.000Z",
+                                                        "issuer" : "Utah",
+                                                        "ppId" : "6448f0fd6121524c6421b520"
+                                                    }
+                                                },
+                                                "taxonomyAnswers" : {
+                                                    "onlyHomeLocation" : "No",
+                                                    "newPatient" : "Yes",
+                                                    "mannerOfServices" : "Virtual_audio_only"
+                                                },
+                                                "_class" : "com.hhstechgroup.hummingbird.models.ServiceAddress"
+                                            }
+                                        }
+                                    ]
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "type" : "individual"
+    },
+    "_class" : "com.hhstechgroup.hummingbird.models.DataForScreening"
+}

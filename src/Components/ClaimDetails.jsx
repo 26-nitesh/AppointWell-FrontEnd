@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 import { getClaimRecords, updateRejectStatus } from "../Service/ClaimService";
-import { Alert, AlertTitle, Button, Dialog, DialogActions, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TextField, Typography } from "@mui/material";
+import { Alert, AlertTitle, Button, CircularProgress, Dialog, DialogActions, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TextField, Typography } from "@mui/material";
 import { makeStyles } from '@material-ui/core/styles';
 import { FormControl, IconButton, InputLabel, ListItemSecondaryAction, MenuItem, Select } from "@material-ui/core";
 import { updateAppointmnetByStatus } from "../Service/reportService";
@@ -36,6 +36,7 @@ const useStyles = makeStyles({
 const ClaimDetails = (props) =>{
     const [claims, setClaims] = useState([]);
     const classes = useStyles();
+    const [isLoading, setIsLoading] = useState(true);
     const [statusFilter,setStatusFilter] = useState("");
     const[selectedAppIdForReject, setSelectedAppIdForReject] = useState(null);
     const[selectedAppIdForApprove, setSelectedAppIdForApprove] = useState(null);
@@ -48,6 +49,8 @@ const ClaimDetails = (props) =>{
         async function fetchData() {
       const claims =   await getClaimRecords(props.agencyEmail);
       setClaims(claims);
+      setIsLoading(false);
+      
         }
         fetchData();
       }, [reload]);
@@ -79,9 +82,20 @@ const ClaimDetails = (props) =>{
       // console.log(selectedAppIdForReject);
       setReload(false);
       await updateRejectStatus(selectedAppIdForReject,remarksValue);
+      // setIsLoading(false);
       setReload(true);
       setOpenRemarksDialog(false);
     }
+    if(isLoading){
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 5000); 
+     return(
+      <div className={classes.listContainer}>
+                      <CircularProgress />
+                  </div>
+     )
+     }else{
     return(
         <>
           <div className={classes.listContainer}>
@@ -175,7 +189,7 @@ const ClaimDetails = (props) =>{
           </Dialog>
           }
         </>
-    )
+    )}
 }
 
 export default ClaimDetails;

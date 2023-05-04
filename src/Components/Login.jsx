@@ -12,13 +12,15 @@ import {
   Link,
   Dialog,
 } from '@material-ui/core';
-import { Alert, AlertTitle, FormHelperText } from '@mui/material';
+import { Alert, AlertTitle, Box, CircularProgress, FormHelperText } from '@mui/material';
 import { login } from '../Service/loginService';
 import { useNavigate } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-  
+    '&.MuiCircularProgress-root': {
+      backgroundColor: 'transparent',
+    },
   },
   card: {
     minWidth: 400,
@@ -38,6 +40,23 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     gap: theme.spacing(2),
   },
+  overlay: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    // backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    zIndex: 5000,
+  },
+
+  circularProgress: {
+    position: 'fixed',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    zIndex: 6000,
+  },
   registerLink: {
     display: 'block',
     marginTop: theme.spacing(2),
@@ -47,6 +66,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Login(props) {
   const [errorMessage, setErrorMessage] = useState(null);
+  const [loading, setLoading] = useState(false);
  const navigate = useNavigate();
   const classes = useStyles();
 
@@ -66,8 +86,10 @@ export default function Login(props) {
          validationSchema:loginValidation,
          onSubmit:async(values)=>{
           try{
+            setLoading(true);
            const data =   await login(values);
             if(parseInt(data.data.HttpStatus)===parseInt(200)){
+            localStorage.setItem("auth_token",data.data.data.auth_token)  
             localStorage.setItem('isLoggedIn',"true");
              setErrorMessage(null);
             //  console.log(data.data.data.email);
@@ -96,6 +118,8 @@ export default function Login(props) {
           //  console.log(data);
           }catch(error){
 
+          }finally{
+            setLoading(false)
           }
           //  console.log(values);
            loginFormik.resetForm();
@@ -111,7 +135,7 @@ export default function Login(props) {
   };
 
   return (
-    <div className={classes.root}>
+   <div className={classes.root}>
       <Card className={classes.card}>
         <CardContent>
           <Typography variant="h5" component="h2" className={classes.title}>
@@ -124,6 +148,12 @@ export default function Login(props) {
           {errorMessage}
         </Alert>
       )}
+      {loading && <div className={classes.overlay} />}
+      {loading && 
+    
+          <CircularProgress  className={classes.circularProgress}></CircularProgress>
+
+      }
             <TextField label="Email" type="email" name='email' value={loginFormik.values.email} error={loginFormik.touched.email && Boolean(!loginFormik.errors.email)} onChange={loginFormik.handleChange}  />
             <FormHelperText error>{loginFormik.errors.email}</FormHelperText>
             <TextField label="Password" type="password" name='password' value={loginFormik.values.password} error={loginFormik.touched.password && Boolean(!loginFormik.errors.password)} onChange={loginFormik.handleChange} />

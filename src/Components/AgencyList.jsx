@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {  getOrg, findAgencyByEmail, getAllAgencies, updateOrg, updateOrgWithAgency, getHosp, updateHospWithAgency, addAgecy } from "../Service/commonService";
-import { Alert, AlertTitle, Button, Card, Dialog, DialogActions, DialogContent, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from "@mui/material";
+import { Alert, AlertTitle, Button, Card, CircularProgress, Dialog, DialogActions, DialogContent, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from "@mui/material";
 import { makeStyles } from '@material-ui/core/styles';
 import { checkAddAgencyAllowed } from "../Service/AgencyService";
 
@@ -42,6 +42,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AgencyList = (props) => {
+  const [isLoading, setIsLoading] = useState(true);
+
   const [agencies, setAgencies] = useState([]);
   const [agencyByEmail, setAgency] = useState({});
   const [openDialog, setopenDialog] = useState(false)
@@ -54,10 +56,12 @@ const AgencyList = (props) => {
   const classes = useStyles();
   React.useEffect(() => {
     async function fetchData() {
+      setIsLoading(true)
       const response = await getAllAgencies();
     //   console.log(response);
       if (response != null)
         setAgencies(response);
+        setIsLoading(false)
     }
     fetchData();
   }, []);
@@ -130,6 +134,16 @@ const AgencyList = (props) => {
  const handleCloseDialog = () =>{
     setopenDialog(false)
  }
+ if(isLoading){
+  setTimeout(() => {
+    setIsLoading(false);
+  }, 8000); 
+ return(
+  <div className={classes.listContainer}>
+                  <CircularProgress />
+              </div>
+ )
+ }else{
   return (
     <>
   <Dialog open={openDialog} onClose={handleCloseDialog}>
@@ -217,7 +231,7 @@ const AgencyList = (props) => {
 
 
     </>
-  )
+  )}
 }
 export default AgencyList;
 

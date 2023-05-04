@@ -53,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
 const EmpViewAppointMent = (props) =>{
   const classes = useStyles();
   const [page, setPage] = useState(0);
+  const [reprtLoading, setReportReload] = useState(true);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const[reportGenerated,setReportGenerated]= useState({});
   const[openReportDialog,setOpenReportDialog] = useState(false);
@@ -74,6 +75,7 @@ setOpenReportDialog(false)
 
       const handleSeeReport = async(appId) =>{
         setSelectedAppId(appId)
+        setReportReload(true)
       const report = await  getReportById(appId)
       // console.log(report);
       if(report!=null){
@@ -82,6 +84,7 @@ setOpenReportDialog(false)
         // console.log(reportGenerated.appData.hospitalEmail);
         setOpenReportDialog(true);
       }
+      setReportReload(false)
         // console.log("view Report");
         // console.log(report);
       }
@@ -118,7 +121,7 @@ setOpenReportDialog(false)
         <Table className={classes.table}>
           <TableHead>
             <TableRow className={classes.tableHead} style={{whiteSpace: 'nowrap'}}>
-              <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px' }}>AppointMent ID</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px' }}>#ID</TableCell>
               <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px' }}>Hospital</TableCell>
               <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px' }}>Booking Date</TableCell>
               <TableCell sx={{ fontWeight: 'bold' ,fontSize: '18px' }}>Appointment Date</TableCell>

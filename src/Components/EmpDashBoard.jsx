@@ -190,7 +190,7 @@ const [appHistory,setAppHistory] = React.useState(false)
        :changePassword? <ChangePassword type="employee" email={emailOP}/>
        : openProcessAppointMent?<ProcessAppointment email={emailOP} comapnyEmail = {compEmail}/>
        :appHistory? <EmpViewAppointMent email={emailOP}></EmpViewAppointMent>
-       :<EmployeeHome empEmail = {empEmail}/>}
+       :<EmployeeHome empEmail = {emailOP}/>}
         {/* Your main content goes here */}
       </main>
     </div>

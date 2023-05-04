@@ -1,8 +1,9 @@
 import axios from "axios";
-const BASE_URI_COMPANY = 'http://localhost:9596/organisation/api';
-const BASE_URI_EMPLOYEE = 'http://localhost:9595/employee/api';
-const BASE_URI_INSURANCE_AGENCY = 'http://localhost:9599/agency/api';
-const BASE_URI_HOSPITAL = 'http://localhost:9600/hospital/api';
+import { BASE_URI_COMPANY, BASE_URI_HOSPITAL, BASE_URI_INSURANCE_AGENCY } from "./commonService";
+// const BASE_URI_COMPANY = 'http://localhost:9596/organisation/api';
+// const BASE_URI_EMPLOYEE = 'http://localhost:9595/employee/api';
+// const BASE_URI_INSURANCE_AGENCY = 'http://localhost:9599/agency/api';
+// const BASE_URI_HOSPITAL = 'http://localhost:9600/hospital/api';
 
 export const  register = async(values)=>{
 

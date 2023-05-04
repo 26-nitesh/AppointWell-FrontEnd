@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Paper, Select } from '@material-ui/core';
-import { Alert, AlertTitle, Button, Card, CardContent, Dialog, FormHelperText, InputLabel, MenuItem, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
+import { Alert, AlertTitle, Button, Card, CardContent, CircularProgress, Dialog, FormHelperText, InputLabel, MenuItem, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
 import { DeletePolicy, createPolicy, getPolicyByOrg } from '../Service/PolicyService';
 import { makeStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -86,6 +86,7 @@ const useStyles = makeStyles((theme) => ({
 function ReviewPolicy(props) {
     const classes = useStyles();
     const [policyList, setpolicyList] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState(null);
     const [sucessMessage, setSucessMessage] = useState(null);
     const[reload,setReload] = useState(false);
@@ -95,6 +96,7 @@ function ReviewPolicy(props) {
    const policies = await getPolicyByOrg(props.orgEmail);
         // console.log(props.orgEmail);
         setpolicyList(policies)
+        setIsLoading(false);
         }
         fetchData();
       }, [reload]);
@@ -111,6 +113,16 @@ function ReviewPolicy(props) {
         setErrorMessage("error occured")
        }
       }
+      if(isLoading){
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 3000); 
+       return(
+        <div className={classes.listContainer}>
+                        <CircularProgress />
+                    </div>
+       )
+       }else{
   return (
     <div>
     <>
@@ -155,6 +167,7 @@ function ReviewPolicy(props) {
               </>
   </div>
   )
+          }
 }
 
 function CreatePolicy(props) {

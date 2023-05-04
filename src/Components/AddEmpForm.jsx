@@ -4,7 +4,7 @@ import { Card, CardContent, Button, TextField, Typography, FormHelperText } from
 import { addNewEmployee } from '../Service/commonService';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { Alert, AlertTitle, MenuItem } from '@mui/material';
+import { Alert, AlertTitle, CircularProgress, MenuItem } from '@mui/material';
 const useStyles = makeStyles((theme) => ({
     root: {
       // margin: theme.spacing(-10),
@@ -26,6 +26,23 @@ const useStyles = makeStyles((theme) => ({
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       filter: 'blur(5px)',
+    },
+    overlay: {
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      // backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      zIndex: 5000,
+    },
+  
+    circularProgress: {
+      position: 'fixed',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      zIndex: 6000,
     },
     // card: {
     //   width: '80%',
@@ -67,6 +84,8 @@ const useStyles = makeStyles((theme) => ({
   function AddEmployeeForm(props) {
     const classes = useStyles();
     const [errorMessage, setErrorMessage] = useState(null);
+    const [loading, setLoading] = useState(false);
+
     const [sucessMessage, setSucessMessage] = useState(null);
     const ValidateAddEmp = yup.object({
       name: yup.string().required("required !!"),
@@ -93,6 +112,7 @@ const useStyles = makeStyles((theme) => ({
            onSubmit:async(values)=>{
             console.log(values);
             try{
+              setLoading(true)
               const res = await addNewEmployee(values,props.email);
               if(res.data.HttpStatus===201){
                   setSucessMessage("employee Added Sucessfully");
@@ -106,6 +126,8 @@ const useStyles = makeStyles((theme) => ({
               addEmployeeFormik.resetForm();
             }catch(err){
 
+            }finally{
+              setLoading(false)
             }
            }
       }
@@ -134,6 +156,12 @@ const useStyles = makeStyles((theme) => ({
           {sucessMessage}
         </Alert>
       )}
+      {loading && <div className={classes.overlay} />}
+      {loading && 
+    
+          <CircularProgress  className={classes.circularProgress}></CircularProgress>
+
+      }
               <TextField
                 className={classes.textField}
                 label="Name"

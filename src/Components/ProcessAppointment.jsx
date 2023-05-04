@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { createAppointMent, getAllHospitalsForOrg } from '../Service/commonService';
 import { makeStyles } from '@material-ui/core/styles';
-import { Alert, Button, Card, Dialog, DialogActions, DialogContent, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
+import { Alert, Button, Card, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
 import { TablePagination } from '@material-ui/core';
 import { findHospitalByEmail } from '../Service/EmployeeService';
 
@@ -41,6 +41,14 @@ const useStyles = makeStyles((theme) => ({
         fontSize: '32px',
         marginBottom: '20px',
       },
+      cp: {
+        zIndex:5000,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
+        marginTop: '50px',
+      },
 
 }));
 
@@ -49,6 +57,8 @@ const ProcessAppointment = (props) =>{
     const classes = useStyles();
     const[selectedHosp, setSelectedHosp] = useState('');
     const [openDialog, setopenDialog] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+
     const [hospitals, sethospitals] = useState([]);
     const [selectedDate, setSelectedDate] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
@@ -62,11 +72,13 @@ const ProcessAppointment = (props) =>{
         async function getAllHospitals() {
 
             // console.log(props.comapnyEmail);
+            setIsLoading(true)
             const response = await getAllHospitalsForOrg(props.comapnyEmail);
             if(response!=null){
                 sethospitals(response)
             }
             console.log(response);
+            setIsLoading(false);
         //   const response = await getEmp(compEmail);
         //     // setOrgDetails(response.data.data)
         //     setName(response.data.data.empName);
@@ -89,6 +101,7 @@ const handleDialogClose = ()=>{
 }
 const handleSaveAppointment = async()=>{
     setopenDialog(false)
+    setIsLoading(true)
     const response = await createAppointMent(props.email,selectedHosp,selectedDate);
     if(response.status==='200'){
         // alert(response.message)
@@ -102,6 +115,7 @@ const handleSaveAppointment = async()=>{
         setopenDialogForResponse(true)
 
     }
+    setIsLoading(false)
     // console.log(response);
     // setopenDialog(false)
 }
@@ -117,6 +131,16 @@ const handleHospitalClick = async(email) =>{
   }
   // console.log(agency);
 }
+if(isLoading){
+  setTimeout(() => {
+    setIsLoading(false);
+  }, 5000); 
+ return(
+  <div className={classes.cp}>
+                  <CircularProgress />
+              </div>
+ )
+ }else{
     return(
         <>
        <Dialog open={openDialogForResponse} onClose={handleDialogClose}>
@@ -180,6 +204,7 @@ const handleHospitalClick = async(email) =>{
   InputLabelProps={{
     shrink: true,
   }}
+  inputProps={{ min: new Date().toISOString().split("T")[0] }}
   style={{padding:'5px' }} // Add this style property
 />
           </div>
@@ -209,7 +234,7 @@ const handleHospitalClick = async(email) =>{
 />
           </TableContainer>
         </>
-    )
+    )}
 }
 
 export default ProcessAppointment;

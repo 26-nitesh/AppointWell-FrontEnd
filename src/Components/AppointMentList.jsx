@@ -51,6 +51,7 @@ const AppointMentList = (props) =>{
     const [openDialog, setopenDialog] = useState(false)
     const [openReportDialog, setOpenReportDialog] = useState(false)//setOpenReportDialog
     const [openClaimDialog, setOpenClaimDialog] = useState(false)
+    const [issLoading, setIsLoading] = useState(true);
    const[selectedEmp, setSelectedEmp]= useState(null);//setSelectedEmpForReject
    const[selectedEmpForReject, setSelectedEmpForReject]= useState(null)
     // console.log(props.data);
@@ -83,6 +84,7 @@ const AppointMentList = (props) =>{
                 // setNotFound(true);
                }
                console.log(responseO==undefined);
+               setIsLoading(false)
         }
         fetchData();
       }, [reload]);
@@ -116,6 +118,7 @@ const AppointMentList = (props) =>{
              setInactive(true)
              SetOpenDialogForReject(false)
              setViewMore(false);
+             setIsLoading(false)
          }
 
 
@@ -142,6 +145,7 @@ const AppointMentList = (props) =>{
     setReload(true)
    setopenDialog(false);
    console.log('dialog false');
+   setIsLoading(false)
    } 
    const handleDialogClose = ()=>{
     setReload(true)
@@ -178,6 +182,7 @@ const handleClaimSubmit = async() =>{
 const res = await updateClaimAmount(enteredAmount,appIdForClaim);
 setOpenClaimDialog(false);
 setReload(true)
+setIsLoading(false)
 }
 
 const handleVieWMore = () =>{
@@ -194,7 +199,7 @@ const handleEmployeeClick = async(email) =>{
     }
 }
     return(
-      isLoading? 
+      issLoading? 
       <div className={classes.listContainer}>
       <CircularProgress />
   </div>:
@@ -224,19 +229,19 @@ const handleEmployeeClick = async(email) =>{
                 <TableCell style={{ fontSize: '15px'}}>{appointment.bookingDate}</TableCell>
                 <TableCell style={{  fontSize: '15px'}}>{appointment.status}</TableCell>
               <TableCell>   <Button
-          variant="text"
+          variant="text" color="success"
           disabled={appointment.status==='claim submitted'||appointment.status === 'report submitted'||appointment.status === 'appointment approved'|| (appointment.status === 'appointment approved' || appointment.status === 'rejected' ) && selectedEmpNew===appointment.employeeEmail}
-          style={{ textTransform: 'none', fontWeight: 'bold',color:'green' }}
+          style={{ textTransform: 'none',fontWeight:'bold' }}
           onClick={() => approveAppointment(appointment.employeeEmail)}
         >
-          approve
+          Approve
         </Button></TableCell>
-              <TableCell style={{  fontSize: '15px' }}><Button variant="text"
+              <TableCell style={{  fontSize: '15px', fontWeight:'bold'}}><Button variant="text" color="error"
                 disabled={appointment.status==='claim submitted'||appointment.status === 'report submitted'|| appointment.status === 'appointment approved' || (appointment.status === 'appointment approved' || appointment.status === 'rejected' ) && selectedEmpNew===appointment.employeeEmail}
-               style={{textTransform:'none',fontWeight: 'bold',color:'red'}} 
+               style={{textTransform:'none'}} 
                 onClick={() => handleOpenDialogForReject(appointment.employeeEmail)}//rejectAppointMent
                 >
-                reject</Button>
+                Reject</Button>
                 </TableCell>
 
                 <TableCell style={{  fontSize: '15px' }}><Button variant="text"
@@ -244,7 +249,7 @@ const handleEmployeeClick = async(email) =>{
                style={{textTransform:'none'}} 
                 onClick={() => handleOpenDialog(appointment.employeeEmail)}
                 >
-                update</Button>
+                Update</Button>
                 </TableCell>
                 <TableCell style={{  fontSize: '15px' }}><Button variant="contained"
                 // disabled={(appointment.status !== 'appointment approved')}

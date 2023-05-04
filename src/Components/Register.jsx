@@ -12,12 +12,31 @@ import {
   Link,
   Dialog,
 } from '@material-ui/core';
-import { Alert, AlertTitle, FormHelperText } from '@mui/material';
+import { Alert, AlertTitle, CircularProgress, FormHelperText } from '@mui/material';
 import { register } from '../Service/registerService';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-  
+    '&.MuiCircularProgress-root': {
+      backgroundColor: 'transparent',
+    },
+  },
+  overlay: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    // backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    zIndex: 5000,
+  },
+
+  circularProgress: {
+    position: 'fixed',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    zIndex: 6000,
   },
   card: {
     minWidth: 400,
@@ -46,6 +65,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Register(props) {
   const classes = useStyles();
+  const [loading, setLoading] = useState(false);
+
   const [errorMessage, setErrorMessage] = useState(null);
   const [sucessMessage, setSucessMessage] = useState(null);
 
@@ -68,6 +89,7 @@ export default function Register(props) {
          onSubmit: async (values)=>{
 
           try {
+            setLoading(true)
             const data = await register(values);
             if(parseInt(data.data.HttpStatus)===parseInt(201)){
               // console.log("coming");
@@ -86,6 +108,8 @@ export default function Register(props) {
             console.log(error.data?.data?.message);
             signupFormik.resetForm();
             console.log("bye");
+          }finally{
+            setLoading(false)
           }
          }
     }
@@ -118,6 +142,12 @@ export default function Register(props) {
           {sucessMessage}
         </Alert>
       )}
+      {loading && <div className={classes.overlay} />}
+      {loading && 
+    
+          <CircularProgress  className={classes.circularProgress}></CircularProgress>
+
+      }
           <TextField label="Name" type="text" name='name' value={signupFormik.values.name} error={signupFormik.touched.name && Boolean(!signupFormik.errors.name)} onChange={signupFormik.handleChange}  />
           <FormHelperText error>{signupFormik.errors.name}</FormHelperText>
             <TextField label="Email" type="email" name='email' value={signupFormik.values.email} error={signupFormik.touched.email && Boolean(!signupFormik.errors.email)} onChange={signupFormik.handleChange} />

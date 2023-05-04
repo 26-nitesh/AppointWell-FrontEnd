@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { trackClaimRecords } from "../Service/ClaimService";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
-import { Alert, AlertTitle, Button, Dialog, Paper, Table, TableBody,TablePagination, TableCell, TableContainer, TableHead, TableRow, Typography, Select, MenuItem, Menu } from "@mui/material";
+import { Alert, AlertTitle, Button, Dialog, Paper, Table, TableBody,TablePagination, TableCell, TableContainer, TableHead, TableRow, Typography, Select, MenuItem, Menu, CircularProgress } from "@mui/material";
 
 const useStyles = makeStyles({
   table: {
@@ -34,6 +34,7 @@ const useStyles = makeStyles({
 
 
 const TrackClaims = (props)=>{
+  const [isLoading, setIsLoading] = useState(true);
     const [claims, setClaims] = useState([]);
     const [filteredClaims, setFilteredClaims] = useState([]);
     const [statusFilter, setStatusFilter] = useState(""); // State variable for selected claim status filter
@@ -46,6 +47,7 @@ const TrackClaims = (props)=>{
       const claims =   await trackClaimRecords(props.hospEmail);
       setClaims(claims);
       setFilteredClaims(claims);
+      setIsLoading(false)
         }
         fetchData();
       }, []);  
@@ -75,6 +77,16 @@ const TrackClaims = (props)=>{
     setPage(0); // Reset the page when applying a filter
   };
 
+  if(isLoading){
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 5000); 
+   return(
+    <div className={classes.listContainer}>
+                    <CircularProgress />
+                </div>
+   )
+   }else{
     return(
         <>
               <div className={classes.listContainer}>
@@ -107,6 +119,7 @@ const TrackClaims = (props)=>{
                   onClose={handleMenuClose}
                 >
                   <MenuItem onClick={() => handleStatusFilter("")}>All</MenuItem>
+                  <MenuItem onClick={() => handleStatusFilter("claim submitted")}>Claim submitted</MenuItem>
                   <MenuItem onClick={() => handleStatusFilter("claim approved")}>Claim Approved</MenuItem>
                   <MenuItem onClick={() => handleStatusFilter("claim rejected")}>Claim Rejected</MenuItem>
                 </Menu>
@@ -159,7 +172,7 @@ const TrackClaims = (props)=>{
               </TableContainer>
               
         </>
-    )
+    )}
 }
 
 export default TrackClaims;

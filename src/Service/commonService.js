@@ -12,6 +12,14 @@ export const BASE_URI_HOSPITAL = 'http://localhost:9600/hospital/api';
 export const BASE_URI_APPOINTMENT = 'http://localhost:9598/appointment/api';
 export const BASE_URI_REPORT = "http://localhost:9601/report/api";
 
+// export const BASE_URI_POLICY = 'http://localhost:9594/policy/api';
+// export const BASE_URI_COMPANY = 'http://localhost:9594/organisation/api';
+// export const BASE_URI_EMPLOYEE = 'http://localhost:9594/employee/api';
+// export const BASE_URI_INSURANCE_AGENCY = 'http://localhost:9594/agency/api';
+// export const BASE_URI_HOSPITAL = 'http://localhost:9594/hospital/api';
+// export const BASE_URI_APPOINTMENT = 'http://localhost:9594/appointment/api';
+// export const BASE_URI_REPORT = "http://localhost:9594/report/api";
+
 export const addNewEmployee = async (values,orgemail)=>{
     try {
      let   uri = BASE_URI_EMPLOYEE+'/create-new-employee';
